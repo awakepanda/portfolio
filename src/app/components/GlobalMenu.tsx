@@ -1,9 +1,12 @@
 export default function GlobaleMenu() {
   return (
-    <header className="fixed top-0 left-0 bg-sky-700 w-full px-2">
-      <div>
-        <p>ヘッダー</p>
-      </div>
+    <header className="sticky top-0 px-6 h-16 flex items-center">
+      <nav className="flex justify-between items-center w-full cursor-pointer">
+        <div>Logo</div>
+        <button className="w-9 h-9 bg-sky-50">
+          <div></div>
+        </button>
+      </nav>
     </header>
   );
 }

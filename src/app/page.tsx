@@ -1,10 +1,11 @@
-import GlobaleMenu from "./components/GlobalMenu";
+import GlobaleMenu from "@/app/components/GlobalMenu";
+import Hero from "@/app/components/Hero";
 
 export default function Home() {
   return (
-    <main className="pt-9">
+    <main className="relative">
       <GlobaleMenu />
-      <p>ホームページ</p>
+      <Hero />
     </main>
   );
 }
