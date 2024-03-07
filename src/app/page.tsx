@@ -1,6 +1,9 @@
+import GlobaleMenu from "./components/GlobalMenu";
+
 export default function Home() {
   return (
-    <main>
+    <main className="pt-9">
+      <GlobaleMenu />
       <p>ホームページ</p>
     </main>
   );
