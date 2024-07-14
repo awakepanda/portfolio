@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.gradient-bg {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(40deg, rgb(8, 10, 15), rgb(0, 17, 32));
+  top: 0;
+  left: 0;
+}
+
+.g1 {
+  position: absolute;
+  /* background: radial-gradient( */
+  /*   circle, */
+  /*   rgba(18, 113, 255, 0.8) 0, */
+  /*   rgba(18, 113, 255, 50%) no-repeat */
+  /* ); */
+  /* background: #406fc1; */
+  background: radial-gradient(
+      circle at center,
+      rgba(18, 113, 255, 80%) 0,
+      rgba(18, 113, 255, 0) 50%
+    )
+    no-repeat;
+  mix-blend-mode: hard-light;
+  width: 80%;
+  height: 80%;
+  top: calc(50% - 80%);
+  left: calc(50% - 80%);
+  transform-origin: center center;
+  animation: moveVertical 30s ease infinite;
+  opacity: 1;
+}
+
+@keyframes moveVertical {
+  0% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(50%);
+  }
+  100% {
+    transform: tarnslateY(-50%);
+  }
+}
