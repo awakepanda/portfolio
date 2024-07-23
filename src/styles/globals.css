@@ -2,6 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+.left {
+  width: 50vw;
+  display: grid;
+  place-content: center;
+  background: white;
+  overflow: hidden;
+}
+
+.display {
+  display: grid;
+  place-content: center;
+  height: 100%;
+}
+
+.goo {
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 4em;
+  filter: url(#goo);
+}
+
+svg[height="0"] {
+  position: fixed;
+}
+
+.particle {
+  --i: 0;
+  padding: 5em;
+  border-radius: 50%;
+  transform: translateY(-50%); /* 縦方向の変換に設定 */
+  background: hsl(calc(var(--i) * 145 - 96), 85%, 75%);
+  font-size: clamp(0.5em, 2.5vmin, 10em);
+  filter: blur(calc((2 + var(--i)) * 1em));
+  animation: t 4s ease-in-out calc(var(--i) * -4s) infinite alternate;
+}
+
+.particle:nth-child(2) {
+  --i: 1;
+}
+
+@keyframes t {
+  to {
+    transform: translateY(50%); /* 縦方向のアニメーションに設定 */
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 92.5%;
@@ -67,4 +113,3 @@
     @apply bg-background text-foreground;
   }
 }
-
