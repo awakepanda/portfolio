@@ -1,13 +1,36 @@
-import { ModeToggle } from "@/components/ModeToggle";
+"use client";
+
 import { inter } from "./styles/fonts";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const data = {
+    title: "static title",
+    body: "this is a static body text",
+  };
+
+  const [message, setMessage] = useState<string>("");
+
+  useEffect(() => {
+    const fetchMessage = async () => {
+      const response = await fetch("http://localhost:3000/api/hello");
+      const data = await response.json();
+      setMessage(data.message);
+    };
+    fetchMessage();
+  }, []);
+
+  console.log(message);
+
   return (
     <main className="relative flex w-full h-screen text-base">
+      <div className="absolute left-0 top-0">
+        <p>{message}</p>
+        <p>{data.title}</p>
+        <p>{data.body}</p>
+      </div>
       <div className="left">
-        <h1
-          className={`${inter.className} text-3xl font-medium absolute left-0 top-0`}
-        >
+        <h1 className={`${inter.className} text-3xl font-medium`}>
           SHINGO MAENO WORKS
         </h1>
         <svg width="0" height="0">
@@ -29,7 +52,6 @@ export default function Home() {
         </div>
       </div>
       <div className="w-1/2 h-screen">
-        <ModeToggle />
         <p>
           こんにちは！
           <br />
