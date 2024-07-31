@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeSwitcher } from "./components/ThemeSwitcher";
 import { inter } from "./styles/fonts";
 import { useEffect, useState } from "react";
 
@@ -29,7 +30,7 @@ export default function Home() {
         <p>{data.title}</p>
         <p>{data.body}</p>
       </div>
-      <div className="left">
+      <div className="w-1/2 bg-muted">
         <h1 className={`${inter.className} text-3xl font-medium`}>
           SHINGO MAENO WORKS
         </h1>
@@ -52,6 +53,7 @@ export default function Home() {
         </div>
       </div>
       <div className="w-1/2 h-screen">
+        <ThemeSwitcher />
         <p>
           こんにちは！
           <br />
