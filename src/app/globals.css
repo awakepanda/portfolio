@@ -2,23 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @layer base { */
-/*   :root { */
-/*     --background: 36 45 98; */
-/*     --foreground: 0 0 22; */
-/**/
-/*     --muted: 0 0 100; */
-/*   } */
-/*   .dark { */
-/*     --background: 175 23 19; */
-/*     --foreground: 0 0 100; */
-/**/
-/*     --muted: 174 14 27; */
-/*   } */
-/* } */
+@layer base {
+  :root {
+    --background: 49 38% 91%;
+    /* --foreground: 222.2 84% 4.9%; */
+    --foreground: 0 0% 22%;
+    --muted: 0 0% 100%;
+    --illust: 158 81% 43%;
+    --illust-foreground: 0 0% 100%;
+    --font-inter: "Inter", sans-serif;
+    --font-noto-sans-jp: "Noto Sans JP", sans-serif;
+  }
 
-/* @layer base { */
-/*   body { */
-/*     @apply bg-background text-foreground; */
-/*   } */
-/* } */
+  .dark {
+    --background: 175 23% 19%;
+    --foreground: 0 0% 100%;
+    --muted: 174 14% 27%;
+    --illust: 0 0% 100%;
+    --illust-foreground: 174 14% 27%;
+  }
+}
+
+@layer base {
+  /* * { */
+  /*   @apply border-border; */
+  /* } */
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-noto-sans-jp);
+  }
+  .inter {
+    font-family: var(--font-inter);
+  }
+}
