@@ -14,8 +14,8 @@ export default function TwoColumns({
   rightContent,
 }: TwoColumnsProps) {
   return (
-    <div className="flex h-screen">
-      <div className="relative min-h-screen lg:w-1/2 h-[50vh] lg:h-screen bg-muted">
+    <div className="flex flex-col h-screen md:flex-row">
+      <div className="w-full h-1/2 bg-muted md:h-full">
         <Logo />
         {/* <Image */}
         {/*   src="/logo.svg" */}
@@ -27,7 +27,8 @@ export default function TwoColumns({
         {/* /> */}
         {leftContent}
       </div>
-      <div className="w-full h-1/2 md:w-1/2 md:h-screen md:pb-[calc(68/960*100%)] md:pt-[calc(24/960*100%)]">
+      <div className="w-full h-1/2 md:h-full">
+        {/* <div className="w-full h-1/2 md:w-1/2 md:h-screen md:pb-[calc(68/960*100%)] md:pt-[calc(24/960*100%)]"> */}
         <ThemeToggle />
         <Navigation />
         {rightContent}
