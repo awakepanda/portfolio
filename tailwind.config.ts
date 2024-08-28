@@ -23,7 +23,6 @@ const config = {
           DEFAULT: "hsl(var(--illust) / <alpha-value>)",
           foreground: "hsl(var(--illust-foreground) / <alpha-value>)",
         },
-        foreground: "hsl(var(--foreground))",
       },
       fill: {
         illust: {
