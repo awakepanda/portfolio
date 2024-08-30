@@ -1,68 +1,35 @@
 "use client";
+import { EyePaths, useBlinkAnimation } from "@/app/hooks/animationHooks";
+import { useSpring, animated, easings } from "@react-spring/web";
 
-import { useSpring, animated } from "@react-spring/web";
-import { useCallback, useEffect, useState } from "react";
+const eyePaths: EyePaths = {
+  left: {
+    open: "M133.716 117.237C133.716 120.681 130.924 123.474 127.479 123.474C124.035 123.474 121.242 120.681 121.242 117.237C121.242 113.792 124.035 111 127.479 111C130.924 111 133.716 113.792 133.716 117.237Z",
+    closed:
+      "M134 117.5C134 117.776 131.09 118 127.5 118C123.91 118 121 117.776 121 117.5C121 117.224 123.91 117 127.5 117C131.09 117 134 117.224 134 117.5Z",
+  },
+  right: {
+    open: "M191.926 117.237C191.926 120.681 189.134 123.474 185.689 123.474C182.245 123.474 179.453 120.681 179.453 117.237C179.453 113.792 182.245 111 185.689 111C189.134 111 191.926 113.792 191.926 117.237Z",
+    closed:
+      "M192 117.5C192 117.776 189.09 118 185.5 118C181.91 118 179 117.776 179 117.5C179 117.224 181.91 117 185.5 117C189.09 117 192 117.224 192 117.5Z",
+  },
+};
 
 export default function Animation() {
-  const leftEyeInitialPath =
-    "M133.716 117.237C133.716 120.681 130.924 123.474 127.479 123.474C124.035 123.474 121.242 120.681 121.242 117.237C121.242 113.792 124.035 111 127.479 111C130.924 111 133.716 113.792 133.716 117.237Z";
-  const leftEyeTargetPath =
-    "M134 117.5C134 117.776 131.09 118 127.5 118C123.91 118 121 117.776 121 117.5C121 117.224 123.91 117 127.5 117C131.09 117 134 117.224 134 117.5Z";
-  const rightEyeInitialPath =
-    "M191.926 117.237C191.926 120.681 189.134 123.474 185.689 123.474C182.245 123.474 179.453 120.681 179.453 117.237C179.453 113.792 182.245 111 185.689 111C189.134 111 191.926 113.792 191.926 117.237Z";
-  const rightEyeTargetPath =
-    "M192 117.5C192 117.776 189.09 118 185.5 118C181.91 118 179 117.776 179 117.5C179 117.224 181.91 117 185.5 117C189.09 117 192 117.224 192 117.5Z";
-
-  const [isEyesClosed, setIsEyesClosed] = useState(false);
+  const isEyesClosed = useBlinkAnimation();
 
   const leftEyeSpring = useSpring({
-    d: isEyesClosed ? leftEyeTargetPath : leftEyeInitialPath,
-    config: { duration: 100 },
+    d: isEyesClosed ? eyePaths.left.closed : eyePaths.left.open,
+    config: { duration: 100, easing: easings.easeInOutQuad },
   });
   const rightEyeSpring = useSpring({
-    d: isEyesClosed ? rightEyeTargetPath : rightEyeInitialPath,
-    config: { duration: 100 },
+    d: isEyesClosed ? eyePaths.right.closed : eyePaths.right.open,
+    config: { duration: 100, easing: easings.easeInOutQuad },
   });
 
-  const runAnimation = useCallback(() => {
-    const blinkSequence = async () => {
-      // First double blink
-      setIsEyesClosed(true);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      setIsEyesClosed(false);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      setIsEyesClosed(true);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      setIsEyesClosed(false);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      // First wait
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // Single blink
-      setIsEyesClosed(true);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      setIsEyesClosed(false);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      // Second wait
-      await new Promise((resolve) => setTimeout(resolve, 800));
-    };
-
-    const loopAnimation = () => {
-      blinkSequence().then(loopAnimation);
-    };
-
-    loopAnimation();
-  }, []);
-
-  useEffect(() => {
-    runAnimation();
-  }, [runAnimation]);
-
   return (
-    <div className="w-full h-full flex items-center justify-center relative">
-      <div className="w-[calc(317/960*100%)] aspect-square origin-center">
+    <div className="w-full h-full flex flex-col items-center justify-center relative">
+      <div className="w-[calc(317/960*100%)] aspect-square origin-center mb-4">
         <svg
           className="w-full h-full"
           viewBox="0 0 317 317"

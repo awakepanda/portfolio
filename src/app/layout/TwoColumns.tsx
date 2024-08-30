@@ -14,8 +14,8 @@ export default function TwoColumns({
   rightContent,
 }: TwoColumnsProps) {
   return (
-    <div className="flex flex-col h-screen md:flex-row">
-      <div className="w-full h-1/2 bg-muted md:h-full">
+    <div className="flex flex-col w-full h-screen overflow-hidden lg:flex-row">
+      <div className="w-full h-1/2 bg-muted lg:h-full lg:w-1/2">
         <Logo />
         {/* <Image */}
         {/*   src="/logo.svg" */}
@@ -27,8 +27,8 @@ export default function TwoColumns({
         {/* /> */}
         {leftContent}
       </div>
-      <div className="w-full h-1/2 md:h-full">
-        {/* <div className="w-full h-1/2 md:w-1/2 md:h-screen md:pb-[calc(68/960*100%)] md:pt-[calc(24/960*100%)]"> */}
+      <div className="w-full h-1/2 lg:h-full lg:w-1/2">
+        {/* <div className="w-full h-1/2 lg:w-1/2 lg:h-screen lg:pb-[calc(68/960*100%)] lg:pt-[calc(24/960*100%)]"> */}
         <ThemeToggle />
         <Navigation />
         {rightContent}
