@@ -1,8 +1,9 @@
 // import Image from "next/image";
 import React from "react";
-import { ThemeToggle } from "../components/ThemeToggle";
+// import { ThemeToggle } from "../components/ThemeToggle";
 import Navigation from "../components/Navigation";
 import Logo from "../components/Logo";
+import ThemeToggle from "../components/ThemeToggle";
 
 type TwoColumnsProps = {
   leftContent: React.ReactNode;
@@ -29,6 +30,7 @@ export default function TwoColumns({
       </div>
       <div className="w-full h-1/2 lg:h-full lg:w-1/2">
         {/* <div className="w-full h-1/2 lg:w-1/2 lg:h-screen lg:pb-[calc(68/960*100%)] lg:pt-[calc(24/960*100%)]"> */}
+        {/* <ThemeToggle /> */}
         <ThemeToggle />
         <Navigation />
         {rightContent}

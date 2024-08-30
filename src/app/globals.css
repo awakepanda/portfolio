@@ -5,7 +5,6 @@
 @layer base {
   :root {
     --background: 49 38% 91%;
-    /* --foreground: 222.2 84% 4.9%; */
     --foreground: 0 0% 22%;
     --muted: 0 0% 100%;
     --illust: 158 81% 43%;
@@ -30,6 +29,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-noto-sans-jp);
+    box-sizing: border-box;
   }
   .inter {
     font-family: var(--font-inter);

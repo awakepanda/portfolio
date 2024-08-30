@@ -41,6 +41,7 @@ const config = {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
+        border: "hsl(0 0% 64%)",
         accent: "hsl(158 81% 43%)",
         illust: {
           DEFAULT: "hsl(var(--illust) / <alpha-value>)",
