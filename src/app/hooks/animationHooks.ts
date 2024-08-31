@@ -5,6 +5,14 @@ export interface EyePaths {
   right: { open: string; closed: string };
 }
 
+export interface MousePaths {
+  face: {
+    // smail: string;
+    open: string;
+    closed: string;
+  };
+}
+
 export const useBlinkAnimation = () => {
   const [isEyeClosed, setIsEyeClosed] = useState(false);
   const animationRef = useRef<number | null>(null);
@@ -50,4 +58,58 @@ export const useBlinkAnimation = () => {
     };
   }, [animate]);
   return isEyeClosed;
+};
+
+export const useMouseAnimation = () => {
+  const [isMouseClosed, setIsMouseClosed] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const animationRef = useRef<number | null>(null);
+
+  const animate = useCallback(() => {
+    let startTime: number | null = null;
+    const duration = 1400;
+
+    const animationStep = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsedTime = timestamp - startTime;
+
+      if (elapsedTime < 100) setIsMouseClosed(true);
+      else if (elapsedTime < 200) setIsMouseClosed(false);
+      else if (elapsedTime < 300) setIsMouseClosed(true);
+      else if (elapsedTime < 400) setIsMouseClosed(false);
+      else if (elapsedTime < 700) setIsMouseClosed(false);
+      else if (elapsedTime < 800) setIsMouseClosed(true);
+      else if (elapsedTime < 900) setIsMouseClosed(false);
+      else setIsMouseClosed(false);
+
+      if (elapsedTime < duration) {
+        animationRef.current = requestAnimationFrame(animationStep);
+      } else {
+        startTime = null;
+        animationRef.current = requestAnimationFrame(animationStep);
+      }
+    };
+    animationRef.current = requestAnimationFrame(animationStep);
+  }, []);
+
+  useEffect(() => {
+    if (isAnimating) {
+      animate();
+    } else {
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      setIsMouseClosed(false);
+    }
+    return () => {
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [isAnimating, animate]);
+
+  const toggleAnimation = useCallback(() => {
+    setIsAnimating((prev) => !prev);
+  }, []);
+  return { isAnimating, isMouseClosed, toggleAnimation };
 };

@@ -1,5 +1,10 @@
 "use client";
-import { EyePaths, useBlinkAnimation } from "@/app/hooks/animationHooks";
+import {
+  EyePaths,
+  MousePaths,
+  useBlinkAnimation,
+  useMouseAnimation,
+} from "@/app/hooks/animationHooks";
 import { useSpring, animated, easings } from "@react-spring/web";
 
 const eyePaths: EyePaths = {
@@ -15,6 +20,16 @@ const eyePaths: EyePaths = {
   },
 };
 
+const mousePaths: MousePaths = {
+  face: {
+    smile:
+      "M93.1985 154.337C95.2217 153.894 97.2206 155.175 97.6632 157.199C100.954 172.244 116.843 203.25 158 203.25C199.242 203.25 216.033 172.142 218.814 157.309C219.196 155.273 221.155 153.933 223.191 154.314C225.227 154.696 226.567 156.655 226.186 158.691C222.967 175.858 203.958 210.75 158 210.75C111.957 210.75 94.0453 175.756 90.3364 158.801C89.8939 156.778 91.1752 154.779 93.1985 154.337Z",
+    open: "M158.859 223.279C189.627 223.279 195.864 197.395 195.864 182.947C195.864 168.5 173.827 163.068 158.859 163.068C143.89 163.068 121.509 166.391 121.022 182.947C120.535 199.503 128.09 223.279 158.859 223.279Z",
+    closed:
+      "M159 195.5C174.923 195.5 195.995 188.584 195.995 184.292C195.995 180 177 188 158.922 188C140.845 188 122.625 180 121.017 184.292C119.408 188.584 143.077 195.5 159 195.5Z",
+  },
+};
+
 export default function Animation() {
   const isEyesClosed = useBlinkAnimation();
 
@@ -24,6 +39,13 @@ export default function Animation() {
   });
   const rightEyeSpring = useSpring({
     d: isEyesClosed ? eyePaths.right.closed : eyePaths.right.open,
+    config: { duration: 100, easing: easings.easeInOutQuad },
+  });
+
+  const { isAnimating, isMouseClosed, toggleAnimation } = useMouseAnimation();
+
+  const mouseSpring = useSpring({
+    d: isMouseClosed ? mousePaths.face.open : mousePaths.face.closed,
     config: { duration: 100, easing: easings.easeInOutQuad },
   });
 
@@ -45,14 +67,19 @@ export default function Animation() {
             className="fill-illust-foreground"
             d={rightEyeSpring.d}
           />
-          <path
-            className="stroke-illust-foreground"
-            d="M220.737 158.364C220.737 158.364 211.59 208.259 158.311 208.259C105.033 208.259 95.1685 158.364 95.1685 158.364"
-            strokeWidth="7.50235"
-            strokeLinecap="round"
+          <animated.path
+            className="fill-illust-foreground"
+            // d={mousePaths.face.open}
+            d={mouseSpring.d}
           />
         </svg>
       </div>
+      <button
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        onClick={toggleAnimation}
+      >
+        {isAnimating ? "停止" : "再生"}
+      </button>
     </div>
   );
 }
