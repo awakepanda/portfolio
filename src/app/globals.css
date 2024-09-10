@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* .lottie-color-modifier svg g gpath { */
+/*   fill: var(--illust); */
+/* } */
+/**/
+/* .lottie-color-modifier svg g path { */
+/*   fill: var(--illust-foreground); */
+/* } */
+
+/* 顔のアニメーション用のスタイル */
+.lottie-color-modifier svg g[clip-path] > g:first-child > path {
+  fill: hsl(var(--illust)) !important;
+}
+
+.lottie-color-modifier svg g[clip-path] > g:nth-child(2) > path {
+  fill: hsl(var(--illust-foreground)) !important;
+}
+
+/* 目のアニメーション用のスタイル */
+.lottie-color-modifier svg g[clip-path] > g.fill-illust-foreground > path {
+  fill: hsl(var(--illust-foreground)) !important;
+}
+
+/* Tailwindのsafelistクラスのオーバーライド */
+.fill-illust {
+  fill: hsl(var(--illust)) !important;
+}
+
+.fill-illust-foreground {
+  fill: hsl(var(--illust-foreground)) !important;
+}
+
 @layer base {
   :root {
     --background: 49 38% 91%;

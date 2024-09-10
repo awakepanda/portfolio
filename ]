@@ -1,0 +1,27 @@
+import Link from "next/link";
+
+const navItems = [
+  { id: "01", nameJP: "自己紹介", name: "SELF-INTRODUCTION", path: "/" },
+  { id: "02", name: "SKILLS", nameJP: "スキル", path: "/skills" },
+  { id: "03", name: "PRODUCTS", nameJP: "プロジェクト", path: "/products" },
+  { id: "04", name: "CONTACT", nameJP: "お問い合わせ", path: "/contact" },
+];
+
+export default function Navigation() {
+  return (
+    <nav>
+      <ul className="flex justify-center gap-8 inter">
+        {navItems.map((item) => (
+          <li key={item.name}>
+            <Link
+              className="after:content-[''] after:block after:h-[1px] after:bg-foreground after:max-w-0 after:hover:max-w-full after:transition-all after:duration-300 after:ease-[cubic-bezier(0.785, 0.135, 0.15, 0.86)]"
+              href={item.path}
+            >
+              {item.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}

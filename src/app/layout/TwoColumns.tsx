@@ -18,14 +18,6 @@ export default function TwoColumns({
     <div className="flex flex-col w-full h-screen overflow-hidden lg:flex-row">
       <div className="w-full h-1/2 bg-muted lg:h-full lg:w-1/2">
         <Logo />
-        {/* <Image */}
-        {/*   src="/logo.svg" */}
-        {/*   alt="Logo" */}
-        {/*   className="absolute top-[68px] left-[53px] w-1/2" */}
-        {/*   width={356} */}
-        {/*   height={44} */}
-        {/*   priority */}
-        {/* /> */}
         {leftContent}
       </div>
       <div className="w-full h-1/2 lg:h-full lg:w-1/2">
