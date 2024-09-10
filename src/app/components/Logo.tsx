@@ -1,6 +1,6 @@
 export default function Logo() {
   return (
-    <div className="absolute top-[calc(68/1728*100%)] left-[calc(53/1728*100%)] w-[calc(356/1728*100%)] ]">
+    <div className="absolute top-[calc(68/1728*100%)] left-[calc(53/1728*100%)] w-[calc(356/1728*100%)]">
       <svg
         className="w-full h-full"
         viewBox="0 0 354 28"

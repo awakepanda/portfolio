@@ -50,6 +50,7 @@ const config = {
       },
     },
   },
+  safelist: ["fill-illust", "fill-illust-foreground"],
 } satisfies Config;
 
 export default config;
