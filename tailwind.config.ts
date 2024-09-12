@@ -17,8 +17,16 @@ type PropKey =
   | "r"
   | "b"
   | "l"
+  | "pt"
+  | "pr"
+  | "pb"
+  | "pl"
   | "py"
   | "px"
+  | "mt"
+  | "mr"
+  | "mb"
+  | "ml"
   | "my"
   | "mx";
 
@@ -88,8 +96,16 @@ const config = {
             "r",
             "b",
             "l",
+            "pt",
+            "pr",
+            "pb",
+            "pl",
             "py",
             "px",
+            "mt",
+            "mr",
+            "mb",
+            "ml",
             "my",
             "mx",
           ] as PropKey[]
@@ -121,6 +137,14 @@ const config = {
                     return { bottom: convertedValue };
                   case "l":
                     return { left: convertedValue };
+                  case "pt":
+                    return { paddingTop: convertedValue };
+                  case "pr":
+                    return { paddingRight: convertedValue };
+                  case "pb":
+                    return { paddingBottom: convertedValue };
+                  case "pl":
+                    return { paddingLeft: convertedValue };
                   case "py":
                     return {
                       paddingTop: convertedValue,
@@ -131,6 +155,14 @@ const config = {
                       paddingLeft: convertedValue,
                       paddingRight: convertedValue,
                     };
+                  case "mt":
+                    return { marginTop: convertedValue };
+                  case "mr":
+                    return { marginRight: convertedValue };
+                  case "mb":
+                    return { marginBottom: convertedValue };
+                  case "ml":
+                    return { marginLeft: convertedValue };
                   case "my":
                     return {
                       marginTop: convertedValue,
@@ -153,7 +185,10 @@ const config = {
     }),
   ],
   safelist: [
-    { pattern: /^(w|h|m|p|t|r|b|l|py|px|my|mx)-(pc|tablet|sp)-\[.+\]$/ },
+    {
+      pattern:
+        /^(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx)-(pc|tablet|sp)-\[.+\]$/,
+    },
     "fill-illust",
     "fill-illust-foreground",
   ],
