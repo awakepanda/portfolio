@@ -1,14 +1,1 @@
-"use client"
 
-import Lottie, {LottieCurrentProps} from "lottie-react"
-import {useState, useEffect, useRef} from "react"
-import animationData from './smile.json'
-
-export default function AnimationLottieFiles2() {
-    const lottieRef = useRef<LottieCurrentProps>(null)
-    const [isAnimating, setIsAnimating] = useState(false)
-
-    useEffect(() => {
-          
-      })
-  }

@@ -1,6 +1,6 @@
 export default function Arrow() {
   return (
-    <div className="w-[calc((100vw*50)/1728)] absolute top-[calc((100vw*24)/1728) left-[calc((100vw*15)/1728)]">
+    <div className="w-pc-[50] absolute t-pc-[42] l-pc-[33]">
       <svg
         width="41"
         height="41"

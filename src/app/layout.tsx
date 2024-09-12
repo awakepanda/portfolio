@@ -6,7 +6,7 @@ import { Noto_Sans_JP, Inter } from "next/font/google";
 const notosansjp = Noto_Sans_JP({
   subsets: ["latin"],
   weight: ["400", "700"],
-  variable: "--font-font-noto-sans-jp",
+  variable: "--font-noto-sans-jp",
 });
 
 const inter = Inter({
