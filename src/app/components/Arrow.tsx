@@ -2,8 +2,7 @@ export default function Arrow() {
   return (
     <div className="w-pc-[50] absolute t-pc-[42] l-pc-[33]">
       <svg
-        width="41"
-        height="41"
+        className="w-full h-full"
         viewBox="0 0 41 41"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

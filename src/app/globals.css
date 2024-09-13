@@ -28,7 +28,7 @@
     --foreground: 0 0% 22%;
     --muted: 0 0% 100%;
     --light: 0 0% 64%;
-    --illust: 158 81% 43%;
+    --illust: 172 94% 44%;
     --illust-foreground: 0 0% 100%;
     --font-inter: "Inter", sans-serif;
     --font-noto-sans-jp: "Noto Sans JP", sans-serif;
@@ -42,18 +42,15 @@
     --illust: 0 0% 100%;
     --illust-foreground: 174 14% 27%;
   }
-}
-
-@layer base {
-  /* * { */
-  /*   @apply border-border; */
-  /* } */
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-inter);
     box-sizing: border-box;
   }
-  /* .inter { */
-  /*   font-family: var(--font-inter); */
-  /* } */
+  strong {
+    @apply font-normal;
+  }
+  em {
+    @apply not-italic;
+  }
 }

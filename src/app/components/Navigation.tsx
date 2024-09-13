@@ -2,20 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-type NavItems = {
-  id: string;
-  nameJP: string;
-  name: string;
-  path: string;
-};
-
-const navItems: NavItems[] = [
-  { id: "01", nameJP: "自己紹介", name: "SELF-INTRODUCTION", path: "/" },
-  { id: "02", nameJP: "スキル", name: "SKILLS", path: "/skills" },
-  { id: "03", nameJP: "プロジェクト", name: "PRODUCTS", path: "/products" },
-  { id: "04", nameJP: "お問い合わせ", name: "CONTACT", path: "/contact" },
-];
+import { siteStructure } from "../constants/siteStructure";
 
 export default function Navigation() {
   const pathname = usePathname();
@@ -23,7 +10,7 @@ export default function Navigation() {
   return (
     <nav className="w-full">
       <ul className="w-full flex justify-center gap-10">
-        {navItems.map((item) => {
+        {siteStructure.map((item) => {
           const isActive = pathname === item.path;
           return (
             <li key={item.id}>
@@ -43,7 +30,7 @@ export default function Navigation() {
                       {item.id}
                     </span>
                   </span>
-                  <em className="text-[calc((100vw*12)/1728)] font-notosansjp not-italic">
+                  <em className="text-[calc((100vw*12)/1728)] font-notosansjp">
                     {item.nameJP}
                   </em>
                 </div>

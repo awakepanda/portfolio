@@ -28,7 +28,8 @@ type PropKey =
   | "mb"
   | "ml"
   | "my"
-  | "mx";
+  | "mx"
+  | "rounded";
 
 const config = {
   darkMode: ["class"],
@@ -41,6 +42,12 @@ const config = {
   prefix: "",
   theme: {
     extend: {
+      backgroundImage: {
+        "custom-gradiation-top":
+          "linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 81.5%, rgba(255, 255, 255, 0.7) 91.5%, rgba(255, 255, 255, 0) 100%)",
+        "custom-gradiation-bottom":
+          "linear-gradient(0deg, #FFFFFF 0%, #FFFFFF 81.5%, rgba(255, 255, 255, 0.7) 91.5%, rgba(255, 255, 255, 0) 100%)",
+      },
       fontFamily: {
         notosansjp: ["var(--font-noto-sans-jp)"],
         inter: ["var(--font-inter)"],
@@ -70,7 +77,7 @@ const config = {
           foreground: "hsl(var(--muted-foreground))",
         },
         light: "hsl(var(--light))",
-        accent: "hsl(158 81% 43%)",
+        accent: "hsl(172 94% 44%)",
         illust: {
           DEFAULT: "hsl(var(--illust) / <alpha-value>)",
           foreground: "hsl(var(--illust-foreground) / <alpha-value>)",
@@ -108,6 +115,7 @@ const config = {
             "ml",
             "my",
             "mx",
+            "rounded",
           ] as PropKey[]
         ).forEach((prop) => {
           matchUtilities(
@@ -173,6 +181,8 @@ const config = {
                       marginLeft: convertedValue,
                       marginRight: convertedValue,
                     };
+                  case "rounded":
+                    return { borderRadius: convertedValue };
                   default:
                     return null;
                 }
@@ -183,11 +193,30 @@ const config = {
         });
       });
     }),
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        ".overflow-wrap-anywhere": {
+          "overflow-wrap": "anywhere",
+        },
+        ".white-space-pre-wrap": {
+          "white-space": "pre-wrap",
+        },
+        ".hide-scrollbar": {
+          "-ms-overflow-style": "none", // IE and Edge
+          "scrollbar-width": "none", // Firefox
+          "&::-webkit-scrollbar": {
+            // Chrome, Safari and Opera
+            display: "none",
+          },
+        },
+      };
+      addUtilities(newUtilities);
+    }),
   ],
   safelist: [
     {
       pattern:
-        /^(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx)-(pc|tablet|sp)-\[.+\]$/,
+        /^(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx|rounded)-(pc|tablet|sp)-\[.+\]$/,
     },
     "fill-illust",
     "fill-illust-foreground",
