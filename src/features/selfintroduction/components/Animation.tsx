@@ -14,7 +14,6 @@ export default function Animation() {
     "start" | "lipSync" | "end" | null
   >(null);
 
-  console.log(lipSyncRef);
   const markers = lipSyncAnimationData.markers || [];
   const startMarker = markers.find((m) => m.cm === "start");
   const lipSyncMarker = markers.find((m) => m.cm === "lip-sync");
@@ -84,8 +83,8 @@ export default function Animation() {
   };
 
   return (
-    <div className="w-full h-full relative">
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[calc((100vw*316)/1728)]">
+    <div className="w-full h-full">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-pc-[316]">
         <motion.div
           className="relative w-full"
           initial={{ scale: 0 }}
@@ -102,7 +101,7 @@ export default function Animation() {
             onComplete={handleAnimationComplete}
           />
           <Lottie
-            className="w-[calc((100vw*70)/1728)] absolute left-1/2 top-[calc((100vw*111)/1728)] transform -translate-x-1/2 lottie-color-modifier"
+            className="w-pc-[70] absolute left-1/2 t-pc-[111] transform -translate-x-1/2 lottie-color-modifier"
             lottieRef={blinkRef}
             animationData={blinkAnimationData}
             loop={true}

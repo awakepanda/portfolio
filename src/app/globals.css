@@ -2,15 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* .lottie-color-modifier svg g gpath { */
-/*   fill: var(--illust); */
-/* } */
-/**/
-/* .lottie-color-modifier svg g path { */
-/*   fill: var(--illust-foreground); */
-/* } */
-
-/* 顔のアニメーション用のスタイル */
 .lottie-color-modifier svg g[clip-path] > g:first-child > path {
   fill: hsl(var(--illust)) !important;
 }
@@ -19,12 +10,10 @@
   fill: hsl(var(--illust-foreground)) !important;
 }
 
-/* 目のアニメーション用のスタイル */
 .lottie-color-modifier svg g[clip-path] > g.fill-illust-foreground > path {
   fill: hsl(var(--illust-foreground)) !important;
 }
 
-/* Tailwindのsafelistクラスのオーバーライド */
 .fill-illust {
   fill: hsl(var(--illust)) !important;
 }
@@ -35,34 +24,33 @@
 
 @layer base {
   :root {
-    --background: 49 38% 91%;
+    --background: 45 29% 95%;
     --foreground: 0 0% 22%;
     --muted: 0 0% 100%;
-    --illust: 158 81% 43%;
+    --light: 0 0% 64%;
+    --illust: 172 94% 44%;
     --illust-foreground: 0 0% 100%;
     --font-inter: "Inter", sans-serif;
     --font-noto-sans-jp: "Noto Sans JP", sans-serif;
   }
 
   .dark {
-    --background: 175 23% 19%;
+    --background: 175 33% 21%;
     --foreground: 0 0% 100%;
     --muted: 174 14% 27%;
+    --light: 177 9% 47%;
     --illust: 0 0% 100%;
     --illust-foreground: 174 14% 27%;
   }
-}
-
-@layer base {
-  /* * { */
-  /*   @apply border-border; */
-  /* } */
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-noto-sans-jp);
+    font-family: var(--font-inter);
     box-sizing: border-box;
   }
-  .inter {
-    font-family: var(--font-inter);
+  strong {
+    @apply font-normal;
+  }
+  em {
+    @apply not-italic;
   }
 }
