@@ -18,7 +18,7 @@ export default function TextContent() {
           nameJP={currentPage.nameJP}
           name={currentPage.name}
         />
-        <div className="relative flex-grow mt-pc-[60] py-pc-[60] px-pc-[52] bg-white overflow-hidden rounded-pc-[32] before:block before:absolute before:top-0 before:left-0 before:w-full before:h-pc-[76] before:bg-custom-gradiation-top after:block after:absolute after:bottom-0 after:left-0 after:w-full after:h-pc-[76] after:bg-custom-gradiation-bottom">
+        <div className="relative flex-grow mt-pc-[60] py-pc-[60] px-pc-[52] bg-white overflow-hidden rounded-pc-[32] before:block before:absolute before:top-0 before:left-0 before:w-full before:h-pc-[70] before:bg-custom-gradiation-top after:block after:absolute after:bottom-0 after:left-0 after:w-full after:h-pc-[76] after:bg-custom-gradiation-bottom">
           <div className="h-full overflow-auto hide-scrollbar">
             <p className="text-[calc((100vw*24)/1728)] leading-10 overflow-wrap-anywhere white-space-pre-wrap">
               こんにちは！前野慎吾です。

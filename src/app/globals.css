@@ -22,6 +22,14 @@
   fill: hsl(var(--illust-foreground)) !important;
 }
 
+.lottie-color-modifier svg g[clip-path] > g.fill-illust > g path {
+  fill: hsl(var(--illust)) !important;
+}
+
+.lottie-color-modifier svg g[clip-path] > g.fill-illust > path {
+  fill: hsl(var(--illust)) !important;
+}
+
 @layer base {
   :root {
     --background: 45 29% 95%;
@@ -37,10 +45,10 @@
   .dark {
     --background: 175 33% 21%;
     --foreground: 0 0% 100%;
-    --muted: 174 14% 27%;
-    --light: 177 9% 47%;
+    --muted: 174 29% 27%;
+    --light: 175 9% 47%;
     --illust: 0 0% 100%;
-    --illust-foreground: 174 14% 27%;
+    --illust-foreground: 174 29% 27%;
   }
   body {
     @apply bg-background text-foreground;

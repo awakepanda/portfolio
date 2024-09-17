@@ -1,13 +1,23 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import lipSyncAnimationData from "./LipSync.json";
 import blinkAnimationData from "./Blink.json";
+import codeAniamtionData from "./Code.json";
+import handAniamtionData from "./Hand.json";
+import penAniamtionData from "./Pen.json";
+import catAniamtionData from "./Cat.json";
+import Button from "./Button";
 
 export default function Animation() {
   const lipSyncRef = useRef<LottieRefCurrentProps>(null);
   const blinkRef = useRef<LottieRefCurrentProps>(null);
+  const codeRef = useRef<LottieRefCurrentProps>(null);
+  const handRef = useRef<LottieRefCurrentProps>(null);
+  const penRef = useRef<LottieRefCurrentProps>(null);
+  const catRef = useRef<LottieRefCurrentProps>(null);
   const [openingCompleted, setOpeningCompleted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSegment, setCurrentSegment] = useState<
@@ -20,14 +30,14 @@ export default function Animation() {
   const endMarker = markers.find((m) => m.cm === "end");
 
   useEffect(() => {
-    if (blinkRef.current) {
-      blinkRef.current.setSpeed(1);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (openingCompleted && blinkRef.current) {
-      blinkRef.current.play();
+    const refs = [blinkRef, codeRef, handRef, penRef, catRef];
+    if (openingCompleted) {
+      refs.forEach((ref) => {
+        if (ref.current) {
+          ref.current.setSpeed(1);
+          ref.current.play();
+        }
+      });
     }
   }, [openingCompleted]);
 
@@ -84,6 +94,34 @@ export default function Animation() {
 
   return (
     <div className="w-full h-full">
+      <Lottie
+        className="absolute t-pc-[234] r-pc-[154] w-pc-[90] lottie-color-modifier"
+        lottieRef={handRef}
+        animationData={handAniamtionData}
+        autoplay={false}
+        loop={true}
+      />
+      <Lottie
+        className="absolute b-pc-[250] r-pc-[40] w-pc-[188]"
+        lottieRef={penRef}
+        animationData={penAniamtionData}
+        autoplay={false}
+        loop={true}
+      />
+      <Lottie
+        className="absolute b-pc-[240] l-pc-[154] w-pc-[77] lottie-color-modifier"
+        lottieRef={codeRef}
+        animationData={codeAniamtionData}
+        autoplay={false}
+        loop={true}
+      />
+      <Lottie
+        className="absolute t-pc-[250] l-pc-[144] w-pc-[190] lottie-color-modifier"
+        lottieRef={catRef}
+        animationData={catAniamtionData}
+        autoplay={false}
+        loop={true}
+      />
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-pc-[316]">
         <motion.div
           className="relative w-full"
@@ -109,16 +147,17 @@ export default function Animation() {
           />
         </motion.div>
       </div>
-      <button
-        className={`absolute bottom-4 left-1/2 transform -translate-x-1/2 font-bold py-2 px-4 rounded ${
-          isPlaying
-            ? "bg-red-500 hover:bg-red-700 text-white"
-            : "bg-blue-500 hover:bg-blue-700 text-white"
-        }`}
-        onClick={toggleAnimation}
-      >
-        {isPlaying ? "停止" : "開始"}
-      </button>
+      <Button isPlaying={isPlaying} onClick={toggleAnimation} />
+      {/* <button */}
+      {/*   className={`absolute bottom-4 left-1/2 transform -translate-x-1/2 font-bold py-2 px-4 rounded ${ */}
+      {/*     isPlaying */}
+      {/*       ? "bg-red-500 hover:bg-red-700 text-white" */}
+      {/*       : "bg-blue-500 hover:bg-blue-700 text-white" */}
+      {/*   }`} */}
+      {/*   onClick={toggleAnimation} */}
+      {/* > */}
+      {/*   {isPlaying ? "停止" : "開始"} */}
+      {/* </button> */}
     </div>
   );
 }
