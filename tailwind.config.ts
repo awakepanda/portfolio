@@ -2,11 +2,29 @@ import type { Config } from "tailwindcss";
 import type { CSSRuleObject } from "tailwindcss/types/config";
 import plugin from "tailwindcss/plugin";
 
-const deviceSizes = {
-  pc: 1728,
-  tablet: 744,
-  sp: 390,
-} as const;
+type DeviceType = "pc" | "tablet" | "sp";
+
+interface SizeInfo {
+  width: number;
+  height: number;
+}
+
+type DeviceSizes = {
+  [key in DeviceType]: SizeInfo;
+};
+
+const deviceSizes: DeviceSizes = {
+  pc: { width: 1728, height: 1024 },
+  tablet: { width: 1024, height: 768 },
+  sp: { width: 390, height: 640 },
+};
+
+const scrollbarSizes: Record<DeviceType, { width: number; thumbSize: number }> =
+  {
+    pc: { width: 20, thumbSize: 14 },
+    tablet: { width: 16, thumbSize: 12 },
+    sp: { width: 12, thumbSize: 10 },
+  };
 
 type PropKey =
   | "w"
@@ -29,9 +47,18 @@ type PropKey =
   | "ml"
   | "my"
   | "mx"
-  | "rounded";
+  | "rounded"
+  | "leading";
 
-const config = {
+const vwConverter = (value: string, baseSize: number): string => {
+  return `calc((${value} / ${baseSize}) * 100vw)`;
+};
+
+const vhConverter = (value: string, baseSize: number): string => {
+  return `calc((${value} / ${baseSize}) * 100vh)`;
+};
+
+const config: Config = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -41,6 +68,13 @@ const config = {
   ],
   prefix: "",
   theme: {
+    screens: {
+      // sm: "640px",
+      // tablet: "768px",
+      md: "768px",
+      lg: "1025px",
+      // xl: "1536px",
+    },
     extend: {
       backgroundImage: {
         "custom-gradiation-top":
@@ -67,57 +101,33 @@ const config = {
       },
       colors: {
         background: "hsl(var(--background))",
+        primary: "hsl(var(--primary))",
         foreground: "hsl(var(--foreground))",
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
+        secondary: "hsl(var(--secondary))",
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
         light: "hsl(var(--light))",
-        accent: "hsl(172 94% 44%)",
+        accent: "hsl(169 89% 45%)",
         illust: {
           DEFAULT: "hsl(var(--illust) / <alpha-value>)",
           foreground: "hsl(var(--illust-foreground) / <alpha-value>)",
+        },
+        scrollbar: {
+          light: "hsl(var(--light))",
+          accent: "hsl(169 89% 45%)",
         },
       },
     },
   },
   plugins: [
     plugin(({ matchUtilities, theme }) => {
-      const vwConverter = (value: string, baseSize: number): string => {
-        return `calc((${value} / ${baseSize}) * 100vw)`;
-      };
-
-      // 動的ユーティリティの生成
-      Object.entries(deviceSizes).forEach(([device, baseSize]) => {
-        (
-          [
-            "w",
-            "h",
-            "m",
-            "p",
-            "t",
-            "r",
-            "b",
-            "l",
-            "pt",
-            "pr",
-            "pb",
-            "pl",
-            "py",
-            "px",
-            "mt",
-            "mr",
-            "mb",
-            "ml",
-            "my",
-            "mx",
-            "rounded",
-          ] as PropKey[]
-        ).forEach((prop) => {
+      const generateUtilities = (
+        prop: PropKey,
+        converter: (value: string, baseSize: number) => string,
+      ) => {
+        Object.entries(deviceSizes).forEach(([device, { width, height }]) => {
           matchUtilities(
             {
               [`${prop}-${device}`]: (
@@ -127,7 +137,10 @@ const config = {
                 if (modifier) {
                   return null;
                 }
-                const convertedValue = vwConverter(value, baseSize);
+                const convertedValue = converter(
+                  value,
+                  prop === "h" ? height : width,
+                );
                 switch (prop) {
                   case "w":
                     return { width: convertedValue };
@@ -183,6 +196,8 @@ const config = {
                     };
                   case "rounded":
                     return { borderRadius: convertedValue };
+                  case "leading":
+                    return { lineHeight: convertedValue };
                   default:
                     return null;
                 }
@@ -191,8 +206,86 @@ const config = {
             { values: theme("spacing") },
           );
         });
+      };
+
+      // Generate utilities for width and other properties using vwConverter
+      (
+        [
+          "w",
+          "m",
+          "p",
+          "t",
+          "r",
+          "b",
+          "l",
+          "pt",
+          "pr",
+          "pb",
+          "pl",
+          "py",
+          "px",
+          "mt",
+          "mr",
+          "mb",
+          "ml",
+          "my",
+          "mx",
+          "rounded",
+          "leading",
+        ] as PropKey[]
+      ).forEach((prop) => {
+        generateUtilities(prop, vwConverter);
+      });
+
+      Object.entries(deviceSizes).forEach(([device, { width, height }]) => {
+        matchUtilities(
+          {
+            [`h-${device}`]: (value) => ({
+              height: vwConverter(value, width),
+            }),
+            [`h-${device}-vh`]: (value) => ({
+              height: vhConverter(value, height),
+            }),
+          },
+          { values: theme("spacing") },
+        );
       });
     }),
+
+    plugin(function ({ addUtilities, theme }) {
+      const scrollbarUtilities = Object.entries(deviceSizes).reduce(
+        (acc, [device, { width }]) => {
+          const { width: scrollWidth, thumbSize } =
+            scrollbarSizes[device as DeviceType];
+
+          acc[`.scrollbar-${device}`] = {
+            "&::-webkit-scrollbar": {
+              width: `calc((${scrollWidth} / ${width}) * 100vw)`,
+              backgroundColor: theme("colors.scrollbar.light"),
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: theme("colors.scrollbar.accent"),
+              borderRadius: `calc((${thumbSize / 2} / ${width}) * 100vw)`,
+              width: `calc((${thumbSize} / ${width}) * 100vw)`,
+              height: `calc((${thumbSize} / ${width}) * 100vw)`,
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              backgroundColor: theme("colors.scrollbar.accent/0.8"),
+            },
+            "scrollbar-width": "thin",
+            "scrollbar-color": `${theme("colors.scrollbar.accent")} ${theme(
+              "colors.scrollbar.light",
+            )}`,
+          };
+
+          return acc;
+        },
+        {} as Record<string, any>,
+      );
+
+      addUtilities(scrollbarUtilities);
+    }),
+
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         ".overflow-wrap-anywhere": {
@@ -202,12 +295,18 @@ const config = {
           "white-space": "pre-wrap",
         },
         ".hide-scrollbar": {
-          "-ms-overflow-style": "none", // IE and Edge
-          "scrollbar-width": "none", // Firefox
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
           "&::-webkit-scrollbar": {
-            // Chrome, Safari and Opera
             display: "none",
           },
+        },
+        ".text-responsive": {
+          fontSize:
+            "clamp(16px, calc(16px + (20 - 16) * ((100vw - 390px) / (1728 - 390))), 20px)",
+        },
+        ".vertical-rl": {
+          writingMode: "vertical-rl",
         },
       };
       addUtilities(newUtilities);
@@ -216,10 +315,11 @@ const config = {
   safelist: [
     {
       pattern:
-        /^(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx|rounded)-(pc|tablet|sp)-\[.+\]$/,
+        /^(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx|rounded|leading)-(pc|tablet|sp)-\[.+\]$/,
     },
     "fill-illust",
     "fill-illust-foreground",
+    "text-responsive",
   ],
 } satisfies Config;
 

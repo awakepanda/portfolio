@@ -5,13 +5,13 @@ import { Noto_Sans_JP, Inter } from "next/font/google";
 
 const notosansjp = Noto_Sans_JP({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600"],
   variable: "--font-noto-sans-jp",
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-inter",
 });
 

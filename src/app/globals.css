@@ -32,11 +32,14 @@
 
 @layer base {
   :root {
-    --background: 45 29% 95%;
-    --foreground: 0 0% 22%;
-    --muted: 0 0% 100%;
-    --light: 0 0% 64%;
-    --illust: 172 94% 44%;
+    --background: 0 0% 100%;
+    --primary: 46 13% 32%;
+    --secondary: 42 21% 91%;
+    --foreground: 46 13% 32%;
+    --muted: 45 29% 95%;
+    --accent: 169 86% 45%;
+    --light: 46 8% 70%;
+    --illust: 169 86% 45%;
     --illust-foreground: 0 0% 100%;
     --font-inter: "Inter", sans-serif;
     --font-noto-sans-jp: "Noto Sans JP", sans-serif;
@@ -44,14 +47,16 @@
 
   .dark {
     --background: 175 33% 21%;
+    --primary: 175 33% 21%;
+    --secondary: 174 31% 25%;
     --foreground: 0 0% 100%;
     --muted: 174 29% 27%;
-    --light: 175 9% 47%;
+    --light: 174 13% 45%;
     --illust: 0 0% 100%;
-    --illust-foreground: 174 29% 27%;
+    --illust-foreground: 175 33% 21%;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     font-family: var(--font-inter);
     box-sizing: border-box;
   }

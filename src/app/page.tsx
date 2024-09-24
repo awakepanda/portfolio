@@ -1,9 +1,12 @@
-import Animation from "@/features/selfintroduction/components/Animation";
-import TwoColumns from "./layout/TwoColumns";
+import SplitLayout from "./layout/SplitLayout";
+import AnimationContent from "@/features/selfintroduction/components/AnimationContent";
 import TextContent from "@/features/selfintroduction/components/TextContent";
 
 export default function SelfIntroduction() {
   return (
-    <TwoColumns leftContent={<Animation />} rightContent={<TextContent />} />
+    <SplitLayout
+      leftContent={<AnimationContent />}
+      rightContent={<TextContent />}
+    />
   );
 }

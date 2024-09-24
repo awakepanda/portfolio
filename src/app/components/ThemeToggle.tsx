@@ -12,9 +12,6 @@ export default function ThemeToggle() {
 
   return (
     <div className="flex justify-end pt-[calc(24/1728*100%)] pr-[calc(22/1728*100%)]">
-      {/* <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}> */}
-      {/*   {theme === "dark" ? "🌞" : "🌙"} */}
-      {/* </button> */}
       <label className="inline-flex items-center cursor-pointer">
         <input
           className="sr-only peer"
