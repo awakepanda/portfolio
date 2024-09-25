@@ -246,7 +246,7 @@ export default function AnimatedText({
         <div
           ref={containerRef}
           className={`h-full overflow-y-auto ${
-            showScrollbar ? "scrollbar-pc" : "hide-scrollbar"
+            showScrollbar ? "custom-scrollbar" : "hide-scrollbar"
           }`}
         >
           <p

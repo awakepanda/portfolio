@@ -19,12 +19,12 @@ const deviceSizes: DeviceSizes = {
   sp: { width: 390, height: 640 },
 };
 
-const scrollbarSizes: Record<DeviceType, { width: number; thumbSize: number }> =
-  {
-    pc: { width: 20, thumbSize: 14 },
-    tablet: { width: 16, thumbSize: 12 },
-    sp: { width: 12, thumbSize: 10 },
-  };
+// const scrollbarSizes: Record<DeviceType, { width: number; thumbSize: number }> =
+//   {
+//     pc: { width: 20, thumbSize: 14 },
+//     tablet: { width: 16, thumbSize: 12 },
+//     sp: { width: 12, thumbSize: 10 },
+//   };
 
 type PropKey =
   | "w"
@@ -118,8 +118,8 @@ const config: Config = {
           foreground: "hsl(var(--illust-foreground) / <alpha-value>)",
         },
         scrollbar: {
-          light: "hsl(var(--light))",
-          accent: "hsl(169 89% 45%)",
+          muted: "hsl(var(--muted))",
+          accent: "hsl(var(--accent))",
         },
       },
     },
@@ -258,38 +258,27 @@ const config: Config = {
       });
     }),
 
-    plugin(function ({ addUtilities, theme }) {
-      const scrollbarUtilities = Object.entries(deviceSizes).reduce(
-        (acc, [device, { width }]) => {
-          const { width: scrollWidth, thumbSize } =
-            scrollbarSizes[device as DeviceType];
-
-          acc[`.scrollbar-${device}`] = {
-            "&::-webkit-scrollbar": {
-              width: `calc((${scrollWidth} / ${width}) * 100vw)`,
-              backgroundColor: theme("colors.scrollbar.light"),
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: theme("colors.scrollbar.accent"),
-              borderRadius: `calc((${thumbSize / 2} / ${width}) * 100vw)`,
-              width: `calc((${thumbSize} / ${width}) * 100vw)`,
-              height: `calc((${thumbSize} / ${width}) * 100vw)`,
-            },
-            "&::-webkit-scrollbar-thumb:hover": {
-              backgroundColor: theme("colors.scrollbar.accent/0.8"),
-            },
-            "scrollbar-width": "thin",
-            "scrollbar-color": `${theme("colors.scrollbar.accent")} ${theme(
-              "colors.scrollbar.light",
-            )}`,
-          };
-
-          return acc;
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        ".custom-scrollbar": {
+          "&::-webkit-scrollbar": {
+            width: "clamp(4px, 0.5vw, 8px)",
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "hsl(var(--accent))",
+            borderRadius: "clamp(2px, 0.25vw, 4px)",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "hsl(var(--accent) / 0.8)",
+          },
+          "scrollbar-width": "thin",
+          "scrollbar-color": "hsl(var(--accent)) transparent",
         },
-        {} as Record<string, any>,
-      );
-
-      addUtilities(scrollbarUtilities);
+      };
+      addUtilities(newUtilities);
     }),
 
     plugin(function ({ addUtilities }) {

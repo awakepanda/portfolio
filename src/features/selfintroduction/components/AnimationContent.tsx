@@ -33,10 +33,10 @@ type AnimationPositions = {
 
 const ANIMATION_POSITIONS: AnimationPositions = {
   pc: {
-    hand: { top: 240, right: 170 },
-    pen: { bottom: 236, right: 134 },
-    code: { bottom: 206, left: 180 },
-    cat: { top: 206, left: 146 },
+    hand: { top: 230, right: 170 },
+    pen: { bottom: 236, right: 130 },
+    code: { bottom: 206, left: 160 },
+    cat: { top: 206, left: 150 },
   },
   tablet: {
     hand: { top: 180, right: 135 },
