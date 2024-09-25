@@ -1,21 +1,20 @@
 import { create } from "zustand";
-
 type LottieAnimationType = "hand" | "code" | "pen" | "cat" | "lipSync";
-
 type LottieAnimationState = {
   hasPlayed: boolean;
   isPlaying: boolean;
   sequence: number;
 };
-
 type AnimationState = {
   isOpening: boolean;
   isAnimating: boolean;
   currentSegment: "start" | "lipSync" | "end" | null;
+  hasCompletedOpening: boolean;
   lottieAnimations: Record<LottieAnimationType, LottieAnimationState>;
   setIsOpening: (isOpening: boolean) => void;
   setIsAnimating: (isAnimating: boolean) => void;
   setCurrentSegment: (segment: "start" | "lipSync" | "end" | null) => void;
+  setHasCompletedOpening: (hasCompleted: boolean) => void;
   playAnimation: () => void;
   stopAnimation: () => void;
   playLottieAnimation: (animationName: LottieAnimationType) => void;
@@ -29,11 +28,11 @@ type AnimationState = {
   ) => void;
   resetAnimation: () => void;
 };
-
 export const useAnimationStore = create<AnimationState>((set) => ({
   isOpening: true,
   isAnimating: false,
   currentSegment: null,
+  hasCompletedOpening: false,
   lottieAnimations: {
     hand: { hasPlayed: false, isPlaying: false, sequence: 0 },
     code: { hasPlayed: false, isPlaying: false, sequence: 0 },
@@ -44,19 +43,17 @@ export const useAnimationStore = create<AnimationState>((set) => ({
   setIsOpening: (isOpening) => set({ isOpening }),
   setIsAnimating: (isAnimating) => set({ isAnimating }),
   setCurrentSegment: (segment) => {
-    console.log("AnimationStore: Setting current segment to", segment);
     set({ currentSegment: segment });
   },
+  setHasCompletedOpening: (hasCompleted) =>
+    set({ hasCompletedOpening: hasCompleted }),
   playAnimation: () => {
-    console.log("AnimationStore: Playing animation");
     set({ isAnimating: true, currentSegment: "start" });
   },
   stopAnimation: () => {
-    console.log("AnimationStore: Stopping animation");
     set({ isAnimating: false, currentSegment: "end" });
   },
   playLottieAnimation: (animationName) => {
-    console.log(`AnimationStore: Playing Lottie animation: ${animationName}`);
     set((state) => ({
       lottieAnimations: {
         ...state.lottieAnimations,
@@ -69,7 +66,6 @@ export const useAnimationStore = create<AnimationState>((set) => ({
     }));
   },
   stopLottieAnimation: (animationName) => {
-    console.log(`AnimationStore: Stopping Lottie animation: ${animationName}`);
     set((state) => ({
       lottieAnimations: {
         ...state.lottieAnimations,
@@ -101,7 +97,6 @@ export const useAnimationStore = create<AnimationState>((set) => ({
       },
     })),
   resetAnimation: () => {
-    console.log("AnimationStore: Resetting animation state");
     set({
       isAnimating: false,
       currentSegment: null,
@@ -110,6 +105,7 @@ export const useAnimationStore = create<AnimationState>((set) => ({
         code: { hasPlayed: false, isPlaying: false, sequence: 0 },
         pen: { hasPlayed: false, isPlaying: false, sequence: 0 },
         cat: { hasPlayed: false, isPlaying: false, sequence: 0 },
+        lipSync: { hasPlayed: false, isPlaying: false, sequence: 0 },
       },
     });
   },

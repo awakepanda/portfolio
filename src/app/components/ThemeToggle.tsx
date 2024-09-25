@@ -2,6 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -10,17 +11,34 @@ export default function ThemeToggle() {
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
+  const variants = {
+    small: { scale: 0.6 },
+    normal: { scale: 1 },
+  };
+
   return (
-    <div className="flex justify-end pt-[calc(24/1728*100%)] pr-[calc(22/1728*100%)]">
-      <label className="inline-flex items-center cursor-pointer">
-        <input
-          className="sr-only peer"
-          type="checkbox"
-          checked={theme === "dark"}
-          onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
-        />
-        <div className="relative w-[66px] h-[36px] bg-white rounded-full border border-border peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[3px] after:start-[3px] after:bg-accent after:rounded-full after:h-[28px] after:w-[28px] after:transition-all"></div>
-      </label>
+    <div className="bg-secondary h-full lg:w-pc-[104] flex justify-center items-center">
+      <motion.button
+        className="flex justify-center items-center bg-white lg:w-pc-[62] lg:h-pc-[34] lg:text-[calc((100vw*26)/1728)] font-notosansjp"
+        onClick={() => setTheme(theme === "dark" ? "leight" : "dark")}
+      >
+        <motion.span
+          className="text-darkmode text-xl"
+          animate={theme === "dark" ? "normal" : "small"}
+          variants={variants}
+          transition={{ duration: 0.3 }}
+        >
+          ●
+        </motion.span>
+        <motion.span
+          className="text-daymode text-xl"
+          animate={theme === "dark" ? "small" : "normal"}
+          variants={variants}
+          transition={{ duration: 0.3 }}
+        >
+          ●
+        </motion.span>
+      </motion.button>
     </div>
   );
 }

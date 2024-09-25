@@ -7,7 +7,6 @@ export default function Scrolltext() {
     "WEB & MOBILE UI&UX　DESIGN FRONT-END DEVELOPMENT ".repeat(20);
   return (
     <motion.p
-      className="h-full font-inter font-thin text-light text-[calc((100vw*18)/1728)] whitespace-nowrap vertical-rl"
       initial={{ y: "-100%" }}
       animate={{ y: "0" }}
       transition={{
@@ -15,6 +14,7 @@ export default function Scrolltext() {
         repeat: Infinity,
         ease: "linear",
       }}
+      className="h-full font-inter font-thin text-light text-[calc((100vw*18)/1728)] whitespace-nowrap vertical-rl lg:[--y-from:-100%]"
     >
       {repeatText}
     </motion.p>

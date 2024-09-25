@@ -16,8 +16,46 @@ const DEVICE_SIZES = {
   sp: 375,
 };
 
-const pxToPercent = (px: number, deviceSize: keyof typeof DEVICE_SIZES) => {
+type DeviceSize = keyof typeof DEVICE_SIZES;
+
+const pxToPercent = (px: number, deviceSize: DeviceSize) => {
   return `${(px / DEVICE_SIZES[deviceSize]) * 100}%`;
+};
+
+type AnimationPositions = {
+  [key in DeviceSize]: {
+    hand: { top: number; right: number };
+    pen: { bottom: number; right: number };
+    code: { bottom: number; left: number };
+    cat: { top: number; left: number };
+  };
+};
+
+const ANIMATION_POSITIONS: AnimationPositions = {
+  pc: {
+    hand: { top: 240, right: 170 },
+    pen: { bottom: 236, right: 134 },
+    code: { bottom: 206, left: 180 },
+    cat: { top: 206, left: 146 },
+  },
+  tablet: {
+    hand: { top: 180, right: 135 },
+    pen: { bottom: 177, right: 93 },
+    code: { bottom: 150, left: 135 },
+    cat: { top: 165, left: 108 },
+  },
+  sp: {
+    hand: { top: 120, right: 90 },
+    pen: { bottom: 118, right: 62 },
+    code: { bottom: 100, left: 90 },
+    cat: { top: 110, left: 72 },
+  },
+};
+
+type LottieMarker = {
+  tm: number;
+  cm: string;
+  dr: number;
 };
 
 export default function AnimationContent() {
@@ -25,12 +63,16 @@ export default function AnimationContent() {
     isOpening,
     isAnimating,
     currentSegment,
+    hasCompletedOpening,
     lottieAnimations,
     setIsOpening,
     setIsAnimating,
     setCurrentSegment,
     stopLottieAnimation,
+    setHasCompletedOpening,
   } = useAnimationStore();
+
+  const [currentDeviceSize, setCurrentDeviceSize] = useState<DeviceSize>("pc");
 
   const handControls = useAnimation();
   const codeControls = useAnimation();
@@ -45,61 +87,86 @@ export default function AnimationContent() {
   const penRef = useRef<LottieRefCurrentProps>(null);
   const catRef = useRef<LottieRefCurrentProps>(null);
 
-  const [startMarker, setStartMarker] = useState<any>(null);
-  const [lipSyncMarker, setLipSyncMarker] = useState<any>(null);
-  const [endMarker, setEndMarker] = useState<any>(null);
+  const [startMarker, setStartMarker] = useState<LottieMarker | null>(null);
+  const [lipSyncMarker, setLipSyncMarker] = useState<LottieMarker | null>(null);
+  const [endMarker, setEndMarker] = useState<LottieMarker | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width >= DEVICE_SIZES.tablet) {
+        setCurrentDeviceSize("pc");
+      } else if (width >= DEVICE_SIZES.sp) {
+        setCurrentDeviceSize("tablet");
+      } else {
+        setCurrentDeviceSize("sp");
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     console.log("Initializing markers");
     const foundMarkers = lipSyncAnimationData.markers || [];
-    setStartMarker(foundMarkers.find((m) => m.cm === "start"));
-    setLipSyncMarker(foundMarkers.find((m) => m.cm === "lipSync")); // "lip-sync" から "lipSync" に変更
-    setEndMarker(foundMarkers.find((m) => m.cm === "end"));
+    setStartMarker(
+      foundMarkers.find((m: LottieMarker) => m.cm === "start") || null,
+    );
+    setLipSyncMarker(
+      foundMarkers.find((m: LottieMarker) => m.cm === "lipSync") || null,
+    );
+    setEndMarker(
+      foundMarkers.find((m: LottieMarker) => m.cm === "end") || null,
+    );
 
     console.log("Found markers:", foundMarkers);
     console.log(
       "LipSync marker:",
-      foundMarkers.find((m) => m.cm === "lipSync"),
+      foundMarkers.find((m: LottieMarker) => m.cm === "lipSync"),
     );
   }, []);
 
   const animatePositions = useCallback(
-    async (deviceSize: keyof typeof DEVICE_SIZES) => {
+    async (deviceSize: DeviceSize) => {
+      const positions = ANIMATION_POSITIONS[deviceSize];
       const animations = [
         handControls.start({
-          top: pxToPercent(240, deviceSize),
-          right: pxToPercent(180, deviceSize),
-          transition: { duration: 1, ease: "easeInOut" },
+          top: pxToPercent(positions.hand.top, deviceSize),
+          right: pxToPercent(positions.hand.right, deviceSize),
+          opacity: 1,
+          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
         }),
         codeControls.start({
-          bottom: pxToPercent(200, deviceSize),
-          left: pxToPercent(180, deviceSize),
-          transition: { duration: 1, ease: "easeInOut" },
+          bottom: pxToPercent(positions.code.bottom, deviceSize),
+          left: pxToPercent(positions.code.left, deviceSize),
+          opacity: 1,
+          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
         }),
         penControls.start({
-          bottom: pxToPercent(236, deviceSize),
-          right: pxToPercent(124, deviceSize),
-          transition: { duration: 1, ease: "easeInOut" },
+          bottom: pxToPercent(positions.pen.bottom, deviceSize),
+          right: pxToPercent(positions.pen.right, deviceSize),
+          opacity: 1,
+          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
         }),
         catControls.start({
-          top: pxToPercent(220, deviceSize),
-          left: pxToPercent(144, deviceSize),
-          transition: { duration: 1, ease: "easeInOut" },
+          top: pxToPercent(positions.cat.top, deviceSize),
+          left: pxToPercent(positions.cat.left, deviceSize),
+          opacity: 1,
+          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
         }),
         lipSyncControls.start({
           scale: 1,
           rotate: 360,
-          transition: {
-            type: "spring",
-            stiffness: 200,
-            damping: 20,
-            mass: 2,
-          },
+          opacity: 1,
+          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
         }),
       ];
 
       await Promise.all(animations);
       setIsOpening(false);
+      setHasCompletedOpening(true);
     },
     [
       handControls,
@@ -108,23 +175,53 @@ export default function AnimationContent() {
       catControls,
       lipSyncControls,
       setIsOpening,
+      setHasCompletedOpening,
     ],
   );
 
-  const playOpeningSequence = useCallback(
-    (deviceSize: keyof typeof DEVICE_SIZES) => {
-      animatePositions(deviceSize);
-    },
-    [animatePositions],
-  );
-
   useEffect(() => {
-    if (isOpening) {
+    if (isOpening && !hasCompletedOpening) {
       console.log("AnimationContent: Opening animation started");
-      const currentDeviceSize: keyof typeof DEVICE_SIZES = "pc";
-      playOpeningSequence(currentDeviceSize);
+      animatePositions(currentDeviceSize);
+    } else if (hasCompletedOpening) {
+      const positions = ANIMATION_POSITIONS[currentDeviceSize];
+      handControls.set({
+        top: pxToPercent(positions.hand.top, currentDeviceSize),
+        right: pxToPercent(positions.hand.right, currentDeviceSize),
+        opacity: 1,
+      });
+      codeControls.set({
+        bottom: pxToPercent(positions.code.bottom, currentDeviceSize),
+        left: pxToPercent(positions.code.left, currentDeviceSize),
+        opacity: 1,
+      });
+      penControls.set({
+        bottom: pxToPercent(positions.pen.bottom, currentDeviceSize),
+        right: pxToPercent(positions.pen.right, currentDeviceSize),
+        opacity: 1,
+      });
+      catControls.set({
+        top: pxToPercent(positions.cat.top, currentDeviceSize),
+        left: pxToPercent(positions.cat.left, currentDeviceSize),
+        opacity: 1,
+      });
+      lipSyncControls.set({
+        scale: 1,
+        rotate: 360,
+        opacity: 1,
+      });
     }
-  }, [isOpening, playOpeningSequence]);
+  }, [
+    isOpening,
+    hasCompletedOpening,
+    currentDeviceSize,
+    animatePositions,
+    handControls,
+    codeControls,
+    penControls,
+    catControls,
+    lipSyncControls,
+  ]);
 
   useEffect(() => {
     Object.entries(lottieAnimations).forEach(([name, state]) => {
@@ -235,25 +332,10 @@ export default function AnimationContent() {
     }
   }, [currentSegment, lipSyncMarker, setCurrentSegment, setIsAnimating]);
 
-  const startTextAnimation = useCallback(() => {
-    console.log("Starting text animation");
-    setIsAnimating(true);
-    setCurrentSegment("start");
-    // 明示的にLipSyncアニメーションを開始
-    if (lipSyncRef.current) {
-      lipSyncRef.current.goToAndPlay(0);
-    }
-  }, [setIsAnimating, setCurrentSegment]);
-
-  const stopTextAnimation = useCallback(() => {
-    console.log("Stopping text animation");
-    setCurrentSegment("end");
-  }, [setCurrentSegment]);
-
   return (
     <div className="w-full h-full">
       <motion.div
-        initial={{ top: "50%", right: "50%", x: "50%", y: "-50%" }}
+        initial={{ top: "50%", right: "50%", x: "50%", y: "-50%", opacity: 0 }}
         animate={handControls}
         transition={{ duration: 1, ease: "easeInOut" }}
         className="absolute w-pc-[90]"
@@ -268,7 +350,13 @@ export default function AnimationContent() {
         />
       </motion.div>
       <motion.div
-        initial={{ bottom: "50%", right: "50%", x: "50%", y: "50%" }}
+        initial={{
+          bottom: "50%",
+          right: "50%",
+          x: "50%",
+          y: "50%",
+          opacity: 0,
+        }}
         animate={penControls}
         className="absolute w-pc-[164]"
       >
@@ -282,7 +370,7 @@ export default function AnimationContent() {
         />
       </motion.div>
       <motion.div
-        initial={{ bottom: "50%", left: "50%", x: "-50%" }}
+        initial={{ bottom: "50%", left: "50%", x: "-50%", opacity: 0 }}
         animate={codeControls}
         className="absolute w-pc-[77]"
       >
@@ -296,7 +384,7 @@ export default function AnimationContent() {
         />
       </motion.div>
       <motion.div
-        initial={{ top: "50%", left: "50%", x: "-50%" }}
+        initial={{ top: "50%", left: "50%", x: "-50%", opacity: 0 }}
         animate={catControls}
         className="absolute w-pc-[180]"
       >
@@ -332,22 +420,6 @@ export default function AnimationContent() {
           />
         </motion.div>
       </div>
-      {!isOpening && (
-        <div className="absolute bottom-16 left-0 space-x-4">
-          <button
-            onClick={startTextAnimation}
-            className="py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white rounded"
-          >
-            Start Text Animation
-          </button>
-          <button
-            onClick={stopTextAnimation}
-            className="py-2 px-4 bg-red-500 hover:bg-red-700 text-white rounded"
-          >
-            Stop Text Animation
-          </button>
-        </div>
-      )}
     </div>
   );
 }

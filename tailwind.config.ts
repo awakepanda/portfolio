@@ -47,6 +47,7 @@ type PropKey =
   | "ml"
   | "my"
   | "mx"
+  | "gap"
   | "rounded"
   | "leading";
 
@@ -109,7 +110,9 @@ const config: Config = {
           foreground: "hsl(var(--muted-foreground))",
         },
         light: "hsl(var(--light))",
-        accent: "hsl(169 89% 45%)",
+        accent: "hsl(var(--accent))",
+        darkmode: "hsl(var(--darkmode))",
+        daymode: "hsl(var(--daymode))",
         illust: {
           DEFAULT: "hsl(var(--illust) / <alpha-value>)",
           foreground: "hsl(var(--illust-foreground) / <alpha-value>)",
@@ -194,6 +197,8 @@ const config: Config = {
                       marginLeft: convertedValue,
                       marginRight: convertedValue,
                     };
+                  case "gap":
+                    return { gap: convertedValue };
                   case "rounded":
                     return { borderRadius: convertedValue };
                   case "leading":
@@ -230,6 +235,7 @@ const config: Config = {
           "ml",
           "my",
           "mx",
+          "gap",
           "rounded",
           "leading",
         ] as PropKey[]
@@ -305,6 +311,10 @@ const config: Config = {
           fontSize:
             "clamp(16px, calc(16px + (20 - 16) * ((100vw - 390px) / (1728 - 390))), 20px)",
         },
+        ".text-responsive-s": {
+          fontSize:
+            "clamp(12px, calc(20px + (20 - 12) * ((100vw - 390px) / (1728 - 390))), 20px)",
+        },
         ".vertical-rl": {
           writingMode: "vertical-rl",
         },
@@ -315,7 +325,7 @@ const config: Config = {
   safelist: [
     {
       pattern:
-        /^(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx|rounded|leading)-(pc|tablet|sp)-\[.+\]$/,
+        /^(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx|gap|rounded|leading)-(pc|tablet|sp)-\[.+\]$/,
     },
     "fill-illust",
     "fill-illust-foreground",

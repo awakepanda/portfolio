@@ -1,17 +1,51 @@
+"use client";
+
+import { useEffect } from "react";
 import Arrow from "@/app/components/Arrow";
 import PageTitle from "@/app/components/PageTitle";
 import { siteStructure } from "@/app/constants/siteStructure";
 import AnimatedText from "./AnimatedText";
+import { useAnimationStore } from "@/store/animationStore";
+
 type AnimatedWord = {
   text: string;
   className: string;
   animationType: "hand" | "code" | "pen" | "cat";
 };
+
 export default function TextContent() {
+  const {
+    hasFinishedAnimation,
+    setHasFinishedAnimation,
+    hasStartedAnimation,
+    setHasStartedAnimation,
+    isAnimating,
+    setIsAnimating,
+  } = useAnimationStore();
+
+  useEffect(() => {
+    if (hasStartedAnimation && !hasFinishedAnimation && !isAnimating) {
+      setIsAnimating(false);
+    }
+
+    return () => {
+      if (hasStartedAnimation) {
+        setHasStartedAnimation(true);
+      }
+    };
+  }, [
+    hasStartedAnimation,
+    hasFinishedAnimation,
+    isAnimating,
+    setIsAnimating,
+    setHasFinishedAnimation,
+  ]);
+
   const currentPage = siteStructure.find((page) => page.path === "/");
   if (!currentPage) {
     return <div>Page not found</div>;
   }
+
   const animatedWords: AnimatedWord[] = [
     {
       text: "前野慎吾",
@@ -30,6 +64,7 @@ export default function TextContent() {
     },
     { text: "猫", className: "text-accent font-bold", animationType: "cat" },
   ];
+
   return (
     <div className="w-full h-full relative py-pc-[60] px-pc-[104]">
       <Arrow />

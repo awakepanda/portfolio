@@ -9,7 +9,7 @@ export default function Navigation() {
 
   return (
     <nav className="w-full">
-      <ul className="w-full flex justify-center gap-10">
+      <ul className="w-full flex justify-center gap-pc-[48]">
         {siteStructure.map((item) => {
           const isActive = pathname === item.path;
           return (
