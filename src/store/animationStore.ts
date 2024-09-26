@@ -1,10 +1,13 @@
 import { create } from "zustand";
+
 type LottieAnimationType = "hand" | "code" | "pen" | "cat" | "lipSync";
+
 type LottieAnimationState = {
   hasPlayed: boolean;
   isPlaying: boolean;
   sequence: number;
 };
+
 type AnimationState = {
   isOpening: boolean;
   isAnimating: boolean;
@@ -28,6 +31,7 @@ type AnimationState = {
   ) => void;
   resetAnimation: () => void;
 };
+
 export const useAnimationStore = create<AnimationState>((set) => ({
   isOpening: true,
   isAnimating: false,

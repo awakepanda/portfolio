@@ -2,32 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 既存のルール */
 .lottie-color-modifier svg g[clip-path] > g:first-child > path {
   fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
 }
 
 .lottie-color-modifier svg g[clip-path] > g:nth-child(2) > path {
   fill: hsl(var(--illust-foreground)) !important;
+  stroke: hsl(var(--illust-foreground)) !important;
 }
 
 .lottie-color-modifier svg g[clip-path] > g.fill-illust-foreground > path {
   fill: hsl(var(--illust-foreground)) !important;
+  stroke: hsl(var(--illust-foreground)) !important;
 }
 
 .fill-illust {
   fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
 }
 
 .fill-illust-foreground {
   fill: hsl(var(--illust-foreground)) !important;
+  stroke: hsl(var(--illust-foreground)) !important;
 }
 
 .lottie-color-modifier svg g[clip-path] > g.fill-illust > g path {
   fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
 }
 
 .lottie-color-modifier svg g[clip-path] > g.fill-illust > path {
   fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
+}
+
+/* 新しい構造に対応するルール */
+.lottie-color-modifier svg g[clip-path] > g.fill-illust {
+  fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
+}
+
+.lottie-color-modifier svg g[clip-path] > g.fill-illust path {
+  fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
+}
+
+.lottie-color-modifier svg g[clip-path] > g.fill-illust g path {
+  fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
+}
+
+/* fill-rule="evenodd"を持つpathに対するルール */
+.lottie-color-modifier
+  svg
+  g[clip-path]
+  > g.fill-illust
+  path[fill-rule="evenodd"] {
+  fill: hsl(var(--illust)) !important;
+  stroke: none !important;
 }
 
 @layer base {
