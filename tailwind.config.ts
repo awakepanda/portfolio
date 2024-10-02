@@ -77,14 +77,13 @@ const dynamicTextConverter = (value: string, baseSize: number): string => {
 };
 
 const config: Config = {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
-  prefix: "",
+  darkMode: ["class"],
   theme: {
     screens: {
       md: "590px",
@@ -253,7 +252,6 @@ const config: Config = {
         generateUtilities(prop, vwConverter);
       });
 
-      // 高さに関する特別な処理
       Object.entries(deviceSizes).forEach(([device, { width, height }]) => {
         matchUtilities(
           {
@@ -274,13 +272,15 @@ const config: Config = {
         );
       });
 
-      // デバイスごとの動的テキストサイズ
       Object.entries(deviceSizes).forEach(([device, { width }]) => {
         matchUtilities(
           {
-            [`text-${device}`]: (value) => ({
-              fontSize: dynamicTextConverter(value, width),
-            }),
+            [`text-${device}`]: (value) => {
+              const result = {
+                fontSize: dynamicTextConverter(value, width),
+              };
+              return result;
+            },
           },
           { values: theme("fontSize") },
         );
@@ -339,18 +339,6 @@ const config: Config = {
       };
       addUtilities(newUtilities);
     }),
-  ],
-  safelist: [
-    {
-      pattern:
-        /^(-?)(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx|gap|rounded|leading)-(pc|tablet|sp)(-vh)?-\[.+\]$/,
-    },
-    {
-      pattern: /^text-(pc|tablet|sp)-\[.+\]$/,
-    },
-    "fill-illust",
-    "fill-illust-foreground",
-    "text-responsive",
   ],
 } satisfies Config;
 
