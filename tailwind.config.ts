@@ -15,16 +15,9 @@ type DeviceSizes = {
 
 const deviceSizes: DeviceSizes = {
   pc: { width: 1728, height: 1024 },
-  tablet: { width: 1024, height: 768 },
-  sp: { width: 390, height: 640 },
+  tablet: { width: 1024, height: 1366 },
+  sp: { width: 393, height: 852 },
 };
-
-// const scrollbarSizes: Record<DeviceType, { width: number; thumbSize: number }> =
-//   {
-//     pc: { width: 20, thumbSize: 14 },
-//     tablet: { width: 16, thumbSize: 12 },
-//     sp: { width: 12, thumbSize: 10 },
-//   };
 
 type PropKey =
   | "w"
@@ -52,11 +45,35 @@ type PropKey =
   | "leading";
 
 const vwConverter = (value: string, baseSize: number): string => {
-  return `calc((${value} / ${baseSize}) * 100vw)`;
+  const match = value.match(/^(-?\d*\.?\d+)(.*)$/);
+  if (match) {
+    const [, num, unit] = match;
+    const numValue = parseFloat(num);
+    return `calc((${Math.abs(numValue)}${unit} / ${baseSize}) * 100vw * ${
+      numValue < 0 ? -1 : 1
+    })`;
+  }
+  return value;
 };
 
 const vhConverter = (value: string, baseSize: number): string => {
-  return `calc((${value} / ${baseSize}) * 100vh)`;
+  const match = value.match(/^(-?\d*\.?\d+)(.*)$/);
+  if (match) {
+    const [, num, unit] = match;
+    const numValue = parseFloat(num);
+    const percentage = (Math.abs(numValue) / baseSize) * 100;
+    return `${percentage.toFixed(2)}vh`;
+  }
+  return value;
+};
+
+const dynamicTextConverter = (value: string, baseSize: number): string => {
+  const match = value.match(/^(\d+(\.\d+)?)(px|rem|em)?$/);
+  if (match) {
+    const [, num, , unit = ""] = match;
+    return `calc((100vw * ${num}) / ${baseSize})${unit}`;
+  }
+  return value;
 };
 
 const config: Config = {
@@ -70,11 +87,8 @@ const config: Config = {
   prefix: "",
   theme: {
     screens: {
-      // sm: "640px",
-      // tablet: "768px",
-      md: "768px",
+      md: "590px",
       lg: "1025px",
-      // xl: "1536px",
     },
     extend: {
       backgroundImage: {
@@ -133,13 +147,7 @@ const config: Config = {
         Object.entries(deviceSizes).forEach(([device, { width, height }]) => {
           matchUtilities(
             {
-              [`${prop}-${device}`]: (
-                value: string,
-                { modifier }: { modifier: string | null },
-              ): CSSRuleObject | null => {
-                if (modifier) {
-                  return null;
-                }
+              [`${prop}-${device}`]: (value: string): CSSRuleObject | null => {
                 const convertedValue = converter(
                   value,
                   prop === "h" ? height : width,
@@ -208,12 +216,14 @@ const config: Config = {
                 }
               },
             },
-            { values: theme("spacing") },
+            {
+              values: theme("spacing"),
+              supportsNegativeValues: true,
+            },
           );
         });
       };
 
-      // Generate utilities for width and other properties using vwConverter
       (
         [
           "w",
@@ -243,17 +253,36 @@ const config: Config = {
         generateUtilities(prop, vwConverter);
       });
 
+      // 高さに関する特別な処理
       Object.entries(deviceSizes).forEach(([device, { width, height }]) => {
         matchUtilities(
           {
             [`h-${device}`]: (value) => ({
               height: vwConverter(value, width),
             }),
+          },
+          { values: theme("spacing") },
+        );
+
+        matchUtilities(
+          {
             [`h-${device}-vh`]: (value) => ({
               height: vhConverter(value, height),
             }),
           },
           { values: theme("spacing") },
+        );
+      });
+
+      // デバイスごとの動的テキストサイズ
+      Object.entries(deviceSizes).forEach(([device, { width }]) => {
+        matchUtilities(
+          {
+            [`text-${device}`]: (value) => ({
+              fontSize: dynamicTextConverter(value, width),
+            }),
+          },
+          { values: theme("fontSize") },
         );
       });
     }),
@@ -314,7 +343,10 @@ const config: Config = {
   safelist: [
     {
       pattern:
-        /^(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx|gap|rounded|leading)-(pc|tablet|sp)-\[.+\]$/,
+        /^(-?)(w|h|m|p|t|r|b|l|pt|pr|pb|pl|py|px|mt|mr|mb|ml|my|mx|gap|rounded|leading)-(pc|tablet|sp)(-vh)?-\[.+\]$/,
+    },
+    {
+      pattern: /^text-(pc|tablet|sp)-\[.+\]$/,
     },
     "fill-illust",
     "fill-illust-foreground",

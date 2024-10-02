@@ -1,116 +1,39 @@
 import { create } from "zustand";
 
-type LottieAnimationType = "hand" | "code" | "pen" | "cat" | "lipSync";
+type AnimationSegment = "start" | "lipSync" | "end";
 
-type LottieAnimationState = {
-  hasPlayed: boolean;
-  isPlaying: boolean;
-  sequence: number;
-};
-
-type AnimationState = {
-  isOpening: boolean;
+interface AnimationStore {
   isAnimating: boolean;
-  currentSegment: "start" | "lipSync" | "end" | null;
-  hasCompletedOpening: boolean;
-  lottieAnimations: Record<LottieAnimationType, LottieAnimationState>;
-  setIsOpening: (isOpening: boolean) => void;
-  setIsAnimating: (isAnimating: boolean) => void;
-  setCurrentSegment: (segment: "start" | "lipSync" | "end" | null) => void;
-  setHasCompletedOpening: (hasCompleted: boolean) => void;
+  currentSegment: AnimationSegment;
+  currentWord: string | null;
+  animationTrigger: number; // 追加
   playAnimation: () => void;
   stopAnimation: () => void;
-  playLottieAnimation: (animationName: LottieAnimationType) => void;
-  stopLottieAnimation: (
-    animationName: keyof AnimationState["lottieAnimations"],
-  ) => void;
+  setCurrentSegment: (segment: AnimationSegment) => void;
+  setCurrentWord: (word: string | null) => void;
+  playLottieAnimation: (animationType: string) => void;
   resetLottieAnimations: () => void;
-  setLottieAnimationSequence: (
-    animationName: keyof AnimationState["lottieAnimations"],
-    sequence: number,
-  ) => void;
-  resetAnimation: () => void;
-};
+  triggerAnimation: (animationType: string) => void; // 追加
+}
 
-export const useAnimationStore = create<AnimationState>((set) => ({
-  isOpening: true,
+export const useAnimationStore = create<AnimationStore>((set) => ({
   isAnimating: false,
-  currentSegment: null,
-  hasCompletedOpening: false,
-  lottieAnimations: {
-    hand: { hasPlayed: false, isPlaying: false, sequence: 0 },
-    code: { hasPlayed: false, isPlaying: false, sequence: 0 },
-    pen: { hasPlayed: false, isPlaying: false, sequence: 0 },
-    cat: { hasPlayed: false, isPlaying: false, sequence: 0 },
-    lipSync: { hasPlayed: false, isPlaying: false, sequence: 0 },
+  currentSegment: "start",
+  currentWord: null,
+  animationTrigger: 0, // 追加
+  playAnimation: () => set({ isAnimating: true }),
+  stopAnimation: () => set({ isAnimating: false }),
+  setCurrentSegment: (segment) => set({ currentSegment: segment }),
+  setCurrentWord: (word) => set({ currentWord: word }),
+  playLottieAnimation: (animationType) => {
+    console.log(`Playing Lottie animation: ${animationType}`);
   },
-  setIsOpening: (isOpening) => set({ isOpening }),
-  setIsAnimating: (isAnimating) => set({ isAnimating }),
-  setCurrentSegment: (segment) => {
-    set({ currentSegment: segment });
+  resetLottieAnimations: () => {
+    console.log("Resetting Lottie animations");
   },
-  setHasCompletedOpening: (hasCompleted) =>
-    set({ hasCompletedOpening: hasCompleted }),
-  playAnimation: () => {
-    set({ isAnimating: true, currentSegment: "start" });
-  },
-  stopAnimation: () => {
-    set({ isAnimating: false, currentSegment: "end" });
-  },
-  playLottieAnimation: (animationName) => {
+  triggerAnimation: (animationType) =>
     set((state) => ({
-      lottieAnimations: {
-        ...state.lottieAnimations,
-        [animationName]: {
-          ...state.lottieAnimations[animationName],
-          hasPlayed: true,
-          isPlaying: true,
-        },
-      },
-    }));
-  },
-  stopLottieAnimation: (animationName) => {
-    set((state) => ({
-      lottieAnimations: {
-        ...state.lottieAnimations,
-        [animationName]: {
-          ...state.lottieAnimations[animationName],
-          isPlaying: false,
-        },
-      },
-    }));
-  },
-  resetLottieAnimations: () =>
-    set((state) => ({
-      lottieAnimations: Object.keys(state.lottieAnimations).reduce(
-        (acc, key) => ({
-          ...acc,
-          [key]: { hasPlayed: false, isPlaying: false, sequence: 0 },
-        }),
-        {} as AnimationState["lottieAnimations"],
-      ),
-    })),
-  setLottieAnimationSequence: (animationName, sequence) =>
-    set((state) => ({
-      lottieAnimations: {
-        ...state.lottieAnimations,
-        [animationName]: {
-          ...state.lottieAnimations[animationName],
-          sequence,
-        },
-      },
-    })),
-  resetAnimation: () => {
-    set({
-      isAnimating: false,
-      currentSegment: null,
-      lottieAnimations: {
-        hand: { hasPlayed: false, isPlaying: false, sequence: 0 },
-        code: { hasPlayed: false, isPlaying: false, sequence: 0 },
-        pen: { hasPlayed: false, isPlaying: false, sequence: 0 },
-        cat: { hasPlayed: false, isPlaying: false, sequence: 0 },
-        lipSync: { hasPlayed: false, isPlaying: false, sequence: 0 },
-      },
-    });
-  },
+      currentWord: animationType,
+      animationTrigger: state.animationTrigger + 1,
+    })), // 追加
 }));

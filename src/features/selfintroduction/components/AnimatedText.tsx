@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { motion } from "framer-motion";
 import { useAnimationStore } from "@/store/animationStore";
-import TogglePlayButton from "./PlayToggleButton";
+import TogglePlayButton from "./TogglePlayButton";
 
 const ANIMATION_SPEED = 10;
 const SCROLL_DELAY = 1000; // スクロールバーを表示するまでの遅延（ミリ秒）
@@ -42,11 +42,12 @@ export default function AnimatedText({
 
   const {
     isAnimating,
-    playLottieAnimation,
     playAnimation,
     stopAnimation,
-    resetLottieAnimations,
     setCurrentSegment,
+    setCurrentWord,
+    resetLottieAnimations,
+    triggerAnimation, // 新しく追加
   } = useAnimationStore();
 
   useEffect(() => {
@@ -100,14 +101,12 @@ export default function AnimatedText({
           (word) => word.text === item.content,
         );
         if (animatedWord) {
-          const currentCount =
-            animatedWordsRef.current.get(animatedWord.text) || 0;
-          animatedWordsRef.current.set(animatedWord.text, currentCount + 1);
-          playLottieAnimation(animatedWord.animationType);
+          console.log(`Triggering animation for: ${animatedWord.text}`);
+          triggerAnimation(animatedWord.animationType); // setCurrentWord の代わりに triggerAnimation を使用
         }
       }
     },
-    [animatedWords, playLottieAnimation],
+    [animatedWords, triggerAnimation],
   );
 
   const animate = useCallback(() => {
@@ -128,13 +127,22 @@ export default function AnimatedText({
 
       if (newVisibleChars >= flattenedContentRef.current.length) {
         stopAnimation();
+        setCurrentWord(null);
+        setCurrentSegment("end");
         setTimeout(() => setShowScrollbar(true), SCROLL_DELAY);
         return;
       }
     }
 
     animationRef.current = requestAnimationFrame(animate);
-  }, [isAnimating, visibleChars, checkAndPlayAnimation, stopAnimation]);
+  }, [
+    isAnimating,
+    visibleChars,
+    checkAndPlayAnimation,
+    stopAnimation,
+    setCurrentSegment,
+    setCurrentWord,
+  ]);
 
   useEffect(() => {
     if (isAnimating) {
@@ -221,14 +229,14 @@ export default function AnimatedText({
     if (isAnimating) {
       stopAnimation();
       setCurrentSegment("end");
-      playLottieAnimation("lipSync");
+      setCurrentWord(null); // この行を追加
     } else {
       if (visibleChars === flattenedContentRef.current.length) {
         resetAnimation();
       }
       playAnimation();
       setCurrentSegment("start");
-      playLottieAnimation("lipSync");
+      setCurrentWord(null); // この行を追加
     }
   }, [
     isAnimating,
@@ -237,7 +245,7 @@ export default function AnimatedText({
     stopAnimation,
     playAnimation,
     setCurrentSegment,
-    playLottieAnimation,
+    setCurrentWord, // この依存関係を追加
   ]);
 
   return (
@@ -251,13 +259,13 @@ export default function AnimatedText({
         >
           <p
             ref={contentRef}
-            className="text-primary text-pc-[20] leading-pc-[40]"
+            className="text-primary text-sp-[16] leadint-sp-[32] md:text-tablet-[20] md:leading-tablet-[40] lg:text-pc-[20] lg:leading-pc-[40]"
           >
             {renderContent()}
           </p>
         </div>
       </div>
-      <TogglePlayButton />
+      <TogglePlayButton onClick={handleAnimationToggle} />
     </>
   );
 }

@@ -1,62 +1,14 @@
 "use client";
 import React, { useEffect, useRef, useCallback, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
-import lipSyncAnimationData from "./LipSync.json";
-import blinkAnimationData from "./Blink.json";
-import codeAnimationData from "./Code.json";
-import handAnimationData from "./Hand.json";
-import penAnimationData from "./Pen.json";
-import catAnimationData from "./Cat.json";
 import { useAnimationStore } from "@/store/animationStore";
-
-const DEVICE_SIZES = {
-  pc: 1728,
-  tablet: 768,
-  sp: 393, // for referrence
-};
-
-const ANIMATION_CONTAINER_SIZES = {
-  pc: 848,
-  tablet: 1024,
-  sp: 393,
-};
-
-type DeviceSize = keyof typeof DEVICE_SIZES;
-
-const pxToPercent = (px: number, deviceSize: DeviceSize) => {
-  return `${(px / ANIMATION_CONTAINER_SIZES[deviceSize]) * 100}%`;
-};
-
-type AnimationPositions = {
-  [key in DeviceSize]: {
-    hand: { top: number; right: number };
-    pen: { bottom: number; right: number };
-    code: { bottom: number; left: number };
-    cat: { top: number; left: number };
-  };
-};
-
-const ANIMATION_POSITIONS: AnimationPositions = {
-  pc: {
-    hand: { top: 186, right: 110 },
-    pen: { bottom: 236, right: 130 },
-    code: { bottom: 206, left: 160 },
-    cat: { top: 206, left: 150 },
-  },
-  tablet: {
-    hand: { top: 180, right: 135 },
-    pen: { bottom: 177, right: 93 },
-    code: { bottom: 150, left: 135 },
-    cat: { top: 160, left: 106 },
-  },
-  sp: {
-    hand: { top: 120, right: 90 },
-    pen: { bottom: 118, right: 62 },
-    code: { bottom: 100, left: 90 },
-    cat: { top: 110, left: 150 },
-  },
-};
+import { useDeviceSize } from "@/hooks/useDeviceSize";
+import { getSpecificPosition } from "@/utils/animationUtils";
+import {
+  ANIMATION_OBJECTS,
+  FACE_ANIMATION_OBJECT,
+} from "@/constants/animations";
 
 type LottieMarker = {
   tm: number;
@@ -65,403 +17,195 @@ type LottieMarker = {
 };
 
 export default function AnimationContent() {
+  const deviceSize = useDeviceSize();
   const {
-    isOpening,
     isAnimating,
+    currentWord,
     currentSegment,
-    hasCompletedOpening,
-    lottieAnimations,
-    setIsOpening,
-    setIsAnimating,
     setCurrentSegment,
-    stopLottieAnimation,
-    setHasCompletedOpening,
+    animationTrigger,
   } = useAnimationStore();
 
-  const [currentDeviceSize, setCurrentDeviceSize] = useState<DeviceSize>(() => {
-    const width =
-      typeof window !== "undefined" ? window.innerWidth : DEVICE_SIZES.pc;
-    if (width >= DEVICE_SIZES.pc) return "pc";
-    if (width >= DEVICE_SIZES.tablet) return "tablet";
-    return "sp";
-  });
-
-  const handControls = useAnimation();
-  const codeControls = useAnimation();
-  const penControls = useAnimation();
-  const catControls = useAnimation();
-  const lipSyncControls = useAnimation();
-
-  const lipSyncRef = useRef<LottieRefCurrentProps>(null);
-  const blinkRef = useRef<LottieRefCurrentProps>(null);
-  const codeRef = useRef<LottieRefCurrentProps>(null);
-  const handRef = useRef<LottieRefCurrentProps>(null);
-  const penRef = useRef<LottieRefCurrentProps>(null);
-  const catRef = useRef<LottieRefCurrentProps>(null);
+  const animationRefs = useRef<{
+    [key: string]: React.RefObject<LottieRefCurrentProps>;
+  }>({});
 
   const [startMarker, setStartMarker] = useState<LottieMarker | null>(null);
   const [lipSyncMarker, setLipSyncMarker] = useState<LottieMarker | null>(null);
   const [endMarker, setEndMarker] = useState<LottieMarker | null>(null);
 
+  // 各アニメーションのrefを作成
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width >= DEVICE_SIZES.tablet) {
-        setCurrentDeviceSize("pc");
-      } else if (width >= DEVICE_SIZES.sp) {
-        setCurrentDeviceSize("tablet");
-      } else {
-        setCurrentDeviceSize("sp");
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    // console.log("Initializing markers");
-    const foundMarkers = lipSyncAnimationData.markers || [];
-    setStartMarker(
-      foundMarkers.find((m: LottieMarker) => m.cm === "start") || null,
-    );
-    setLipSyncMarker(
-      foundMarkers.find((m: LottieMarker) => m.cm === "lipSync") || null,
-    );
-    setEndMarker(
-      foundMarkers.find((m: LottieMarker) => m.cm === "end") || null,
-    );
-
-    // console.log("Found markers:", foundMarkers);
-    // console.log(
-    //   "LipSync marker:",
-    //   foundMarkers.find((m: LottieMarker) => m.cm === "lipSync"),
-    // );
-  }, []);
-
-  const animatePositions = useCallback(
-    async (deviceSize: DeviceSize) => {
-      const positions = ANIMATION_POSITIONS[deviceSize];
-      const animations = [
-        handControls.start({
-          top: pxToPercent(positions.hand.top, deviceSize),
-          right: pxToPercent(positions.hand.right, deviceSize),
-          opacity: 1,
-          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
-        }),
-        codeControls.start({
-          bottom: pxToPercent(positions.code.bottom, deviceSize),
-          left: pxToPercent(positions.code.left, deviceSize),
-          opacity: 1,
-          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
-        }),
-        penControls.start({
-          bottom: pxToPercent(positions.pen.bottom, deviceSize),
-          right: pxToPercent(positions.pen.right, deviceSize),
-          opacity: 1,
-          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
-        }),
-        catControls.start({
-          top: pxToPercent(positions.cat.top, deviceSize),
-          left: pxToPercent(positions.cat.left, deviceSize),
-          opacity: 1,
-          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
-        }),
-        lipSyncControls.start({
-          scale: 1,
-          rotate: 360,
-          opacity: 1,
-          transition: { type: "spring", stiffness: 200, damping: 20, mass: 2 },
-        }),
-      ];
-
-      await Promise.all(animations);
-      setIsOpening(false);
-      setHasCompletedOpening(true);
-    },
-    [
-      handControls,
-      codeControls,
-      penControls,
-      catControls,
-      lipSyncControls,
-      setIsOpening,
-      setHasCompletedOpening,
-    ],
-  );
-
-  useEffect(() => {
-    if (isOpening && !hasCompletedOpening) {
-      // console.log("AnimationContent: Opening animation started");
-      animatePositions(currentDeviceSize).then(() => {
-        setIsOpening(false);
-        setHasCompletedOpening(true);
-      });
-    } else if (hasCompletedOpening) {
-      const positions = ANIMATION_POSITIONS[currentDeviceSize];
-      handControls.set({
-        top: pxToPercent(positions.hand.top, currentDeviceSize),
-        right: pxToPercent(positions.hand.right, currentDeviceSize),
-        opacity: 1,
-      });
-      codeControls.set({
-        bottom: pxToPercent(positions.code.bottom, currentDeviceSize),
-        left: pxToPercent(positions.code.left, currentDeviceSize),
-        opacity: 1,
-      });
-      penControls.set({
-        bottom: pxToPercent(positions.pen.bottom, currentDeviceSize),
-        right: pxToPercent(positions.pen.right, currentDeviceSize),
-        opacity: 1,
-      });
-      catControls.set({
-        top: pxToPercent(positions.cat.top, currentDeviceSize),
-        left: pxToPercent(positions.cat.left, currentDeviceSize),
-        opacity: 1,
-      });
-      lipSyncControls.set({
-        scale: 1,
-        rotate: 360,
-        opacity: 1,
-      });
-    }
-  }, [
-    isOpening,
-    hasCompletedOpening,
-    currentDeviceSize,
-    animatePositions,
-    handControls,
-    codeControls,
-    penControls,
-    catControls,
-    lipSyncControls,
-    setIsOpening,
-    setHasCompletedOpening,
-  ]);
-
-  useEffect(() => {
-    Object.entries(lottieAnimations).forEach(([name, state]) => {
-      const ref = {
-        hand: handRef,
-        code: codeRef,
-        pen: penRef,
-        cat: catRef,
-        lipSync: lipSyncRef,
-      }[name as keyof typeof lottieAnimations];
-
-      if (ref && state.isPlaying) {
-        // console.log(`AnimationContent: Playing ${name} animation`);
-        ref.current?.play();
-      } else if (ref) {
-        // console.log(`AnimationContent: Stopping ${name} animation`);
-        ref.current?.stop();
+    [...ANIMATION_OBJECTS, ...FACE_ANIMATION_OBJECT].forEach((obj) => {
+      if (!animationRefs.current[obj.name]) {
+        animationRefs.current[obj.name] =
+          React.createRef<LottieRefCurrentProps>();
       }
     });
-  }, [lottieAnimations]);
+  }, []);
 
   useEffect(() => {
-    if (!isOpening) {
-      blinkRef.current?.play();
+    const lipSyncAnimationData = FACE_ANIMATION_OBJECT.find(
+      (obj) => obj.name === "lipSync",
+    )?.animationData;
+    if (lipSyncAnimationData && "markers" in lipSyncAnimationData) {
+      const foundMarkers = lipSyncAnimationData.markers || [];
+      setStartMarker(
+        foundMarkers.find((m: LottieMarker) => m.cm === "start") || null,
+      );
+      setLipSyncMarker(
+        foundMarkers.find((m: LottieMarker) => m.cm === "lipSync") || null,
+      );
+      setEndMarker(
+        foundMarkers.find((m: LottieMarker) => m.cm === "end") || null,
+      );
     }
-  }, [isOpening]);
+  }, []);
 
-  useEffect(() => {
-    console.log(
-      "Animation state changed. isAnimating:",
-      isAnimating,
-      "currentSegment:",
-      currentSegment,
-    );
-    if (lipSyncRef.current) {
-      if (isAnimating || currentSegment === "end") {
-        switch (currentSegment) {
+  const playAnimation = useCallback(
+    (animationType: string, loop: boolean = false) => {
+      const ref = animationRefs.current[animationType];
+      if (ref && ref.current) {
+        if (loop) {
+          ref.current.play();
+        } else {
+          ref.current.goToAndPlay(0);
+        }
+      }
+    },
+    [],
+  );
+
+  const stopAnimation = useCallback((animationType: string) => {
+    const ref = animationRefs.current[animationType];
+    if (ref && ref.current) {
+      ref.current.stop();
+    }
+  }, []);
+
+  const playLipSync = useCallback(
+    (segment: "start" | "lipSync" | "end") => {
+      const ref = animationRefs.current["lipSync"];
+      if (ref && ref.current) {
+        switch (segment) {
           case "start":
-            console.log("Playing start segment:", [0, startMarker?.dr ?? 0]);
-            lipSyncRef.current.playSegments([0, startMarker?.dr ?? 0], true);
+            ref.current.playSegments([0, startMarker?.dr ?? 0], true);
             break;
           case "lipSync":
             if (lipSyncMarker) {
               const lipSyncStart = lipSyncMarker.tm ?? 0;
               const lipSyncEnd =
                 (lipSyncMarker.tm ?? 0) + (lipSyncMarker.dr ?? 0);
-              console.log("Playing lipSync segment:", [
-                lipSyncStart,
-                lipSyncEnd,
-              ]);
-              lipSyncRef.current.playSegments([lipSyncStart, lipSyncEnd], true);
+              ref.current.playSegments([lipSyncStart, lipSyncEnd], true);
             } else {
-              console.warn("lipSyncMarker not found, playing full animation");
-              lipSyncRef.current.play();
+              ref.current.play();
             }
             break;
           case "end":
             if (endMarker) {
               const endStart = endMarker.tm ?? 0;
               const endEnd = (endMarker.tm ?? 0) + (endMarker.dr ?? 0);
-              console.log("Playing end segment:", [endStart, endEnd]);
-              lipSyncRef.current.playSegments([endStart, endEnd], true);
+              ref.current.playSegments([endStart, endEnd], true);
             } else {
-              console.warn("endMarker not found, stopping animation");
-              lipSyncRef.current.stop();
+              ref.current.stop();
             }
             break;
         }
-      } else {
-        console.log("Pausing lipSync animation");
-        lipSyncRef.current.pause();
       }
-    }
-  }, [isAnimating, currentSegment, startMarker, lipSyncMarker, endMarker]);
-
-  const handleAnimationComplete = useCallback(
-    (name: keyof typeof lottieAnimations) => {
-      console.log(`AnimationContent: ${name} animation completed`);
-      stopLottieAnimation(name);
     },
-    [stopLottieAnimation],
+    [startMarker, lipSyncMarker, endMarker],
   );
 
   const handleLipSyncComplete = useCallback(() => {
-    console.log(
-      "LipSync animation completed. Current segment:",
-      currentSegment,
-    );
     if (currentSegment === "start") {
       setCurrentSegment("lipSync");
-    } else if (currentSegment === "lipSync") {
-      if (lipSyncMarker && lipSyncRef.current) {
-        const lipSyncStart = lipSyncMarker.tm ?? 0;
-        const lipSyncEnd = (lipSyncMarker.tm ?? 0) + (lipSyncMarker.dr ?? 0);
-        console.log("Playing lipSync segment:", [lipSyncStart, lipSyncEnd]);
-        lipSyncRef.current.playSegments([lipSyncStart, lipSyncEnd], true);
-      } else {
-        console.warn(
-          "lipSyncMarker not found or lipSyncRef not available, playing full animation",
-        );
-        lipSyncRef.current?.play();
-      }
-    } else if (currentSegment === "end") {
-      setCurrentSegment(null);
-      setIsAnimating(false);
-    } else {
-      console.log("Unknown segment in handleLipSyncComplete:", currentSegment);
+    } else if (currentSegment === "lipSync" && isAnimating) {
+      playLipSync("lipSync");
     }
-  }, [currentSegment, lipSyncMarker, setCurrentSegment, setIsAnimating]);
+  }, [currentSegment, isAnimating, setCurrentSegment, playLipSync]);
 
   useEffect(() => {
-    console.log("Component mounted. Device size:", currentDeviceSize);
-    return () => console.log("AnimationContent unmounted");
-  }, [currentDeviceSize]);
+    if (isAnimating) {
+      playLipSync(currentSegment);
+      playAnimation("blink", true);
+    } else {
+      if (currentSegment === "end") {
+        playLipSync("end");
+      } else {
+        stopAnimation("lipSync");
+      }
+      stopAnimation("blink");
+    }
+  }, [isAnimating, currentSegment, playAnimation, stopAnimation, playLipSync]);
 
+  // 特定の文字列とLottieアニメーションの連動
   useEffect(() => {
-    console.log("isOpening changed:", isOpening);
-  }, [isOpening]);
-
-  useEffect(() => {
-    console.log("hasCompletedOpening changed:", hasCompletedOpening);
-  }, [hasCompletedOpening]);
-
-  const positions = ANIMATION_POSITIONS[currentDeviceSize];
+    if (currentWord) {
+      console.log("Current word changed:", currentWord);
+      const animationObject = ANIMATION_OBJECTS.find(
+        (obj) => obj.name === currentWord,
+      );
+      if (animationObject) {
+        console.log("Playing animation for:", currentWord);
+        playAnimation(currentWord);
+      }
+    }
+  }, [currentWord, animationTrigger, playAnimation]);
 
   return (
-    <div className="w-full h-full">
-      {/* <motion.div */}
-      {/*   initial={{ top: "50%", right: "50%", x: "50%", y: "-50%", opacity: 0 }} */}
-      {/*   animate={handControls} */}
-      {/*   transition={{ duration: 1, ease: "easeInOut" }} */}
-      {/*   className="absolute w-pc-[90]" */}
-      {/* > */}
+    <div className="w-full h-full relative">
+      {ANIMATION_OBJECTS.map((obj) => {
+        const position = getSpecificPosition(deviceSize, obj.name);
+        return (
+          <motion.div
+            key={obj.name}
+            initial={{
+              ...position.initial,
+              scale: obj.initial.scale,
+              opacity: obj.initial.opacity,
+            }}
+            animate={{
+              ...position.final,
+              scale: obj.animate.scale,
+              opacity: obj.animate.opacity,
+            }}
+            transition={obj.springConfig}
+            className={`absolute ${obj.className}`}
+          >
+            <Lottie
+              lottieRef={animationRefs.current[obj.name] || null}
+              animationData={obj.animationData}
+              autoplay={false}
+              loop={false}
+            />
+          </motion.div>
+        );
+      })}
       <motion.div
-        initial={{ top: "50%", right: "50%", x: "50%", y: "-50%", opacity: 0 }}
-        animate={{
-          top: pxToPercent(positions.hand.top, currentDeviceSize),
-          right: pxToPercent(positions.hand.right, currentDeviceSize),
-          x: 0,
-          y: 0,
-          opacity: 1,
+        initial={{ top: "50%", left: "50%", x: "-50%", y: "-50%", scale: 0 }}
+        animate={{ scale: 1, rotate: 360 }}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 20,
+          mass: 2,
         }}
-        className="absolute w-sp-[39] md:w-tablet-[78] lg:w-pc-[90]"
+        className="absolute w-sp-[172] md:w-tablet-[272] lg:w-pc-[316]"
       >
-        <Lottie
-          className="lottie-color-modifier"
-          lottieRef={handRef}
-          animationData={handAnimationData}
-          autoplay={false}
-          loop={false}
-          onComplete={() => handleAnimationComplete("hand")}
-        />
-      </motion.div>
-      <motion.div
-        initial={{
-          bottom: "50%",
-          right: "50%",
-          x: "50%",
-          y: "50%",
-          opacity: 0,
-        }}
-        animate={penControls}
-        className="absolute w-sp-[88] md:w-tablet-[136] lg:w-pc-[164]"
-      >
-        <Lottie
-          className="lottie-color-modifier"
-          lottieRef={penRef}
-          animationData={penAnimationData}
-          autoplay={false}
-          loop={false}
-          onComplete={() => handleAnimationComplete("pen")}
-        />
-      </motion.div>
-      <motion.div
-        initial={{ bottom: "50%", left: "50%", x: "-50%", opacity: 0 }}
-        animate={codeControls}
-        className="absolute w-sp-[38] md:w-tablet-[76] lg:w-pc-[77]"
-      >
-        <Lottie
-          className="lottie-color-modifier"
-          lottieRef={codeRef}
-          animationData={codeAnimationData}
-          autoplay={false}
-          loop={false}
-          onComplete={() => handleAnimationComplete("code")}
-        />
-      </motion.div>
-      <motion.div
-        initial={{ top: "50%", left: "50%", x: "-50%", opacity: 0 }}
-        animate={catControls}
-        className="absolute w-sp-[98] md:w-tablet-[188] lg:w-pc-[180]"
-      >
-        <Lottie
-          className="lottie-color-modifier"
-          lottieRef={catRef}
-          animationData={catAnimationData}
-          autoplay={false}
-          loop={false}
-          onComplete={() => handleAnimationComplete("cat")}
-        />
-      </motion.div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-sp-[172] md:w-tablet-[272] lg:w-pc-[316]">
-        <motion.div
-          className="relative w-full"
-          initial={{ scale: 0 }}
-          animate={lipSyncControls}
-        >
+        {FACE_ANIMATION_OBJECT.map((obj) => (
           <Lottie
-            className="w-full h-full lottie-color-modifier"
-            lottieRef={lipSyncRef}
-            animationData={lipSyncAnimationData}
-            loop={false}
+            key={obj.name}
+            lottieRef={animationRefs.current[obj.name] || null}
+            animationData={obj.animationData}
+            className={obj.className}
             autoplay={false}
-            onComplete={handleLipSyncComplete}
+            loop={obj.name === "blink"}
+            onComplete={
+              obj.name === "lipSync" ? handleLipSyncComplete : undefined
+            }
           />
-          <Lottie
-            className="absolute transform -translate-x-1/2 left-1/2 w-sp-[38.5] t-sp-[60] md:w-tablet-[60] md:t-tablet-[96] lg:w-pc-[70] lg:t-pc-[111] lottie-color-modifier"
-            lottieRef={blinkRef}
-            animationData={blinkAnimationData}
-            loop={true}
-            autoplay={false}
-          />
-        </motion.div>
-      </div>
+        ))}
+      </motion.div>
     </div>
   );
 }

@@ -1,8 +1,13 @@
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
-import TogglePlayButtonData from "./TogglePlayButton.json";
+import TogglePlayButtonData from "../animations/TogglePlayButton.json";
 import { useEffect, useRef, useState } from "react";
 import { useAnimationStore } from "@/store/animationStore";
-export default function TogglePlayButton() {
+
+interface TogglePlayButtonProps {
+  onClick: () => void;
+}
+
+export default function TogglePlayButton({ onClick }: TogglePlayButtonProps) {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const {
@@ -12,6 +17,7 @@ export default function TogglePlayButton() {
     setCurrentSegment,
     playLottieAnimation,
   } = useAnimationStore();
+
   useEffect(() => {
     if (lottieRef.current && !isInitialized) {
       // 初期状態を設定
@@ -19,6 +25,7 @@ export default function TogglePlayButton() {
       setIsInitialized(true);
     }
   }, [isAnimating, isInitialized]);
+
   const handleClick = () => {
     if (lottieRef.current) {
       if (isAnimating) {
@@ -35,10 +42,12 @@ export default function TogglePlayButton() {
         playLottieAnimation("lipSync");
       }
     }
+    onClick(); // AnimatedTextから渡された関数を呼び出す
   };
+
   return (
     <button
-      className="absolute t-pc-[10] r-pc-[10] z-50 w-pc-[56]"
+      className="absolute z-50 w-sp-[34] t-sp-[12] r-sp-[12] md:w-tablet-[42] md:t-tablet-[16] md:r-tablet-[16] lg:w-pc-[46] lg:t-pc-[10] lg:r-pc-[10]"
       onClick={handleClick}
     >
       <Lottie

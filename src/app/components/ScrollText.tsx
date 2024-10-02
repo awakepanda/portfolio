@@ -85,14 +85,14 @@ export default function ScrollText() {
         }`}
       >
         <p
-          className={`font-inter font-thin text-light text-[calc((100vw*12)/768)] md:text-[calc((100vw*20)/1024)] lg:text-[calc((100vw*18)/1728)] whitespace-nowrap ${
+          className={`font-inter font-thin text-light text-sp-[8] md:text-tablet-[16] lg:text-pc-[12] whitespace-nowrap ${
             isHorizontal ? "" : "vertical-rl"
           }`}
         >
           {repeatText}
         </p>
         <p
-          className={`font-inter font-thin text-light text-[calc((100vw*12)/768)] md:text-[calc((100vw*20)/1024)] lg:text-[calc((100vw*18)/1728)] whitespace-nowrap ${
+          className={`font-inter font-thin text-light text-sp-[8] md:text-tablet-[16] lg:text-pc-[12] whitespace-nowrap ${
             isHorizontal ? "" : "vertical-rl"
           }`}
         >
