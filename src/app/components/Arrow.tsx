@@ -1,6 +1,6 @@
 export default function Arrow() {
   return (
-    <div className="w-pc-[50] absolute t-pc-[42] l-pc-[33]">
+    <div className="absolute w-sp-[16] t-sp-[10] l-sp-[12] md:w-tablet-[20] md:t-tablet-[24] md:l-tablet-[18] lg:w-pc-[32] lg:t-pc-[36] lg:l-pc-[38]">
       <svg
         className="w-full h-full"
         viewBox="0 0 41 41"

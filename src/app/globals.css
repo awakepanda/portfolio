@@ -2,33 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 既存のルール */
 .lottie-color-modifier svg g[clip-path] > g:first-child > path {
   fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
 }
 
 .lottie-color-modifier svg g[clip-path] > g:nth-child(2) > path {
   fill: hsl(var(--illust-foreground)) !important;
+  stroke: hsl(var(--illust-foreground)) !important;
 }
 
 .lottie-color-modifier svg g[clip-path] > g.fill-illust-foreground > path {
   fill: hsl(var(--illust-foreground)) !important;
+  stroke: hsl(var(--illust-foreground)) !important;
 }
 
 .fill-illust {
   fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
 }
 
 .fill-illust-foreground {
   fill: hsl(var(--illust-foreground)) !important;
+  stroke: hsl(var(--illust-foreground)) !important;
+}
+
+.lottie-color-modifier svg g[clip-path] > g.fill-illust > g path {
+  fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
+}
+
+.lottie-color-modifier svg g[clip-path] > g.fill-illust > path {
+  fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
+}
+
+/* 新しい構造に対応するルール */
+.lottie-color-modifier svg g[clip-path] > g.fill-illust {
+  fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
+}
+
+.lottie-color-modifier svg g[clip-path] > g.fill-illust path {
+  fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
+}
+
+.lottie-color-modifier svg g[clip-path] > g.fill-illust g path {
+  fill: hsl(var(--illust)) !important;
+  stroke: hsl(var(--illust)) !important;
+}
+
+/* fill-rule="evenodd"を持つpathに対するルール */
+.lottie-color-modifier
+  svg
+  g[clip-path]
+  > g.fill-illust
+  path[fill-rule="evenodd"] {
+  fill: hsl(var(--illust)) !important;
+  stroke: none !important;
 }
 
 @layer base {
   :root {
-    --background: 45 29% 95%;
-    --foreground: 0 0% 22%;
-    --muted: 0 0% 100%;
-    --light: 0 0% 64%;
-    --illust: 172 94% 44%;
+    --background: 0 0% 100%;
+    --primary: 46 13% 32%;
+    --secondary: 42 21% 91%;
+    --foreground: 46 13% 32%;
+    --muted: 45 29% 95%;
+    --accent: 169 86% 45%;
+    --darkmode: 175 33% 21%;
+    --daymode: 43 98% 55%;
+    --light: 46 8% 70%;
+    --illust: 169 86% 45%;
     --illust-foreground: 0 0% 100%;
     --font-inter: "Inter", sans-serif;
     --font-noto-sans-jp: "Noto Sans JP", sans-serif;
@@ -36,14 +83,16 @@
 
   .dark {
     --background: 175 33% 21%;
+    --primary: 175 33% 21%;
+    --secondary: 174 31% 25%;
     --foreground: 0 0% 100%;
-    --muted: 174 14% 27%;
-    --light: 177 9% 47%;
+    --muted: 174 29% 27%;
+    --light: 174 13% 45%;
     --illust: 0 0% 100%;
-    --illust-foreground: 174 14% 27%;
+    --illust-foreground: 175 33% 21%;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     font-family: var(--font-inter);
     box-sizing: border-box;
   }

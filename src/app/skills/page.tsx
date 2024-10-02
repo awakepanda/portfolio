@@ -1,5 +1,5 @@
-import TwoColumns from "../layout/TwoColumns";
+import SplitLayout from "../layout/SplitLayout";
 
 export default function Skills() {
-  return <TwoColumns leftContent={<p>Left</p>} rightContent={<p>Right</p>} />;
+  return <SplitLayout leftContent={<p>Left</p>} rightContent={<p>Right</p>} />;
 }
