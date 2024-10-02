@@ -1,8 +1,14 @@
-import { PageInfo } from "../types/pageInfo";
+"use client";
 
-type PageInfoProps = Omit<PageInfo, "path">;
+import { useCurrentPage } from "@/utils/navigationUtils";
 
-export default function PageTitle({ id, nameJP, name }: PageInfoProps) {
+export default function PageTitle() {
+  const currentPage = useCurrentPage();
+
+  if (!currentPage) return null;
+
+  const { id, nameJP, name } = currentPage;
+
   return (
     <h1>
       <div className="flex items-center mb-sp-[6] md:mb-tablet-[8] lg:mb-pc-[8]">

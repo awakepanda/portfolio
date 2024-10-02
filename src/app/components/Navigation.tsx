@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { siteStructure } from "../constants/siteStructure";
+import { useSiteStructure } from "@/utils/navigationUtils";
 import { useState } from "react";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-
-  const pathname = usePathname();
+  const siteStructureWithActive = useSiteStructure();
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -24,37 +22,34 @@ export default function Navigation() {
         }`}
       >
         <ul className="flex flex-col gap-sp-[24] md:gap-tablet-[24] lg:flex-row lg:justify-center lg:gap-pc-[48]">
-          {siteStructure.map((item) => {
-            const isActive = pathname === item.path;
-            return (
-              <li key={item.id}>
-                <Link
-                  className={`${
-                    isActive ? "text-foreground" : "text-light"
-                  } block transition ease-in-out lg:hover:text-foreground lg:[&>div>span]:hover:bg-foreground lg:[&>div>span>span]:hover:absolute lg:[&>div>span>span]:hover:translate-x-6 lg:[&>div>span:before]:hover:-translate-x-0`}
-                  href={item.path}
-                >
-                  <div className="flex items-center">
-                    <span
-                      className={`${
-                        isActive ? "bg-foreground" : "bg-light"
-                      } relative overflow-hidden text-background flex justify-center items-center rounded-full transition ease-in-out mr-sp-[6] w-sp-[16] h-sp-[16] text-sp-[6] md:mr-tablet-[6] md:w-tablet-[25] md:h-tablet-[25] md:text-tablet-[10] lg:mr-pc-[6] lg:w-pc-[25] lg:h-pc-[25] lg:text-pc-[10] lg:before:content-['→'] lg:before:absolute lg:before:-translate-x-6 lg:before:transition lg:before:duration-300 lg:brefore:ease-in-out`}
-                    >
-                      <span className="transition duration-300 ease-in-out">
-                        {item.id}
-                      </span>
+          {siteStructureWithActive.map((item) => (
+            <li key={item.id}>
+              <Link
+                className={`${
+                  item.isActive ? "text-foreground" : "text-light"
+                } block transition ease-in-out lg:hover:text-foreground lg:[&>div>span]:hover:bg-foreground lg:[&>div>span>span]:hover:absolute lg:[&>div>span>span]:hover:translate-x-6 lg:[&>div>span:before]:hover:-translate-x-0`}
+                href={item.path}
+              >
+                <div className="flex items-center">
+                  <span
+                    className={`${
+                      item.isActive ? "bg-foreground" : "bg-light"
+                    } relative overflow-hidden text-background flex justify-center items-center rounded-full transition ease-in-out mr-sp-[6] w-sp-[16] h-sp-[16] text-sp-[6] md:mr-tablet-[6] md:w-tablet-[25] md:h-tablet-[25] md:text-tablet-[10] lg:mr-pc-[6] lg:w-pc-[25] lg:h-pc-[25] lg:text-pc-[10] lg:before:content-['→'] lg:before:absolute lg:before:-translate-x-6 lg:before:transition lg:before:duration-300 lg:brefore:ease-in-out`}
+                  >
+                    <span className="transition duration-300 ease-in-out">
+                      {item.id}
                     </span>
-                    <em className="text-sp-[8] md:text-tablet-[12] lg:text-pc-[12] font-notosansjp">
-                      {item.nameJP}
-                    </em>
-                  </div>
-                  <strong className="font-normal pl-sp-[3] text-sp-[12] md:pl-tablet-[3] md:text-tablet-[20] lg:pl-pc-[3] lg:text-pc-[20]">
-                    {item.name}
-                  </strong>
-                </Link>
-              </li>
-            );
-          })}
+                  </span>
+                  <em className="text-sp-[8] md:text-tablet-[12] lg:text-pc-[12] font-notosansjp">
+                    {item.nameJP}
+                  </em>
+                </div>
+                <strong className="font-normal pl-sp-[3] text-sp-[12] md:pl-tablet-[3] md:text-tablet-[20] lg:pl-pc-[3] lg:text-pc-[20]">
+                  {item.name}
+                </strong>
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
       <div className="absolute t-sp-[13] r-sp-[14] md:t-tablet-[18] md:r-tablet-[18] lg:hidden">
