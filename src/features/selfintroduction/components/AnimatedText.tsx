@@ -259,7 +259,7 @@ export default function AnimatedText({
         >
           <p
             ref={contentRef}
-            className="text-primary text-sp-[16] leadint-sp-[32] md:text-tablet-[20] md:leading-tablet-[40] lg:text-pc-[20] lg:leading-pc-[40]"
+            className="text-primary text-sp-[16] leading-sp-[32] md:text-tablet-[20] md:leading-tablet-[40] lg:text-pc-[20] lg:leading-pc-[40]"
           >
             {renderContent()}
           </p>
