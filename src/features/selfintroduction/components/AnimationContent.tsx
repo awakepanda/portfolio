@@ -138,15 +138,12 @@ export default function AnimationContent() {
     }
   }, [isAnimating, currentSegment, playAnimation, stopAnimation, playLipSync]);
 
-  // 特定の文字列とLottieアニメーションの連動
   useEffect(() => {
     if (currentWord) {
-      console.log("Current word changed:", currentWord);
       const animationObject = ANIMATION_OBJECTS.find(
         (obj) => obj.name === currentWord,
       );
       if (animationObject) {
-        console.log("Playing animation for:", currentWord);
         playAnimation(currentWord);
       }
     }

@@ -16,7 +16,6 @@ export const useDeviceSize = (): DeviceSize => {
     const handleResize = () => {
       const newSize = getDeviceSize();
       setDeviceSize(newSize);
-      console.log("Device size detected:", newSize);
     };
 
     const debouncedHandleResize = debounce(handleResize, 250);

@@ -101,7 +101,6 @@ export default function AnimatedText({
           (word) => word.text === item.content,
         );
         if (animatedWord) {
-          console.log(`Triggering animation for: ${animatedWord.text}`);
           triggerAnimation(animatedWord.animationType); // setCurrentWord の代わりに triggerAnimation を使用
         }
       }
