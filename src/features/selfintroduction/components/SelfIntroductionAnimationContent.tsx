@@ -33,6 +33,8 @@ export default function SelfIntroductionAnimationContent() {
   const [startMarker, setStartMarker] = useState<LottieMarker | null>(null);
   const [lipSyncMarker, setLipSyncMarker] = useState<LottieMarker | null>(null);
   const [endMarker, setEndMarker] = useState<LottieMarker | null>(null);
+  const [isOpeningAnimationComplete, setIsOpeningAnimationComplete] =
+    useState(false);
 
   // 各アニメーションのrefを作成
   useEffect(() => {
@@ -124,19 +126,30 @@ export default function SelfIntroductionAnimationContent() {
     }
   }, [currentSegment, isAnimating, setCurrentSegment, playLipSync]);
 
+  const handleOpeningAnimationComplete = useCallback(() => {
+    setIsOpeningAnimationComplete(true);
+  }, []);
+
+  // 独立したblinkアニメーション制御
+  useEffect(() => {
+    if (isOpeningAnimationComplete) {
+      playAnimation("blink", true);
+    } else {
+      stopAnimation("blink");
+    }
+  }, [isOpeningAnimationComplete, playAnimation, stopAnimation]);
+
   useEffect(() => {
     if (isAnimating) {
       playLipSync(currentSegment);
-      playAnimation("blink", true);
     } else {
       if (currentSegment === "end") {
         playLipSync("end");
       } else {
         stopAnimation("lipSync");
       }
-      stopAnimation("blink");
     }
-  }, [isAnimating, currentSegment, playAnimation, stopAnimation, playLipSync]);
+  }, [isAnimating, currentSegment, stopAnimation, playLipSync]);
 
   useEffect(() => {
     if (currentWord) {
@@ -188,6 +201,7 @@ export default function SelfIntroductionAnimationContent() {
           mass: 2,
         }}
         className="absolute w-sp-[172] md:w-tablet-[272] lg:w-pc-[316]"
+        onAnimationComplete={handleOpeningAnimationComplete}
       >
         {FACE_ANIMATION_OBJECT.map((obj) => (
           <Lottie
