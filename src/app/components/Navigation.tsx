@@ -34,7 +34,7 @@ export default function Navigation() {
                   <span
                     className={`${
                       item.isActive ? "bg-foreground" : "bg-light"
-                    } relative overflow-hidden text-background flex justify-center items-center rounded-full transition ease-in-out mr-sp-[6] w-sp-[16] h-sp-[16] text-sp-[6] md:mr-tablet-[6] md:w-tablet-[25] md:h-tablet-[25] md:text-tablet-[10] lg:mr-pc-[6] lg:w-pc-[25] lg:h-pc-[25] lg:text-pc-[10] lg:before:content-['→'] lg:before:absolute lg:before:-translate-x-6 lg:before:transition lg:before:duration-300 lg:brefore:ease-in-out`}
+                    } relative overflow-hidden text-background hover:bg-foreground flex justify-center items-center rounded-full transition ease-in-out mr-sp-[6] w-sp-[16] h-sp-[16] text-sp-[6] md:mr-tablet-[6] md:w-tablet-[25] md:h-tablet-[25] md:text-tablet-[10] lg:mr-pc-[6] lg:w-pc-[25] lg:h-pc-[25] lg:text-pc-[10] lg:before:content-['→'] lg:before:absolute lg:before:-translate-x-6 lg:before:transition lg:before:duration-300 lg:brefore:ease-in-out`}
                   >
                     <span className="transition duration-300 ease-in-out">
                       {item.id}
