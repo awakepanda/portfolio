@@ -1,11 +1,11 @@
 import SplitLayout from "./layout/SplitLayout";
-import AnimationContent from "@/features/selfintroduction/components/AnimationContent";
+import SelfIntroductionAnimationContent from "@/features/selfintroduction/components/SelfIntroductionAnimationContent";
 import SelfIntroductionTextContent from "@/features/selfintroduction/components/SelfIntroductionTextContent";
 
 export default function SelfIntroduction() {
   return (
     <SplitLayout
-      leftContent={<AnimationContent />}
+      leftContent={<SelfIntroductionAnimationContent />}
       rightContent={<SelfIntroductionTextContent />}
     />
   );

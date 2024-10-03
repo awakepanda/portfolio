@@ -9,12 +9,12 @@ import React, {
 } from "react";
 import { motion } from "framer-motion";
 import { useAnimationStore } from "@/store/animationStore";
-import TogglePlayButton from "./TogglePlayButton";
+import SelfIntroductionTogglePlayButton from "./SelfIntroductionTogglePlayButton";
 
 const ANIMATION_SPEED = 10;
 const SCROLL_DELAY = 1000; // スクロールバーを表示するまでの遅延（ミリ秒）
 
-interface AnimatedTextProps {
+interface SelfIntroductionAnimatedTextProps {
   children: ReactNode;
   animatedWords: {
     text: string;
@@ -29,10 +29,10 @@ interface ProcessedContent {
   className?: string;
 }
 
-export default function AnimatedText({
+export default function SelfIntroductionAnimatedText({
   children,
   animatedWords,
-}: AnimatedTextProps) {
+}: SelfIntroductionAnimatedTextProps) {
   const [visibleChars, setVisibleChars] = useState(0);
   const [showScrollbar, setShowScrollbar] = useState(false);
   const animationRef = useRef<number | null>(null);
@@ -264,7 +264,7 @@ export default function AnimatedText({
           </p>
         </div>
       </div>
-      <TogglePlayButton onClick={handleAnimationToggle} />
+      <SelfIntroductionTogglePlayButton onClick={handleAnimationToggle} />
     </>
   );
 }

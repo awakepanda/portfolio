@@ -1,13 +1,15 @@
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
-import TogglePlayButtonData from "../animations/TogglePlayButton.json";
+import SelfIntroductionTogglePlayButtonData from "../animations/TogglePlayButton.json";
 import { useEffect, useRef, useState } from "react";
 import { useAnimationStore } from "@/store/animationStore";
 
-interface TogglePlayButtonProps {
+interface SelfIntroductionTogglePlayButtonProps {
   onClick: () => void;
 }
 
-export default function TogglePlayButton({ onClick }: TogglePlayButtonProps) {
+export default function SelfIntroductionTogglePlayButton({
+  onClick,
+}: SelfIntroductionTogglePlayButtonProps) {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const {
@@ -52,7 +54,7 @@ export default function TogglePlayButton({ onClick }: TogglePlayButtonProps) {
     >
       <Lottie
         lottieRef={lottieRef}
-        animationData={TogglePlayButtonData}
+        animationData={SelfIntroductionTogglePlayButtonData}
         loop={false}
         autoplay={false}
       />

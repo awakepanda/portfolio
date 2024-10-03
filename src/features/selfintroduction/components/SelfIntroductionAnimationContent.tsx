@@ -16,7 +16,7 @@ type LottieMarker = {
   dr: number;
 };
 
-export default function AnimationContent() {
+export default function SelfIntroductionAnimationContent() {
   const deviceSize = useDeviceSize();
   const {
     isAnimating,
