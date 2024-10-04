@@ -1,23 +1,33 @@
+import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { EmailTemplate } from "@/features/contact/components/EmailTemplate";
 
 const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
-    const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
-      to: ["deliver@resend.dev"],
-      subject: "Hello World",
-      react: EmailTemplate({ firstName: "John" }),
-    });
+    const { name, email, message } = await request.json();
 
-    if (error) {
-      return Response.json({ error }, { status: 500 });
+    // server side validation
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: "All fields are required" },
+        { status: 400 },
+      );
     }
 
-    return Response.json(data);
+    // send mail
+    const data = await resend.emails.send({
+      from: "Maeno Shingo Portofolio <onboarding@resend.dev>",
+      to: "coloponpan@gmail.com",
+      subject: "New Contact Form Submission",
+      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+    });
+
+    return NextResponse.json(data);
   } catch (error) {
-    return Response.json({ error });
+    return NextResponse.json(
+      { error: "Feiled to send email" },
+      { status: 500 },
+    );
   }
 }
