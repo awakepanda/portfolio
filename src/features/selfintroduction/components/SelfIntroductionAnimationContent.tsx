@@ -36,7 +36,6 @@ export default function SelfIntroductionAnimationContent() {
   const [isOpeningAnimationComplete, setIsOpeningAnimationComplete] =
     useState(false);
 
-  // 各アニメーションのrefを作成
   useEffect(() => {
     [...ANIMATION_OBJECTS, ...FACE_ANIMATION_OBJECT].forEach((obj) => {
       if (!animationRefs.current[obj.name]) {
@@ -130,7 +129,6 @@ export default function SelfIntroductionAnimationContent() {
     setIsOpeningAnimationComplete(true);
   }, []);
 
-  // 独立したblinkアニメーション制御
   useEffect(() => {
     if (isOpeningAnimationComplete) {
       playAnimation("blink", true);
