@@ -7,7 +7,9 @@ interface WeatherData {
   weather: Array<{ main: string }>;
 }
 
-interface WeatherStore {
+type AppType = "weather" | "chatbot" | null;
+
+interface ProjectsStore {
   weather: WeatherData | null;
   city: string;
   loading: boolean;
@@ -16,13 +18,22 @@ interface WeatherStore {
   selectedCity: string;
   setCity: (city: string) => void;
   setSelectedCity: (cityId: string) => void;
+  activeApp: AppType;
+  setActiveApp: (app: AppType) => void;
+  resetAppState: () => void;
 }
 
-export const useWeatherStore = create<WeatherStore>((set) => ({
+const initialState = {
   weather: null,
   city: "tokyo",
-  loading: true,
+  loading: false,
   error: null,
+  selectedCity: "tokyo",
+  activeApp: null,
+};
+
+export const useProjectsStore = create<ProjectsStore>((set) => ({
+  ...initialState,
   fetchWeather: async (city) => {
     set({ loading: true, error: null });
     try {
@@ -35,7 +46,6 @@ export const useWeatherStore = create<WeatherStore>((set) => ({
       console.log("Failed to fetch weather data", error);
     }
   },
-  selectedCity: "tokyo",
   setCity: (city) => set({ city }),
   setSelectedCity: (cityId) => {
     set({ selectedCity: cityId });
@@ -44,10 +54,12 @@ export const useWeatherStore = create<WeatherStore>((set) => ({
       return {};
     });
   },
+  setActiveApp: (app) => set({ activeApp: app }),
+  resetAppState: () => set(initialState),
 }));
 
 export const useWeatherCondition = () =>
-  useWeatherStore((state) => state.weather?.weather[0]?.main || "Unknown");
+  useProjectsStore((state) => state.weather?.weather[0]?.main || "Unknown");
 
 export const useTemperature = () =>
-  useWeatherStore((state) => state.weather?.main.temp.toFixed(0) || "N/A");
+  useProjectsStore((state) => state.weather?.main.temp.toFixed(0) || "N/A");

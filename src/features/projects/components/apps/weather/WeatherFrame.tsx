@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { AnimationControls, motion } from "framer-motion";
 import { TbMapPinFilled } from "react-icons/tb";
-import ProjectsCitySelector from "./ProjectsCitySelector";
 import { getWeatherIcon } from "@/utils/WeatherIcons";
+import CitySelector from "./CitySelector";
 
 interface WeatherData {
   condition: string;
@@ -10,7 +10,7 @@ interface WeatherData {
   cityId: string;
 }
 
-interface ProjectsWeatherFrameProps {
+interface WeatherFrameProps {
   currentWeather: WeatherData | null;
   nextWeather: WeatherData | null;
   controls: AnimationControls;
@@ -18,12 +18,12 @@ interface ProjectsWeatherFrameProps {
   handleAnimationUpdate: (latest: { rotateY: number }) => void;
 }
 
-export default function ProjectsWeatherFrame({
+export default function WeatherFrame({
   currentWeather,
   controls,
   handleAnimationComplete,
   handleAnimationUpdate,
-}: ProjectsWeatherFrameProps) {
+}: WeatherFrameProps) {
   const [displayedWeather, setDisplayedWeather] = useState<WeatherData | null>(
     currentWeather,
   );
@@ -53,7 +53,7 @@ export default function ProjectsWeatherFrame({
             <span>{displayedWeather.cityId}</span>/
             <span>{displayedWeather.condition.toUpperCase()}</span>
           </p>
-          <ProjectsCitySelector />
+          <CitySelector />
         </>
       );
     }
