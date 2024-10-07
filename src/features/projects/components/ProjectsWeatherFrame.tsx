@@ -48,7 +48,7 @@ export default function ProjectsWeatherFrame({
           <p className="text-illust font-inter font-medium leading-none mt-pc-[24] text-pc-[110]">
             {displayedWeather.temp}°C
           </p>
-          <p className="flex items-center text-illust font-inter leading-none mt-pc-[12] text-pc-[30]">
+          <p className="flex items-center text-illust font-inter tracking-wide leading-none mt-pc-[12] text-pc-[30]">
             <TbMapPinFilled />
             <span>{displayedWeather.cityId}</span>/
             <span>{displayedWeather.condition.toUpperCase()}</span>

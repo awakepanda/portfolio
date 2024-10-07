@@ -1,6 +1,6 @@
 export const ClearIcon = () => {
   return (
-    <div className="w-pc-[500] h-pc-[500]">
+    <div className="w-pc-[144]">
       <svg
         className="fill-illust"
         viewBox="0 0 177 177"

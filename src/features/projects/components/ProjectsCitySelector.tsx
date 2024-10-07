@@ -9,7 +9,7 @@ export default function ProjectsCitySelector() {
       <select
         value={selectedCity}
         onChange={(e) => setSelectedCity(e.target.value)}
-        className="appearance-none cursor-pointer w-full font-notosansjp border rounded-full focus:outline-none focus:ring-0 bg-background border-4 border-illust text-illust py-pc-[18] pl-pc-[74] text-pc-[24]"
+        className="appearance-none cursor-pointer w-full font-notosansjp border rounded-full focus:outline-none focus:ring-0 bg-background border-4 border-illust text-illust py-pc-[18] pl-pc-[60] text-pc-[24]"
       >
         {japanMejorCities.map((city) => (
           <option key={city.id} value={city.id}>
