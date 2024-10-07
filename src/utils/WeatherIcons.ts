@@ -7,7 +7,7 @@ import {
   FoggyIcon,
   WindyIcon,
   AlienIcon,
-} from "@/features/products/icons/WeatherIcons";
+} from "@/features/projects/icons/WeatherIcons";
 
 export const weatherIconMap = {
   CLEAR: ClearIcon,

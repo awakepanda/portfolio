@@ -1,7 +1,7 @@
 import Arrow from "@/app/components/Arrow";
 import PageTitle from "@/app/components/PageTitle";
 
-export default function ProductsTextContent() {
+export default function ProjectsTextContent() {
   return (
     <div className="w-full h-full relative overflow-hidden pt-sp-[36] px-sp-[24] md:pt-tablet-[40] md:px-tablet-[50] lg:pt-pc-[60] lg:px-pc-[104]">
       <Arrow />

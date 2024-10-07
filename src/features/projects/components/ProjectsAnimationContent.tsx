@@ -6,9 +6,7 @@ import {
   useWeatherCondition,
   useTemperature,
 } from "@/store/weatherStore";
-import CitySelector from "./ProductsCitySelector";
-import { getWeatherIcon } from "@/utils/WeatherIcons";
-import { TbMapPinFilled } from "react-icons/tb";
+import ProjectsWeatherFrame from "./ProjectsWeatherFrame";
 
 interface WeatherData {
   condition: string;
@@ -16,7 +14,7 @@ interface WeatherData {
   cityId: string;
 }
 
-export default function ProductsAnimationContent() {
+export default function ProjectsAnimationContent() {
   const { selectedCity, loading, error, fetchWeather } = useWeatherStore();
   const weatherCondition = useWeatherCondition();
   const temperature = useTemperature();
@@ -33,7 +31,6 @@ export default function ProductsAnimationContent() {
 
   useEffect(() => {
     if (weatherCondition !== "Unknown" && temperature !== "N/A") {
-      console.log("Weather updated:", weatherCondition, temperature);
       if (!isAnimating) {
         setDisplayedWeather({
           condition: weatherCondition,
@@ -67,48 +64,6 @@ export default function ProductsAnimationContent() {
     controls.set({ rotateY: 0 });
   };
 
-  const WeatherIcon = displayedWeather
-    ? getWeatherIcon(displayedWeather.condition)
-    : null;
-
-  const frameContent = (
-    <motion.div
-      animate={controls}
-      initial={{ rotateY: 0 }}
-      transition={{ duration: 1, ease: "easeInOut" }}
-      onUpdate={handleAnimationUpdate}
-      onAnimationComplete={handleAnimationComplete}
-      style={{ transformStyle: "preserve-3d" }}
-      className="border-4 border-illust rounded-pc-[32] w-pc-[660] bg-background"
-    >
-      <motion.div
-        className="w-full h-full"
-        style={{ backfaceVisibility: "hidden" }}
-      >
-        <div className="h-full flex flex-col justify-center items-center">
-          {displayedWeather && WeatherIcon ? (
-            <>
-              <WeatherIcon />
-              <p className="text-illust font-inter font-medium leading-none mt-pc-[24] text-pc-[110]">
-                {displayedWeather.temp}°C
-              </p>
-              <p className="flex items-center text-illust font-inter leading-none mt-pc-[12] text-pc-[30]">
-                <TbMapPinFilled />
-                <span>{displayedWeather.cityId}</span>/
-                <span>{displayedWeather.condition.toUpperCase()}</span>
-              </p>
-              <CitySelector />
-            </>
-          ) : (
-            <p className="text-illust font-notosansjp text-pc-[24]">
-              天気情報を取得中...
-            </p>
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-
   return (
     <div
       className="w-full h-full flex justify-center pt-pc-[130] pb-pc-[80]"
@@ -125,7 +80,12 @@ export default function ProductsAnimationContent() {
             {error}
           </motion.p>
         ) : (
-          frameContent
+          <ProjectsWeatherFrame
+            displayedWeather={displayedWeather}
+            controls={controls}
+            handleAnimationUpdate={handleAnimationUpdate}
+            handleAnimationComplete={handleAnimationComplete}
+          />
         )}
       </AnimatePresence>
     </div>

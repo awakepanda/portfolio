@@ -1,7 +1,7 @@
 import { useWeatherStore } from "@/store/weatherStore";
 import { japanMejorCities } from "@/types/cities";
 
-export default function CitySelector() {
+export default function ProjectsCitySelector() {
   const { selectedCity, setSelectedCity } = useWeatherStore();
 
   return (
