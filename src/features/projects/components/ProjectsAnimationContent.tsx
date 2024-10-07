@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import {
   useWeatherStore,
@@ -15,31 +15,42 @@ interface WeatherData {
 }
 
 export default function ProjectsAnimationContent() {
-  const { selectedCity, loading, error, fetchWeather } = useWeatherStore();
+  const { selectedCity, error, fetchWeather } = useWeatherStore();
   const weatherCondition = useWeatherCondition();
   const temperature = useTemperature();
-  const [displayedWeather, setDisplayedWeather] = useState<WeatherData | null>(
+  const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(
     null,
   );
+  const [nextWeather, setNextWeather] = useState<WeatherData | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const prevCityRef = useRef(selectedCity);
   const controls = useAnimation();
 
-  useEffect(() => {
-    fetchWeather(selectedCity);
-  }, [selectedCity, fetchWeather]);
-
-  useEffect(() => {
+  const updateWeather = useCallback(() => {
     if (weatherCondition !== "Unknown" && temperature !== "N/A") {
-      if (!isAnimating) {
-        setDisplayedWeather({
-          condition: weatherCondition,
-          temp: temperature,
-          cityId: selectedCity.toUpperCase(),
-        });
+      const newWeather = {
+        condition: weatherCondition,
+        temp: temperature,
+        cityId: selectedCity.toUpperCase(),
+      };
+      if (isAnimating) {
+        setNextWeather(newWeather);
+      } else {
+        setCurrentWeather(newWeather);
       }
     }
-  }, [weatherCondition, temperature, isAnimating, selectedCity]);
+  }, [weatherCondition, temperature, selectedCity, isAnimating]);
+
+  const fetchData = useCallback(async () => {
+    try {
+      await fetchWeather(selectedCity);
+      updateWeather();
+    } catch (error) {}
+  }, [fetchWeather, selectedCity, updateWeather]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   useEffect(() => {
     if (selectedCity !== prevCityRef.current) {
@@ -49,20 +60,42 @@ export default function ProjectsAnimationContent() {
     }
   }, [selectedCity, controls]);
 
-  const handleAnimationUpdate = (latest: { rotateY: number }) => {
-    if (latest.rotateY >= 90 && latest.rotateY <= 270) {
-      setDisplayedWeather({
-        condition: weatherCondition,
-        temp: temperature,
-        cityId: selectedCity.toUpperCase(),
-      });
-    }
-  };
+  const handleAnimationUpdate = useCallback(
+    (latest: { rotateY: number }) => {
+      if (latest.rotateY >= 90 && latest.rotateY <= 270 && nextWeather) {
+        setCurrentWeather(nextWeather);
+      }
+    },
+    [nextWeather],
+  );
 
-  const handleAnimationComplete = () => {
+  const handleAnimationComplete = useCallback(() => {
     setIsAnimating(false);
     controls.set({ rotateY: 0 });
-  };
+    if (nextWeather) {
+      setCurrentWeather(nextWeather);
+      setNextWeather(null);
+    }
+  }, [controls, nextWeather]);
+
+  const memoizedWeatherFrame = useMemo(
+    () => (
+      <ProjectsWeatherFrame
+        currentWeather={currentWeather}
+        nextWeather={nextWeather}
+        controls={controls}
+        handleAnimationComplete={handleAnimationComplete}
+        handleAnimationUpdate={handleAnimationUpdate}
+      />
+    ),
+    [
+      currentWeather,
+      nextWeather,
+      controls,
+      handleAnimationComplete,
+      handleAnimationUpdate,
+    ],
+  );
 
   return (
     <div
@@ -80,12 +113,7 @@ export default function ProjectsAnimationContent() {
             {error}
           </motion.p>
         ) : (
-          <ProjectsWeatherFrame
-            displayedWeather={displayedWeather}
-            controls={controls}
-            handleAnimationUpdate={handleAnimationUpdate}
-            handleAnimationComplete={handleAnimationComplete}
-          />
+          memoizedWeatherFrame
         )}
       </AnimatePresence>
     </div>

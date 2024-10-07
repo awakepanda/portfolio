@@ -1,3 +1,4 @@
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { AnimationControls, motion } from "framer-motion";
 import { TbMapPinFilled } from "react-icons/tb";
 import ProjectsCitySelector from "./ProjectsCitySelector";
@@ -10,21 +11,58 @@ interface WeatherData {
 }
 
 interface ProjectsWeatherFrameProps {
-  displayedWeather: WeatherData | null;
+  currentWeather: WeatherData | null;
+  nextWeather: WeatherData | null;
   controls: AnimationControls;
-  handleAnimationUpdate: (latest: { rotateY: number }) => void;
   handleAnimationComplete: () => void;
+  handleAnimationUpdate: (latest: { rotateY: number }) => void;
 }
 
 export default function ProjectsWeatherFrame({
-  displayedWeather,
+  currentWeather,
   controls,
-  handleAnimationUpdate,
   handleAnimationComplete,
+  handleAnimationUpdate,
 }: ProjectsWeatherFrameProps) {
-  const WeatherIcon = displayedWeather
-    ? getWeatherIcon(displayedWeather.condition)
-    : null;
+  const [displayedWeather, setDisplayedWeather] = useState<WeatherData | null>(
+    currentWeather,
+  );
+
+  useEffect(() => {
+    if (currentWeather) {
+      setDisplayedWeather(currentWeather);
+    }
+  }, [currentWeather]);
+
+  const WeatherIcon = useMemo(
+    () =>
+      displayedWeather ? getWeatherIcon(displayedWeather.condition) : null,
+    [displayedWeather],
+  );
+
+  const renderWeatherInfo = useCallback(() => {
+    if (displayedWeather && WeatherIcon) {
+      return (
+        <>
+          <WeatherIcon />
+          <p className="text-illust font-inter font-medium leading-none mt-pc-[24] text-pc-[110]">
+            {displayedWeather.temp}°C
+          </p>
+          <p className="flex items-center text-illust font-inter leading-none mt-pc-[12] text-pc-[30]">
+            <TbMapPinFilled />
+            <span>{displayedWeather.cityId}</span>/
+            <span>{displayedWeather.condition.toUpperCase()}</span>
+          </p>
+          <ProjectsCitySelector />
+        </>
+      );
+    }
+    return (
+      <p className="text-illust font-notosansjp text-pc-[24]">
+        天気情報を取得中...
+      </p>
+    );
+  }, [displayedWeather, WeatherIcon]);
 
   return (
     <motion.div
@@ -34,31 +72,14 @@ export default function ProjectsWeatherFrame({
       onUpdate={handleAnimationUpdate}
       onAnimationComplete={handleAnimationComplete}
       style={{ transformStyle: "preserve-3d" }}
-      className="border-4 border-illust bg-background rounded-pc-[32] w-pc-[660]"
+      className="border-4 border-illust rounded-pc-[32] w-pc-[660] bg-background"
     >
       <motion.div
         className="w-full h-full"
         style={{ backfaceVisibility: "hidden" }}
       >
         <div className="h-full flex flex-col justify-center items-center">
-          {displayedWeather && WeatherIcon ? (
-            <>
-              <WeatherIcon />
-              <p className="text-illust font-inter font-medium leading-none mt-pc-[24] text-pc-[110]">
-                {displayedWeather.temp}°C
-              </p>
-              <p className="flex items-center text-illust font-inter leading-none mt-pc-[12] text-pc-[30]">
-                <TbMapPinFilled />
-                <span>{displayedWeather.cityId}</span>/
-                <span>{displayedWeather.condition.toUpperCase()}</span>
-              </p>
-              <ProjectsCitySelector />
-            </>
-          ) : (
-            <p className="text-illust font-notosansjp text-pc-[24]">
-              天気情報を取得中...
-            </p>
-          )}
+          {renderWeatherInfo()}
         </div>
       </motion.div>
     </motion.div>
