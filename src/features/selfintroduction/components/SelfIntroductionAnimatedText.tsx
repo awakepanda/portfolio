@@ -7,7 +7,7 @@ import React, {
   useCallback,
   ReactNode,
 } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useAnimationStore } from "@/store/animationStore";
 import SelfIntroductionTogglePlayButton from "./SelfIntroductionTogglePlayButton";
 
@@ -35,6 +35,7 @@ export default function SelfIntroductionAnimatedText({
 }: SelfIntroductionAnimatedTextProps) {
   const [visibleChars, setVisibleChars] = useState(0);
   const [showScrollbar, setShowScrollbar] = useState(false);
+  const [isFirstClick, setIsFirstClick] = useState(true);
   const animationRef = useRef<number | null>(null);
   const lastAnimationTimeRef = useRef<number>(0);
   const animatedWordsRef = useRef(new Map<string, number>());
@@ -46,8 +47,7 @@ export default function SelfIntroductionAnimatedText({
     stopAnimation,
     setCurrentSegment,
     setCurrentWord,
-    resetLottieAnimations,
-    triggerAnimation, // 新しく追加
+    triggerAnimation,
   } = useAnimationStore();
 
   useEffect(() => {
@@ -160,14 +160,13 @@ export default function SelfIntroductionAnimatedText({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isAnimating, animate]); // animate関数をuseCallbackでメモ化することを確認してください
+  }, [isAnimating, animate]);
 
   const resetAnimation = useCallback(() => {
     setVisibleChars(0);
     setShowScrollbar(false);
     animatedWordsRef.current.clear();
-    resetLottieAnimations();
-  }, [resetLottieAnimations]);
+  }, []);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLParagraphElement>(null);
@@ -228,23 +227,27 @@ export default function SelfIntroductionAnimatedText({
     if (isAnimating) {
       stopAnimation();
       setCurrentSegment("end");
-      setCurrentWord(null); // この行を追加
+      setCurrentWord(null);
     } else {
       if (visibleChars === flattenedContentRef.current.length) {
         resetAnimation();
       }
       playAnimation();
       setCurrentSegment("start");
-      setCurrentWord(null); // この行を追加
+      setCurrentWord(null);
+    }
+    if (isFirstClick) {
+      setIsFirstClick(false);
     }
   }, [
     isAnimating,
     visibleChars,
+    isFirstClick,
     resetAnimation,
     stopAnimation,
     playAnimation,
     setCurrentSegment,
-    setCurrentWord, // この依存関係を追加
+    setCurrentWord,
   ]);
 
   return (
@@ -264,7 +267,43 @@ export default function SelfIntroductionAnimatedText({
           </p>
         </div>
       </div>
-      <SelfIntroductionTogglePlayButton onClick={handleAnimationToggle} />
+      <AnimatePresence>
+        {isFirstClick && (
+          <motion.p
+            className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col w-full text-center"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="font-notosansjp text-pc-[20] mb-pc-[8]">
+              このボタンを押すと、私の自己紹介がスタートします！
+            </span>
+            <em className="text-pc-[36] leading-pc-[48]">
+              Press this button to start
+              <br />
+              my self-introduction!
+            </em>
+          </motion.p>
+        )}
+      </AnimatePresence>
+      <motion.div
+        initial={{ top: "30%", right: "50%", x: "50%", scale: 1.6 }}
+        animate={{
+          top: isFirstClick ? "30%" : "2%",
+          right: isFirstClick ? "50%" : "2%",
+          x: isFirstClick ? "50%" : "0%",
+          scale: isFirstClick ? 1.6 : 1,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 100,
+          damping: 20,
+          mass: 2,
+        }}
+        className="absolute z-50"
+      >
+        <SelfIntroductionTogglePlayButton onClick={handleAnimationToggle} />
+      </motion.div>
     </>
   );
 }

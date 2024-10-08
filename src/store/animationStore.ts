@@ -11,9 +11,7 @@ interface AnimationStore {
   stopAnimation: () => void;
   setCurrentSegment: (segment: AnimationSegment) => void;
   setCurrentWord: (word: string | null) => void;
-  playLottieAnimation: (animationType: string) => void;
-  resetLottieAnimations: () => void;
-  triggerAnimation: (animationType: string) => void; // 追加
+  triggerAnimation: (animationType: string) => void;
 }
 
 export const useAnimationStore = create<AnimationStore>((set) => ({
@@ -25,15 +23,9 @@ export const useAnimationStore = create<AnimationStore>((set) => ({
   stopAnimation: () => set({ isAnimating: false }),
   setCurrentSegment: (segment) => set({ currentSegment: segment }),
   setCurrentWord: (word) => set({ currentWord: word }),
-  playLottieAnimation: (animationType) => {
-    console.log(`Playing Lottie animation: ${animationType}`);
-  },
-  resetLottieAnimations: () => {
-    console.log("Resetting Lottie animations");
-  },
   triggerAnimation: (animationType) =>
     set((state) => ({
       currentWord: animationType,
       animationTrigger: state.animationTrigger + 1,
-    })), // 追加
+    })),
 }));
