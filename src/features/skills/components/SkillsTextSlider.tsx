@@ -64,14 +64,14 @@ export default function SkillsTextSlider() {
             className="absolute w-full h-full flex flex-col"
           >
             <h2 className="flex flex-col border-b border-b-light pb-pc-[46]">
-              <span className="font-notosansjp leading-none text-pc-[12] mb-pc-[4]">
+              <span className="font-notosansjp leading-none text-pc-[10] mb-pc-[4]">
                 {slides[currentIndex].titleJapanese}
               </span>
-              <em className="font-inter leading-none text-pc-[38]">
+              <em className="font-inter leading-none text-pc-[24]">
                 {slides[currentIndex].title}
               </em>
             </h2>
-            <p className="block pt-pc-[80] px-pc-[30] text-pc-[20] leading-pc-[36]">
+            <p className="block pt-pc-[80] px-pc-[30] text-pc-[18] leading-pc-[32]">
               {slides[currentIndex].description}
             </p>
           </motion.div>
