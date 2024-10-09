@@ -33,9 +33,7 @@ export default function SelfIntroductionAnimatedText({
   children,
   animatedWords,
 }: SelfIntroductionAnimatedTextProps) {
-  const [visibleChars, setVisibleChars] = useState(0);
   const [showScrollbar, setShowScrollbar] = useState(false);
-  const [isFirstRender, setIsFirstRender] = useState(true);
   const animationRef = useRef<number | null>(null);
   const lastAnimationTimeRef = useRef<number>(0);
   const animatedWordsRef = useRef(new Map<string, number>());
@@ -43,11 +41,14 @@ export default function SelfIntroductionAnimatedText({
 
   const {
     isAnimating,
+    visibleChars,
     playAnimation,
     stopAnimation,
     setCurrentSegment,
     setCurrentWord,
     triggerAnimation,
+    setVisibleChars,
+    resetAnimation,
   } = useAnimationStore();
 
   useEffect(() => {
@@ -141,6 +142,7 @@ export default function SelfIntroductionAnimatedText({
     stopAnimation,
     setCurrentSegment,
     setCurrentWord,
+    setVisibleChars,
   ]);
 
   useEffect(() => {
@@ -162,13 +164,6 @@ export default function SelfIntroductionAnimatedText({
     };
   }, [isAnimating, animate]);
 
-  const resetAnimation = useCallback(() => {
-    setVisibleChars(0);
-    setShowScrollbar(false);
-    animatedWordsRef.current.clear();
-    setIsFirstRender(true);
-  }, []);
-
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLParagraphElement>(null);
 
@@ -184,6 +179,10 @@ export default function SelfIntroductionAnimatedText({
   }, [visibleChars]);
 
   useEffect(() => {
+    // Reset animation when component mounts
+    resetAnimation();
+
+    // Cleanup function to reset animation when component unmounts
     return () => {
       resetAnimation();
     };
@@ -243,7 +242,6 @@ export default function SelfIntroductionAnimatedText({
       setCurrentSegment("start");
       setCurrentWord(null);
     }
-    setIsFirstRender(false);
   }, [
     isAnimating,
     visibleChars,
@@ -272,7 +270,7 @@ export default function SelfIntroductionAnimatedText({
         </div>
       </div>
       <AnimatePresence>
-        {isFirstRender && (
+        {visibleChars === 0 && (
           <motion.p
             className="absolute top-[46%] left-1/2 -translate-x-1/2 flex flex-col w-full text-center"
             initial={{ opacity: 1 }}
@@ -293,10 +291,10 @@ export default function SelfIntroductionAnimatedText({
       <motion.div
         initial={{ top: "28%", right: "50%", x: "50%", scale: 1.6 }}
         animate={{
-          top: isFirstRender ? "28%" : "2%",
-          right: isFirstRender ? "50%" : "2%",
-          x: isFirstRender ? "50%" : "0%",
-          scale: isFirstRender ? 1.6 : 1,
+          top: visibleChars === 0 ? "28%" : "2%",
+          right: visibleChars === 0 ? "50%" : "2%",
+          x: visibleChars === 0 ? "50%" : "0%",
+          scale: visibleChars === 0 ? 1.6 : 1,
         }}
         transition={{
           type: "spring",

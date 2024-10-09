@@ -6,19 +6,23 @@ interface AnimationStore {
   isAnimating: boolean;
   currentSegment: AnimationSegment;
   currentWord: string | null;
-  animationTrigger: number; // 追加
+  animationTrigger: number;
+  visibleChars: number;
   playAnimation: () => void;
   stopAnimation: () => void;
   setCurrentSegment: (segment: AnimationSegment) => void;
   setCurrentWord: (word: string | null) => void;
   triggerAnimation: (animationType: string) => void;
+  setVisibleChars: (chars: number) => void;
+  resetAnimation: () => void;
 }
 
 export const useAnimationStore = create<AnimationStore>((set) => ({
   isAnimating: false,
   currentSegment: "start",
   currentWord: null,
-  animationTrigger: 0, // 追加
+  animationTrigger: 0,
+  visibleChars: 0,
   playAnimation: () => set({ isAnimating: true }),
   stopAnimation: () => set({ isAnimating: false }),
   setCurrentSegment: (segment) => set({ currentSegment: segment }),
@@ -28,4 +32,13 @@ export const useAnimationStore = create<AnimationStore>((set) => ({
       currentWord: animationType,
       animationTrigger: state.animationTrigger + 1,
     })),
+  setVisibleChars: (chars) => set({ visibleChars: chars }),
+  resetAnimation: () =>
+    set({
+      isAnimating: false,
+      currentSegment: "start",
+      currentWord: null,
+      visibleChars: 0,
+      animationTrigger: 0,
+    }),
 }));
