@@ -12,7 +12,7 @@ import { useAnimationStore } from "@/store/animationStore";
 import SelfIntroductionTogglePlayButton from "./SelfIntroductionTogglePlayButton";
 
 const ANIMATION_SPEED = 10;
-const SCROLL_DELAY = 1000; // スクロールバーを表示するまでの遅延（ミリ秒）
+const SCROLL_DELAY = 1000;
 
 interface SelfIntroductionAnimatedTextProps {
   children: ReactNode;
@@ -35,7 +35,7 @@ export default function SelfIntroductionAnimatedText({
 }: SelfIntroductionAnimatedTextProps) {
   const [visibleChars, setVisibleChars] = useState(0);
   const [showScrollbar, setShowScrollbar] = useState(false);
-  const [isFirstClick, setIsFirstClick] = useState(true);
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const animationRef = useRef<number | null>(null);
   const lastAnimationTimeRef = useRef<number>(0);
   const animatedWordsRef = useRef(new Map<string, number>());
@@ -101,7 +101,7 @@ export default function SelfIntroductionAnimatedText({
           (word) => word.text === item.content,
         );
         if (animatedWord) {
-          triggerAnimation(animatedWord.animationType); // setCurrentWord の代わりに triggerAnimation を使用
+          triggerAnimation(animatedWord.animationType);
         }
       }
     },
@@ -166,6 +166,7 @@ export default function SelfIntroductionAnimatedText({
     setVisibleChars(0);
     setShowScrollbar(false);
     animatedWordsRef.current.clear();
+    setIsFirstRender(true);
   }, []);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -181,6 +182,12 @@ export default function SelfIntroductionAnimatedText({
       }
     }
   }, [visibleChars]);
+
+  useEffect(() => {
+    return () => {
+      resetAnimation();
+    };
+  }, [resetAnimation]);
 
   const renderContent = useCallback(() => {
     return flattenedContentRef.current
@@ -236,13 +243,10 @@ export default function SelfIntroductionAnimatedText({
       setCurrentSegment("start");
       setCurrentWord(null);
     }
-    if (isFirstClick) {
-      setIsFirstClick(false);
-    }
+    setIsFirstRender(false);
   }, [
     isAnimating,
     visibleChars,
-    isFirstClick,
     resetAnimation,
     stopAnimation,
     playAnimation,
@@ -268,7 +272,7 @@ export default function SelfIntroductionAnimatedText({
         </div>
       </div>
       <AnimatePresence>
-        {isFirstClick && (
+        {isFirstRender && (
           <motion.p
             className="absolute top-[46%] left-1/2 -translate-x-1/2 flex flex-col w-full text-center"
             initial={{ opacity: 1 }}
@@ -289,10 +293,10 @@ export default function SelfIntroductionAnimatedText({
       <motion.div
         initial={{ top: "28%", right: "50%", x: "50%", scale: 1.6 }}
         animate={{
-          top: isFirstClick ? "28%" : "2%",
-          right: isFirstClick ? "50%" : "2%",
-          x: isFirstClick ? "50%" : "0%",
-          scale: isFirstClick ? 1.6 : 1,
+          top: isFirstRender ? "28%" : "2%",
+          right: isFirstRender ? "50%" : "2%",
+          x: isFirstRender ? "50%" : "0%",
+          scale: isFirstRender ? 1.6 : 1,
         }}
         transition={{
           type: "spring",
