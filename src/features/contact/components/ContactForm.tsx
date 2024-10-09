@@ -1,17 +1,28 @@
 "use client";
-import React, { useState } from "react";
+
+import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 
+type FormInputs = {
+  name: string;
+  email: string;
+  message: string;
+  category: "FRONTEND" | "DESIGN" | "OTHER";
+};
+
 export default function ContactForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormInputs>();
   const [status, setStatus] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     if (!isChecked) {
       setStatus("Please agree to the terms of service.");
       return;
@@ -21,13 +32,11 @@ export default function ContactForm() {
       const response = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify(data),
       });
       if (response.ok) {
         setStatus("Message sent successfully");
-        setName("");
-        setEmail("");
-        setMessage("");
+        reset();
         setIsChecked(false);
       } else {
         setStatus("Failed to send message. Please try again.");
@@ -40,40 +49,98 @@ export default function ContactForm() {
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   return (
-    <form onSubmit={handleSubmit} className="relative">
+    <form onSubmit={handleSubmit(onSubmit)} className="relative">
       <div className="mb-4">
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name" className="block mb-2">
+          Name
+        </label>
         <input
-          className="border border-foreground rounded-md py-2 px-4 w-full"
-          type="text"
           id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+          className="border border-foreground rounded-md py-2 px-4 w-full"
+          {...register("name", { required: "Name is required" })}
         />
+        {errors.name && (
+          <p className="text-red-500 mt-1">{errors.name.message}</p>
+        )}
       </div>
+
       <div className="mb-4">
-        <label htmlFor="email">E-Mail</label>
+        <label htmlFor="email" className="block mb-2">
+          E-Mail
+        </label>
         <input
-          className="border border-foreground rounded-md py-2 px-4 w-full"
-          type="email"
           id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="message">Message</label>
-        <textarea
           className="border border-foreground rounded-md py-2 px-4 w-full"
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Invalid email address",
+            },
+          })}
+        />
+        {errors.email && (
+          <p className="text-red-500 mt-1">{errors.email.message}</p>
+        )}
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="message" className="block mb-2">
+          Message
+        </label>
+        <textarea
           id="message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
+          className="border border-foreground rounded-md py-2 px-4 w-full"
+          {...register("message", { required: "Message is required" })}
           rows={4}
         ></textarea>
+        {errors.message && (
+          <p className="text-red-500 mt-1">{errors.message.message}</p>
+        )}
       </div>
+
+      <div className="mb-4">
+        <label className="block mb-2">Category</label>
+        <div className="flex gap-4">
+          <label className="flex items-center">
+            <input
+              type="radio"
+              value="FRONTEND"
+              {...register("category", {
+                required: "Please select a category",
+              })}
+              className="mr-2"
+            />
+            FRONTEND
+          </label>
+          <label className="flex items-center">
+            <input
+              type="radio"
+              value="DESIGN"
+              {...register("category", {
+                required: "Please select a category",
+              })}
+              className="mr-2"
+            />
+            DESIGN
+          </label>
+          <label className="flex items-center">
+            <input
+              type="radio"
+              value="OTHER"
+              {...register("category", {
+                required: "Please select a category",
+              })}
+              className="mr-2"
+            />
+            OTHER
+          </label>
+        </div>
+        {errors.category && (
+          <p className="text-red-500 mt-1">{errors.category.message}</p>
+        )}
+      </div>
+
       <div className="mb-4 flex items-center">
         <input
           type="checkbox"
@@ -93,12 +160,14 @@ export default function ContactForm() {
           </button>
         </label>
       </div>
+
       <button
         type="submit"
         className="bg-primary rounded-md text-white py-2 px-4"
       >
         Send Message
       </button>
+
       {status && <p className="mt-4">{status}</p>}
 
       <AnimatePresence>
