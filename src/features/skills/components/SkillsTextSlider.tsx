@@ -101,7 +101,7 @@ export default function SkillsTextSlider() {
 
   return (
     <div className="flex h-full relative">
-      <div className="w-full relative overflow-y-auto overflow-x-hidden custom-scrollbar flex items-center justify-center">
+      <div className="w-full relative overflow-y-auto overflow-x-hidden hide-scrollbar flex items-center justify-center">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentIndex}
