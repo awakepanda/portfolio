@@ -7,7 +7,13 @@ interface WeatherData {
   weather: Array<{ main: string }>;
 }
 
-type AppType = "weather" | "chatbot" | "calculator" | null;
+type AppType =
+  | "weather"
+  | "chatbot"
+  | "calculator"
+  | "recipe"
+  | "template"
+  | null;
 
 interface ProjectsStore {
   weather: WeatherData | null;

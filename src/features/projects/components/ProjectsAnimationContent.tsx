@@ -6,6 +6,8 @@ import WeatherApp from "./apps/weather/WeatherApp";
 import ProjectsDefaultCard from "./ProjectsDefaultCard";
 import ChatbotApp from "./apps/chatbot/ChatbotApp";
 import CalculatorApp from "./apps/calculator/CalculatorApp";
+import TemplateApp from "./apps/template/TemplateApp";
+import RecipeApp from "./apps/recipe/RecipeApp";
 
 export default function ProjectsAnimationContent() {
   const { activeApp, resetAppState } = useProjectsStore();
@@ -22,6 +24,10 @@ export default function ProjectsAnimationContent() {
         return <ChatbotApp />;
       case "calculator":
         return <CalculatorApp />;
+      case "recipe":
+        return <RecipeApp />;
+      case "template":
+        return <TemplateApp />;
       default:
         return <ProjectsDefaultCard />;
     }
