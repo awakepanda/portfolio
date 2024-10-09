@@ -107,10 +107,10 @@ export const ANIMATION_POSITIONS: AnimationPosition = {
     cat: { top: 220, left: 126 },
   },
   sp: {
-    hand: { top: 78, right: 70 },
-    pen: { bottom: 80, right: 32 },
-    code: { bottom: 82, left: 70 },
-    cat: { top: 84, left: 30 },
+    hand: { top: 58, right: 70 },
+    pen: { bottom: 60, right: 32 },
+    code: { bottom: 62, left: 70 },
+    cat: { top: 64, left: 30 },
   },
 };
 

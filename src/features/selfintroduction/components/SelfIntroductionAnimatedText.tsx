@@ -270,15 +270,15 @@ export default function SelfIntroductionAnimatedText({
       <AnimatePresence>
         {isFirstClick && (
           <motion.p
-            className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col w-full text-center"
+            className="absolute top-[46%] left-1/2 -translate-x-1/2 flex flex-col w-full text-center"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="font-notosansjp text-pc-[20] mb-pc-[8]">
+            <span className="font-notosansjp text-sp-[12] mb-sp-[4] md:text-tablet-[18] md:mb-tablet-[8] lg:text-pc-[18] lg:mb-pc-[8]">
               このボタンを押すと、私の自己紹介がスタートします！
             </span>
-            <em className="text-pc-[36] leading-pc-[48]">
+            <em className="text-sp-[20] leading-sp-[26] md:text-tablet-[32] md:leading-tablet-[40] lg:text-pc-[32] lg:leading-pc-[40]">
               Press this button to start
               <br />
               my self-introduction!
@@ -287,9 +287,9 @@ export default function SelfIntroductionAnimatedText({
         )}
       </AnimatePresence>
       <motion.div
-        initial={{ top: "30%", right: "50%", x: "50%", scale: 1.6 }}
+        initial={{ top: "28%", right: "50%", x: "50%", scale: 1.6 }}
         animate={{
-          top: isFirstClick ? "30%" : "2%",
+          top: isFirstClick ? "28%" : "2%",
           right: isFirstClick ? "50%" : "2%",
           x: isFirstClick ? "50%" : "0%",
           scale: isFirstClick ? 1.6 : 1,
