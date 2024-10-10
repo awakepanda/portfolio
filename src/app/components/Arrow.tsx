@@ -3,8 +3,8 @@ type ArrowStyleType = "default" | "left" | "right";
 const ARROW_STYLES: Record<ArrowStyleType, string> = {
   default:
     "absolute rotate-[225deg] w-sp-[16] t-sp-[14] l-sp-[8] md:w-tablet-[24] md:t-tablet-[20] md:l-tablet-[18] lg:w-pc-[44] lg:t-pc-[30] lg:l-pc-[30]",
-  left: "w-pc-[30]",
-  right: "w-pc-[30] rotate-180",
+  left: "w-sp-[20] md:w-tablet-[30] lg:w-pc-[30]",
+  right: "w-sp-[20] md:w-tablet-[30] lg:w-pc-[30] rotate-180",
 };
 
 interface ArrowProps {

@@ -16,7 +16,7 @@ export default function SkillsAnimationContent() {
   return (
     <div className="relative w-full h-full flex justify-center items-center">
       <motion.div
-        className="absolute t-pc-[170] l-pc-[160] w-pc-[80] origin-center"
+        className="absolute t-sp-[40] l-sp-[70] w-sp-[52] md:t-tablet-[104] md:l-tablet-[180] md:w-tablet-[96] lg:t-pc-[170] lg:l-pc-[160] lg:w-pc-[80] origin-center"
         animate={{ scale: [0, 1, 1, 0], rotate: [0, 360, 360, 0] }}
         transition={{
           duration: 10.5,
@@ -28,7 +28,7 @@ export default function SkillsAnimationContent() {
         <VercelIcon />
       </motion.div>
       <motion.div
-        className="absolute t-pc-[160] r-pc-[180] w-pc-[90]"
+        className="absolute t-sp-[30] r-sp-[76] w-sp-[58] md:t-tablet-[90] md:r-tablet-[200] md:w-tablet-[104] lg:t-pc-[160] lg:r-pc-[180] lg:w-pc-[90]"
         animate={{ rotateY: [0, 360, 360] }}
         transition={{
           duration: 10.5,
@@ -40,7 +40,7 @@ export default function SkillsAnimationContent() {
         <GitHubIcon />
       </motion.div>
       <motion.div
-        className="absolute b-pc-[246] r-pc-[130] w-pc-[60] origin-center"
+        className="absolute b-sp-[96] r-sp-[40] w-sp-[40] md:b-tablet-[140] md:r-tablet-[160] md:w-tablet-[70] lg:b-pc-[246] lg:r-pc-[130] lg:w-pc-[60]"
         animate={{ rotateX: [0, 0, 0, 360, 360] }}
         transition={{
           duration: 10.5,
@@ -52,7 +52,7 @@ export default function SkillsAnimationContent() {
         <FigmaIcon />
       </motion.div>
       <motion.div
-        className="absolute b-pc-[120] w-pc-[80] origin-center"
+        className="absolute b-sp-[30] w-sp-[50] md:b-tablet-[60] md:w-tablet-[80] lg:b-pc-[120] lg:w-pc-[80]"
         initial={{ left: "50%", x: "-50%" }}
         animate={{ scale: [1, 1.4, 1, 1], rotate: [0, 360, 0, 0] }}
         transition={{
@@ -65,7 +65,7 @@ export default function SkillsAnimationContent() {
         <AdobeIcon />
       </motion.div>
       <motion.div
-        className="absolute b-pc-[230] l-pc-[120] w-pc-[96] origin-center"
+        className="absolute b-sp-[94] l-sp-[28] w-sp-[64] md:b-tablet-[150] md:l-tablet-[134] md:w-tablet-[114] lg:b-pc-[230] lg:l-pc-[120] lg:w-pc-[96]"
         animate={{ rotate: 360 }}
         transition={{
           duration: 6,
