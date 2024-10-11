@@ -39,7 +39,7 @@ export default function SelfIntroductionTogglePlayButton({
 
   return (
     <button
-      className="w-sp-[34] md:w-tablet-[42] lg:w-pc-[46]"
+      className="w-sp-[34] md:w-tablet-[42] lg:w-pc-[46] lg:transition-all lg:hover:opacity-80"
       onClick={handleClick}
     >
       <Lottie

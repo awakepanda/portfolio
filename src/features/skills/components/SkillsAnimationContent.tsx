@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   AdobeIcon,
   FigmaIcon,
@@ -78,20 +78,28 @@ export default function SkillsAnimationContent() {
       >
         <ReactIcon />
       </motion.div>
-      <div className="relative w-sp-[172] md:w-tablet-[272] lg:w-pc-[316]">
-        <Lottie
-          animationData={lipSyncAnimationData}
-          className="lottie-color-modifier w-full h-full"
-          autoplay={false}
-          loop={false}
-        />
-        <Lottie
-          animationData={blinkAnimationData}
-          className="lottie-color-modifier absolute transform -translate-x-1/2 left-1/2 w-sp-[38.5] t-sp-[60] md:w-tablet-[60] md:t-tablet-[96] lg:w-pc-[70] lg:t-pc-[111]"
-          autoplay={true}
-          loop={true}
-        />
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          className="relative w-sp-[172] md:w-tablet-[272] lg:w-pc-[316]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Lottie
+            animationData={lipSyncAnimationData}
+            className="lottie-color-modifier w-full h-full"
+            autoplay={false}
+            loop={false}
+          />
+          <Lottie
+            animationData={blinkAnimationData}
+            className="lottie-color-modifier absolute transform -translate-x-1/2 left-1/2 w-sp-[38.5] t-sp-[60] md:w-tablet-[60] md:t-tablet-[96] lg:w-pc-[70] lg:t-pc-[111]"
+            autoplay={true}
+            loop={true}
+          />
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
