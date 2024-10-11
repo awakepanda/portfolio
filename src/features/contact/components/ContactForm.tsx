@@ -130,6 +130,7 @@ export default function ContactForm() {
           </h2>
           <input
             id="name"
+            autoComplete="name"
             className="appearance-none focus:outline-none bg-muted w-full text-foreground rounded-pc-[8] py-pc-[16] px-pc-[24] text-pc-[16]"
             {...register("name", { required: "お名前を入力してください" })}
           />
@@ -148,6 +149,7 @@ export default function ContactForm() {
           </h2>
           <input
             id="email"
+            autoComplete="email"
             className="appearance-none focus:outline-none bg-muted w-full text-foreground rounded-pc-[8] py-pc-[16] px-pc-[24] text-pc-[16]"
             {...register("email", {
               required: "メールアドレスを入力してください",
@@ -186,12 +188,12 @@ export default function ContactForm() {
               id="agree"
               checked={isChecked}
               onChange={() => setIsChecked(!isChecked)}
-              className="appearance-none peer bg-muted rounded-pc-[4] w-pc-[18] h-pc-[18]"
+              className="appearance-none peer bg-muted rounded-pc-[4] w-pc-[18] lg:h-pc-[18]"
             />
             <div className="peer-checked:before:content-[''] peer-checked:before:absolute peer-checked:before:border-foreground peer-checked:before:rounded-sm peer-checked:before:rotate-[40deg] peer-checked:before:t-pc-[2] peer-checked:before:l-pc-[5] peer-checked:before:w-pc-[7] peer-checked:before:h-pc-[12] peer-checked:before:border-b peer-checked:before:border-r peer-checked:before:border-b-[3px] peer-checked:before:border-r-[3px]"></div>
           </div>
           <label
-            className="text-primary font-notosansjp text-pc-[12]"
+            className="text-primary font-notosansjp text-sp-[14] md:text-tablet-[14] lg:text-pc-[14]"
             htmlFor="agree"
           >
             <button type="button" onClick={toggleModal} className="underline">
