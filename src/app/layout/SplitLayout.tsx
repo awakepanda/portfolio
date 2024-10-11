@@ -23,7 +23,7 @@ export default function SplitLayout({
         <Scrolltext />
       </div>
       <div className="w-full bg-muted overflow-hidden h-sp-vh-[415] md:h-tablet-vh-[664] lg:h-screen lg:w-pc-[848]">
-        <div className="absolute top-0 right-0 w-full lg:flex lg:justify-between lg:items-center lg:relative lg:h-pc-[132] lg:top-auto lg:right-auto lg:border-b-light lg:border-b">
+        <div className="absolute top-0 right-0 w-full h-sp-[200] overflow-hidden lg:flex lg:justify-between lg:items-center lg:relative lg:h-pc-[132] lg:top-auto lg:right-auto lg:border-b-light lg:border-b">
           <Navigation />
           <ThemeToggle />
         </div>

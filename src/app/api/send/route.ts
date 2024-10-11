@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     const [adminEmailData, autoReplyData] = await Promise.all([
       // 管理者向けメール送信
       resend.emails.send({
-        from: "Maeno Shingo Portfolio <onboarding@resend.dev>",
+        from: "Maeno Shingo Portfolio <contact@maenoshingo.work>",
         to: "coloponpan@gmail.com",
         subject: `新しい問い合わせ - ${topics}`,
         text: `名前: ${name}\nメールアドレス: ${email}\nトピック: ${topics}\nメッセージ: ${message}`,
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
       // ユーザー向け自動返信メール送信
       resend.emails.send({
-        from: "Maeno Shingo Portfolio <onboarding@resend.dev>",
+        from: "Maeno Shingo Portfolio <contact@maenoshingo.work>",
         to: email,
         subject: "お問い合わせありがとうございます",
         text: `

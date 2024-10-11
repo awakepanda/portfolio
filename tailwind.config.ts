@@ -107,6 +107,7 @@ const config: Config = {
         },
       },
       fill: {
+        foreground: "hsl(var(--foreground))",
         illust: {
           DEFAULT: "hsl(var(--illust) / <alpha-value>)",
           foreground: "hsl(var(--illust-foreground) / <alpha-value>)",

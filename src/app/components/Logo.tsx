@@ -1,6 +1,6 @@
 export default function Logo() {
   return (
-    <div className="absolute t-sp-[22] l-sp-[18] w-sp-[188] md:t-tablet-[38] md:l-tablet-[36] md:w-tablet-[322] lg:l-pc-[42] lg:t-pc-[49] lg:w-pc-[340]">
+    <div className="absolute z-50 t-sp-[22] l-sp-[18] w-sp-[188] md:t-tablet-[38] md:l-tablet-[36] md:w-tablet-[322] lg:l-pc-[42] lg:t-pc-[49] lg:w-pc-[340]">
       <svg
         className="w-full h-full"
         viewBox="0 0 354 28"
