@@ -98,7 +98,7 @@ export default function WeatherApp() {
 
   return (
     <div
-      className="w-full h-full flex justify-center pt-pc-[130] pb-pc-[80]"
+      className="w-full h-full flex justify-center pt-sp-[40] pb-sp-[40] md:pt-tablet-[130] md:pb-tablet-[80] lg:pt-pc-[130] lg:pb-pc-[80]"
       style={{ perspective: "1000px" }}
     >
       <AnimatePresence mode="wait">

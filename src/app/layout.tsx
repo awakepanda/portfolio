@@ -27,7 +27,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" suppressHydrationWarning>
-      <body className={`${inter.variable} ${notosansjp.variable}`}>
+      <body
+        className={`overflow-hidden h-screen ${inter.variable} ${notosansjp.variable}`}
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>

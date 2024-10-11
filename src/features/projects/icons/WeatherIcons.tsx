@@ -1,6 +1,6 @@
 export const ClearIcon = () => {
   return (
-    <div className="w-pc-[144]">
+    <div className="w-sp-[80] md:w-tablet-[150] lg:lg:w-pc-[144]">
       <svg
         className="fill-illust"
         viewBox="0 0 177 177"
@@ -15,7 +15,7 @@ export const ClearIcon = () => {
 
 export const CloudyIcon = () => {
   return (
-    <div className="w-pc-[144]">
+    <div className="w-sp-[80] md:w-tablet-[150] lg:w-pc-[144]">
       <svg
         className="fill-illust"
         viewBox="0 0 177 123"
@@ -30,7 +30,7 @@ export const CloudyIcon = () => {
 
 export const RainyIcon = () => {
   return (
-    <div className="w-pc-[144]">
+    <div className="w-sp-[80] md:w-tablet-[150] lg:w-pc-[144]">
       <svg
         className="fill-illust"
         viewBox="0 0 165 159"
@@ -45,7 +45,7 @@ export const RainyIcon = () => {
 
 export const StormyIcon = () => {
   return (
-    <div className="w-pc-[144]">
+    <div className="w-sp-[80] md:w-tablet-[150] lg:w-pc-[144]">
       <svg
         className="fill-illust"
         viewBox="0 0 158 156"
@@ -60,7 +60,7 @@ export const StormyIcon = () => {
 
 export const SnowyIcon = () => {
   return (
-    <div className="w-pc-[144]">
+    <div className="w-sp-[80] md:w-tablet-[150] lg:w-pc-[144]">
       <svg
         className="fill-illust"
         viewBox="0 0 162 156"
@@ -75,7 +75,7 @@ export const SnowyIcon = () => {
 
 export const FoggyIcon = () => {
   return (
-    <div className="w-pc-[144]">
+    <div className="w-sp-[80] md:w-tablet-[150] lg:w-pc-[144]">
       <svg
         className="fill-illust"
         viewBox="0 0 169 119"
@@ -90,7 +90,7 @@ export const FoggyIcon = () => {
 
 export const WindyIcon = () => {
   return (
-    <div className="w-pc-[144]">
+    <div className="w-sp-[80] md:w-tablet-[150] lg:w-pc-[144]">
       <svg
         className="fill-illust"
         viewBox="0 0 187 66"
@@ -105,7 +105,7 @@ export const WindyIcon = () => {
 
 export const AlienIcon = () => {
   return (
-    <div className="w-pc-[144]">
+    <div className="w-sp-[80] md:w-tablet-[150] lg:w-pc-[144]">
       <svg
         className="fill-illust"
         viewBox="0 0 97 113"
