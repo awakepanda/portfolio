@@ -30,7 +30,7 @@ export default function Navigation() {
                 } block transition ease-in-out lg:hover:text-foreground lg:[&>div>span]:hover:bg-foreground lg:[&>div>span>span]:hover:absolute lg:[&>div>span>span]:hover:translate-x-6 lg:[&>div>span:before]:hover:-translate-x-0`}
                 href={item.path}
               >
-                <div className="flex items-center">
+                <div className="flex items-center lg:mb-pc-[6]">
                   <span
                     className={`${
                       item.isActive ? "bg-foreground" : "bg-light"
