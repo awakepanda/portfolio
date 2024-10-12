@@ -20,6 +20,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Maeno Shingo Work",
   description: "Maeno Shingo's Portofolio",
+  icons: {
+    icon: [
+      {
+        url: "/icon.svg",
+        type: "image/svg+xml",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -29,9 +37,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" suppressHydrationWarning>
-      <head>
-        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-      </head>
       <body
         className={`w-full overflow-hidden h-screen h-svh ${inter.variable} ${notosansjp.variable}`}
       >
