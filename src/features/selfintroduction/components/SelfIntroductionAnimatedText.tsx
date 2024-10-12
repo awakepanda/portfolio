@@ -36,7 +36,6 @@ export default function SelfIntroductionAnimatedText({
   const [showScrollbar, setShowScrollbar] = useState(false);
   const animationRef = useRef<number | null>(null);
   const lastAnimationTimeRef = useRef<number>(0);
-  const animatedWordsRef = useRef(new Map<string, number>());
   const flattenedContentRef = useRef<ProcessedContent[]>([]);
 
   const {
@@ -252,6 +251,30 @@ export default function SelfIntroductionAnimatedText({
     setCurrentWord,
   ]);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  console.log(isMobile);
+
+  const getTopPosition = () => {
+    if (visibleChars === 0 && !isMobile) {
+      return "28%";
+    } else if (isMobile) {
+      return "18%";
+    } else {
+      return "2%";
+    }
+  };
+
   return (
     <>
       <div className="relative h-full">
@@ -263,7 +286,7 @@ export default function SelfIntroductionAnimatedText({
         >
           <p
             ref={contentRef}
-            className="text-primary text-sp-[16] leading-sp-[32] md:text-tablet-[20] md:leading-tablet-[40] lg:text-pc-[20] lg:leading-pc-[40]"
+            className="text-primary text-sp-[14] leading-sp-[26] md:text-tablet-[20] md:leading-tablet-[40] lg:text-pc-[20] lg:leading-pc-[40]"
           >
             {renderContent()}
           </p>
@@ -272,15 +295,15 @@ export default function SelfIntroductionAnimatedText({
       <AnimatePresence>
         {visibleChars === 0 && (
           <motion.p
-            className="absolute top-[46%] left-1/2 -translate-x-1/2 flex flex-col w-full text-center text-primary"
+            className="absolute top-[40%] md:top-[46%] lg:top-[46%] left-1/2 -translate-x-1/2 flex flex-col w-full text-center text-primary"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="font-notosansjp text-sp-[12] mb-sp-[4] md:text-tablet-[18] md:mb-tablet-[8] lg:text-pc-[18] lg:mb-pc-[8]">
+            <span className="font-notosansjp text-sp-[12] mb-sp-[2] md:text-tablet-[18] md:mb-tablet-[8] lg:text-pc-[18] lg:mb-pc-[8]">
               このボタンを押すと、私の自己紹介がスタートします！
             </span>
-            <em className="text-sp-[20] leading-sp-[26] md:text-tablet-[32] md:leading-tablet-[40] lg:text-pc-[32] lg:leading-pc-[40]">
+            <em className="text-sp-[18] leading-sp-[22] md:text-tablet-[32] md:leading-tablet-[40] lg:text-pc-[32] lg:leading-pc-[40]">
               Press this button to start
               <br />
               my self-introduction!
@@ -291,7 +314,7 @@ export default function SelfIntroductionAnimatedText({
       <motion.div
         initial={{ top: "28%", right: "50%", x: "50%", scale: 1.6 }}
         animate={{
-          top: visibleChars === 0 ? "28%" : "2%",
+          top: getTopPosition(),
           right: visibleChars === 0 ? "50%" : "2%",
           x: visibleChars === 0 ? "50%" : "0%",
           scale: visibleChars === 0 ? 1.6 : 1,
