@@ -33,7 +33,7 @@ export default function ContactAnimationBackgroundText() {
 
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      <p className="w-full font-medium text-center opacity-60 text-sp-[40] leading-sp-[60] px-sp-[30] md:text-tablet-[90] md:leading-tablet-[100] md:px-tablet-[30] lg:text-pc-[100] lg:leading-pc-[120] lg:px-pc-[30]">
+      <p className="w-full font-medium text-center opacity-60 text-sp-[40] leading-sp-[48] px-sp-[30] md:text-tablet-[90] md:leading-tablet-[100] md:px-tablet-[30] lg:text-pc-[100] lg:leading-pc-[120] lg:px-pc-[30]">
         {textLines.map((line, lineIndex) => (
           <React.Fragment key={lineIndex}>
             {line.split("").map((char, charIndex) => {

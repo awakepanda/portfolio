@@ -29,7 +29,7 @@ export default function ProjectsButtonContent() {
           <button
             onClick={() => handleAppToggle("weather")}
             disabled={activeApp === "weather"}
-            className={`flex justify-center items-center rounded-full text-white w-full text-sp-[12] h-sp-[60] md:h-auto md:py-tablet-[20] md:text-tablet-[14] lg:py-pc-[20] lg:text-pc-[12] ${
+            className={`flex justify-center items-center rounded-full text-white w-full text-sp-[12] leading-sp-[14] h-sp-[50] md:leading-none md:h-auto md:py-tablet-[20] md:text-tablet-[14] lg:py-pc-[20] lg:text-pc-[12] ${
               activeApp === "weather"
                 ? "bg-accent cursor-not-allowed"
                 : "bg-primary hover:bg-accent transition-all"
@@ -41,7 +41,7 @@ export default function ProjectsButtonContent() {
           <button
             onClick={() => handleAppToggle("chatbot")}
             disabled={activeApp === "chatbot"}
-            className={`flex justify-center items-center rounded-full text-white w-full text-sp-[12] h-sp-[60] md:h-auto md:py-tablet-[20] md:text-tablet-[14] lg:py-pc-[20] lg:text-pc-[12] ${
+            className={`flex justify-center items-center rounded-full text-white w-full text-sp-[12] h-sp-[50] md:h-auto md:py-tablet-[20] md:text-tablet-[14] lg:py-pc-[20] lg:text-pc-[12] ${
               activeApp === "chatbot"
                 ? "bg-accent cursor-not-allowed"
                 : "bg-primary hover:bg-accent transition-all"
@@ -52,7 +52,7 @@ export default function ProjectsButtonContent() {
           <button
             onClick={() => handleAppToggle("calculator")}
             disabled={activeApp === "calculator"}
-            className={`flex justify-center items-center rounded-full text-white w-full text-sp-[12] h-sp-[60] md:h-auto md:py-tablet-[20] md:text-tablet-[14] lg:py-pc-[20] lg:text-pc-[12] ${
+            className={`flex justify-center items-center rounded-full text-white w-full text-sp-[12] h-sp-[50] md:h-auto md:py-tablet-[20] md:text-tablet-[14] lg:py-pc-[20] lg:text-pc-[12] ${
               activeApp === "calculator"
                 ? "bg-accent cursor-not-allowed"
                 : "bg-primary hover:bg-accent transition-all"

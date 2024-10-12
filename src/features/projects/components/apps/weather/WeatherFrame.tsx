@@ -46,8 +46,8 @@ export default function WeatherFrame({
         <>
           <div className="flex flex-col items-center md:flex-row lg:flex-col">
             <WeatherIcon />
-            <div className="ml-0 flex flex-col items-center mb-sp-[20] ml-0 md:mb-tablet-[30] md:ml-tablet-[50] lg:m-0">
-              <p className="text-illust font-inter font-medium leading-none mt-sp-[10] text-sp-[50] md:mt-0 md:text-tablet-[126] lg:mt-pc-[24] lg:text-pc-[110]">
+            <div className="ml-0 flex flex-col items-center mb-sp-[8] ml-0 md:mb-tablet-[30] md:ml-tablet-[50] lg:m-0">
+              <p className="text-illust font-inter font-medium leading-none mt-sp-[8] text-sp-[40] md:mt-0 md:text-tablet-[126] lg:mt-pc-[24] lg:text-pc-[110]">
                 {displayedWeather.temp}°C
               </p>
               <p className="flex items-center text-illust font-inter tracking-wide leading-none mt-sp-[4] text-sp-[14] md:mt-tablet-[12] md:text-tablet-[32] lg:mt-pc-[12] lg:text-pc-[30]">
@@ -78,7 +78,7 @@ export default function WeatherFrame({
       onUpdate={handleAnimationUpdate}
       onAnimationComplete={handleAnimationComplete}
       style={{ transformStyle: "preserve-3d" }}
-      className="border-4 border-illust bg-background rounded-sp-[24] w-sp-[300] md:rounded-tablet-[32] md:w-tablet-[760] lg:rounded-pc-[32] lg:w-pc-[660]"
+      className="border-illust bg-background border-2 rounded-sp-[24] w-sp-[300] md:border-4 md:rounded-tablet-[32] md:w-tablet-[760] lg:rounded-pc-[32] lg:w-pc-[660]"
     >
       <motion.div
         className="w-full h-full"

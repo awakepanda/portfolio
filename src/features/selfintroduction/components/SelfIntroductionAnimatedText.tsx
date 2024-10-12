@@ -263,17 +263,12 @@ export default function SelfIntroductionAnimatedText({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  console.log(isMobile);
-
-  const getTopPosition = () => {
-    if (visibleChars === 0 && !isMobile) {
-      return "28%";
-    } else if (isMobile) {
-      return "18%";
-    } else {
-      return "2%";
+  const getTopPosition = useCallback(() => {
+    if (visibleChars === 0) {
+      return isMobile ? "18%" : "28%";
     }
-  };
+    return "2%";
+  }, [visibleChars, isMobile]);
 
   return (
     <>
@@ -312,7 +307,12 @@ export default function SelfIntroductionAnimatedText({
         )}
       </AnimatePresence>
       <motion.div
-        initial={{ top: "28%", right: "50%", x: "50%", scale: 1.6 }}
+        initial={{
+          top: isMobile ? "18%" : "28%",
+          right: "50%",
+          x: "50%",
+          scale: 1.6,
+        }}
         animate={{
           top: getTopPosition(),
           right: visibleChars === 0 ? "50%" : "2%",

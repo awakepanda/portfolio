@@ -198,7 +198,7 @@ export default function SelfIntroductionAnimationContent() {
           damping: 20,
           mass: 2,
         }}
-        className="absolute w-sp-[172] md:w-tablet-[272] lg:w-pc-[316]"
+        className="absolute w-sp-[150] md:w-tablet-[272] lg:w-pc-[316]"
         onAnimationComplete={handleOpeningAnimationComplete}
       >
         {FACE_ANIMATION_OBJECT.map((obj) => (

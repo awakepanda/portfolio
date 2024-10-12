@@ -111,7 +111,7 @@ export default function SkillsTextSlider() {
             animate="center"
             exit="exit"
             transition={{ duration: 0.5 }}
-            className="absolute w-full h-full flex flex-col text-primary"
+            className="absolute w-full h-full flex flex-col text-primary px-sp-[10] md:px-0"
           >
             <h2 className="flex flex-col border-b border-b-light pb-sp-[18] md:pb-tablet-[20] lg:pb-pc-[30]">
               <span className="font-notosansjp leading-none text-sp-[12] mb-sp-[6] md:text-tablet-[10] md:mb-tablet-[4] lg:text-pc-[10] lg:mb-pc-[4]">

@@ -124,6 +124,6 @@ export const FACE_ANIMATION_OBJECT: FaceAnimationObject[] = [
     name: "blink",
     animationData: blinkAnimationData,
     className:
-      "lottie-color-modifier absolute transform -translate-x-1/2 left-1/2 w-sp-[38.5] t-sp-[60] md:w-tablet-[60] md:t-tablet-[96] lg:w-pc-[70] lg:t-pc-[111]",
+      "lottie-color-modifier absolute transform -translate-x-1/2 left-1/2 w-sp-[33] t-sp-[52] md:w-tablet-[60] md:t-tablet-[96] lg:w-pc-[70] lg:t-pc-[111]",
   },
 ];
