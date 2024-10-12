@@ -126,7 +126,7 @@ export default function ContactForm() {
             ))}
           </div>
           {errors.topics && (
-            <p className="text-red-500 md:text-tablet-[12] md:mt-tablet-[10] lg:text-pc-[12] lg:mt-pc-[10]">
+            <p className="text-red-500 text-sp-[10] mt-sp-[10] md:text-tablet-[12] md:mt-tablet-[10] lg:text-pc-[12] lg:mt-pc-[10]">
               {errors.topics.message}
             </p>
           )}
@@ -149,7 +149,7 @@ export default function ContactForm() {
             {...register("name", { required: "お名前を入力してください" })}
           />
           {errors.name && (
-            <p className="text-red-500 text-sp-[10] md:text-tablet-[12] md:mt-tablet-[10] lg:text-pc-[12] lg:mt-pc-[10]">
+            <p className="text-red-500 text-sp-[10] mt-sp-[10] md:text-tablet-[12] md:mt-tablet-[10] lg:text-pc-[12] lg:mt-pc-[10]">
               {errors.name.message}
             </p>
           )}
@@ -174,7 +174,7 @@ export default function ContactForm() {
             })}
           />
           {errors.email && (
-            <p className="text-red-500 text-sp-[10] md:text-tablet-[12] md:mt-tablet-[10] lg:text-pc-[12] lg:mt-pc-[10]">
+            <p className="text-red-500 text-sp-[10] mt-sp-[10] md:text-tablet-[12] md:mt-tablet-[10] lg:text-pc-[12] lg:mt-pc-[10]">
               {errors.email.message}
             </p>
           )}
@@ -193,12 +193,13 @@ export default function ContactForm() {
           <textarea
             id="message"
             className="appearance-none focus:outline-none bg-muted w-full text-foreground rounded-sp-[6] py-sp-[12] px-sp-[16] text-sp-[14] md:rounded-tablet-[8] md:py-tablet-[16] md:px-tablet-[24] md:text-tablet-[16] lg:rounded-pc-[8] lg:py-pc-[16] lg:px-pc-[24] lg:text-pc-[16]"
+            rows={5}
             {...register("message", {
               required: "メッセージを入力してください",
             })}
           ></textarea>
           {errors.message && (
-            <p className="text-red-500 text-sp-[10] md:text-tablet-[12] md:mt-tablet-[10] lg:text-pc-[12] lg:mt-pc-[10]">
+            <p className="text-red-500 text-sp-[10] mt-sp-[10] md:text-tablet-[12] md:mt-tablet-[10] lg:text-pc-[12] lg:mt-pc-[10]">
               {errors.message.message}
             </p>
           )}
@@ -276,20 +277,20 @@ export default function ContactForm() {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white  shadow-2xl text-primary font-notosansjp overflow-y-auto max-h-[80vh] md:w-3/4 md:rounded-tablet-[32] lg:w-3/3 lg:rounded-pc-[32]"
+                className="bg-white  shadow-2xl text-primary font-notosansjp overflow-y-auto w-4/5 max-h-[80vh] rounded-sp-[24] md:w-3/4 md:rounded-tablet-[32] lg:w-3/3 lg:rounded-pc-[32]"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="relative md:px-tablet-[60] md:py-tablet-[100] lg:px-pc-[92] lg:py-pc-[116]">
+                <div className="relative px-sp-[20] py-sp-[40] md:px-tablet-[60] md:py-tablet-[100] lg:px-pc-[92] lg:py-pc-[116]">
                   <button
-                    className="absolute top-[3.6%] right-[1.8%] leading-none md:text-tablet-[24] lg:text-pc-[24]"
+                    className="absolute top-[3.6%] right-[1.8%] leading-none text-sp-[18] md:text-tablet-[24] lg:text-pc-[24]"
                     onClick={toggleModal}
                   >
                     ×
                   </button>
-                  <h2 className="text-center md:text-tablet-[24] md:mb-tablet-[32] lg:text-pc-[24] lg:mb-pc-[32]">
+                  <h2 className="text-center text-sp-[18] mb-sp-[8] md:text-tablet-[24] md:mb-tablet-[32] lg:text-pc-[24] lg:mb-pc-[32]">
                     利用規約
                   </h2>
-                  <ol className="flex flex-col list-decimal md:pl-tablet-[16] md:gap-tablet-[24] md:text-tablet-[16] lg:pl-pc-[16] lg:gap-pc-[24] lg:text-pc-[16]">
+                  <ol className="flex flex-col list-decimal pl-sp-[12] gap-sp-[14] text-sp-[12] md:pl-tablet-[16] md:gap-tablet-[24] md:text-tablet-[16] lg:pl-pc-[16] lg:gap-pc-[24] lg:text-pc-[16]">
                     <li>
                       個人情報の取り扱い：当社は、お客様から提供された個人情報を厳重に管理し、お問い合わせへの回答およびサービス改善の目的以外には使用いたしません。
                     </li>
