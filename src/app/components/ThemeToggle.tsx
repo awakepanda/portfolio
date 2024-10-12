@@ -20,7 +20,7 @@ export default function ThemeToggle() {
     <div className="absolute t-sp-[12] r-sp-[64] md:t-tablet-[20] md:r-tablet-[68] lg:relative lg:top-auto lg:right-auto lg:flex lg:justify-center lg:items-center lg:h-full lg:bg-secondary lg:w-pc-[104]">
       <motion.button
         className="flex justify-center items-center bg-white font-notosansjp px-sp-[10] py-sp-[4] md:px-tablet-[12] md:py-tablet-[4] lg:w-pc-[62] lg:h-pc-[34] text-pc-[26]"
-        onClick={() => setTheme(theme === "dark" ? "leight" : "dark")}
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       >
         <motion.span
           className="text-darkmode text-xl"
