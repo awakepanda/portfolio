@@ -101,7 +101,7 @@ export default function SkillsTextSlider() {
 
   return (
     <div className="flex h-full relative">
-      <div className="w-full relative overflow-y-auto overflow-x-hidden hide-scrollbar flex items-center justify-center">
+      <div className="w-full relative overflow-y-auto overflow-x-hidden hide-scrollbar flex items-center justify-center px-sp-[12] md:px-0">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentIndex}
@@ -114,10 +114,10 @@ export default function SkillsTextSlider() {
             className="absolute w-full h-full flex flex-col text-primary px-sp-[10] md:px-0"
           >
             <h2 className="flex flex-col border-b border-b-light pb-sp-[18] md:pb-tablet-[20] lg:pb-pc-[30]">
-              <span className="font-notosansjp leading-none text-sp-[12] mb-sp-[6] md:text-tablet-[10] md:mb-tablet-[4] lg:text-pc-[10] lg:mb-pc-[4]">
+              <span className="font-notosansjp leading-none text-sp-[10] mb-sp-[6] md:text-tablet-[10] md:mb-tablet-[4] lg:text-pc-[10] lg:mb-pc-[4]">
                 {slides[currentIndex].titleJapanese}
               </span>
-              <em className="font-inter leading-none text-sp-[20] md:text-tablet-[24] lg:text-pc-[24]">
+              <em className="font-inter leading-none text-sp-[18] md:text-tablet-[24] lg:text-pc-[24]">
                 {slides[currentIndex].title}
               </em>
             </h2>
@@ -158,13 +158,13 @@ export default function SkillsTextSlider() {
       </div>
       <button
         onClick={prevSlide}
-        className="absolute -l-sp-[10] md:-l-tablet-[24] lg:-l-pc-[40] top-1/2 transform -translate-y-1/2"
+        className="absolute -l-sp-[14] md:-l-tablet-[24] lg:-l-pc-[40] top-1/2 transform -translate-y-1/2"
       >
         <Arrow style="left" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute -r-sp-[10] md:-r-tablet-[24] lg:-r-pc-[40] top-1/2 transform -translate-y-1/2"
+        className="absolute -r-sp-[14] md:-r-tablet-[24] lg:-r-pc-[40] top-1/2 transform -translate-y-1/2"
       >
         <Arrow style="right" />
       </button>
