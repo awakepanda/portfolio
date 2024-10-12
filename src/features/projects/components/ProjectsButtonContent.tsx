@@ -67,23 +67,23 @@ export default function ProjectsButtonContent() {
           <span className="font-notosansjp leading-none text-sp-[10] mb-sp-[4] md:text-tablet-[14] md:mb-tablet-[8] lg:text-pc-[12] lg:mb-pc-[8]">
             進行中のプロダクト
           </span>
-          <em className="font-inter leading-none text-sp-[18] md:text-tablet-[28] lg:text-pc-[32]">
+          <em className="font-inter leading-none text-sp-[18] md:text-tablet-[28] lg:text-pc-[28]">
             PRODUCT IN PROGRESS
           </em>
         </h2>
         <div className="flex flex-col gap-sp-[12] md:flex-row md:gap-tablet-[24] lg:gap-pc-[24]">
           <div className="w-full bg-muted flex flex-col items-center mb-sp-[24] py-sp-[24] rounded-sp-[16] md:mb-tablet-[16] md:py-tablet-[32] md:rounded-tablet-[16] lg:mb-pc-[16] lg:py-pc-[32] lg:rounded-pc-[16]">
-            <h3 className="text-foreground flex flex-col text-center">
+            <h3 className="text-foreground flex flex-col text-center mb-sp-[18] md:mb-tablet-[18] lg:mb-pc-[18]">
               <span className="font-notosansjp text-sp-[14] mb-sp-[8] md:text-tablet-[14] md:mb-tablet-[8] lg:text-pc-[12] lg:mb-pc-[8]">
                 ReactNativeで作るレシピアプリ
               </span>
-              <em className="text-sp-[18] leading-sp-[22] md:text-tablet-[18] md:leading-tablet-[20] lg:text-pc-[18] lg:leading-pc-[22]">
+              <em className="text-sp-[18] leading-sp-[22] md:text-tablet-[16] md:leading-tablet-[20] lg:text-pc-[18] lg:leading-pc-[22]">
                 RECIPE APP CREATE
                 <br />
                 WITH REACTNATIVE
               </em>
             </h3>
-            <div className="text-sp-[30] mb-sp-[24] md:text-tablet-[30] md:mb-tablet-[24] lg:text-pc-[30] lg:mb-pc-[24]">
+            <div className="text-sp-[30] mb-sp-[16] md:text-tablet-[30] md:mb-tablet-[24] lg:text-pc-[30] lg:mb-pc-[24]">
               <TbChefHat />
             </div>
             <button
@@ -98,8 +98,8 @@ export default function ProjectsButtonContent() {
               SHOW DETAILS
             </button>
           </div>
-          <div className="w-full bg-muted flex flex-col items-center py-sp-[24] rounded-sp-[16] md:py-tablet-[32] md:rounded-tablet-[16] lg:py-pc-[32] lg:rounded-pc-[16]">
-            <h3 className="text-foreground flex flex-col text-center">
+          <div className="w-full bg-muted flex flex-col items-center mb-sp-[24] py-sp-[24] rounded-sp-[16] md:mb-tablet-[16] md:py-tablet-[32] md:rounded-tablet-[16] lg:mb-pc-[16] lg:py-pc-[32] lg:rounded-pc-[16]">
+            <h3 className="text-foreground flex flex-col text-center mb-sp-[18] md:mb-tablet-[18] lg:mb-pc-[18]">
               <span className="font-notosansjp text-sp-[14] mb-sp-[8] md:text-tablet-[14] md:mb-tablet-[8] lg:text-pc-[12] lg:mb-pc-[8]">
                 モダンな技術のウェブサイトテンプレート
               </span>
@@ -109,7 +109,7 @@ export default function ProjectsButtonContent() {
                 WEBSITE TEMPLETES
               </em>
             </h3>
-            <div className="text-sp-[30] mb-sp-[24] md:text-tablet-[30] md:mb-tablet-[24] lg:text-pc-[30] lg:mb-pc-[24]">
+            <div className="text-sp-[30] mb-sp-[16] md:text-tablet-[30] md:mb-tablet-[24] lg:text-pc-[30] lg:mb-pc-[24]">
               <FiLayout />
             </div>
             <button
