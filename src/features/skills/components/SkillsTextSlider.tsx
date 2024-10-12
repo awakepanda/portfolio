@@ -158,13 +158,13 @@ export default function SkillsTextSlider() {
       </div>
       <button
         onClick={prevSlide}
-        className="absolute -l-sp-[18] md:-l-tablet-[24] lg:-l-pc-[40] top-1/2 transform -translate-y-1/2"
+        className="absolute -l-sp-[10] md:-l-tablet-[24] lg:-l-pc-[40] top-1/2 transform -translate-y-1/2"
       >
         <Arrow style="left" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute -r-sp-[18] md:-r-tablet-[24] lg:-r-pc-[40] top-1/2 transform -translate-y-1/2"
+        className="absolute -r-sp-[10] md:-r-tablet-[24] lg:-r-pc-[40] top-1/2 transform -translate-y-1/2"
       >
         <Arrow style="right" />
       </button>

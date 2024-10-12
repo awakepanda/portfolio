@@ -21,7 +21,7 @@ export default function Navigation() {
             : "-r-sp-[400] md:-r-tablet-[400] lg:right-auto"
         }`}
       >
-        <ul className="flex flex-col gap-sp-[24] md:gap-tablet-[24] lg:flex-row lg:justify-center lg:gap-pc-[48]">
+        <ul className="flex flex-col gap-sp-[18] md:gap-tablet-[24] lg:flex-row lg:justify-center lg:gap-pc-[48]">
           {siteStructureWithActive.map((item) => (
             <li key={item.id}>
               <Link
@@ -34,17 +34,17 @@ export default function Navigation() {
                   <span
                     className={`${
                       item.isActive ? "bg-foreground" : "bg-light"
-                    } relative overflow-hidden text-background hover:bg-foreground flex justify-center items-center rounded-full transition ease-in-out mr-sp-[6] w-sp-[16] h-sp-[16] text-sp-[6] md:mr-tablet-[6] md:w-tablet-[25] md:h-tablet-[25] md:text-tablet-[10] lg:mr-pc-[6] lg:w-pc-[25] lg:h-pc-[25] lg:text-pc-[10] lg:before:content-['→'] lg:before:absolute lg:before:-translate-x-6 lg:before:transition lg:before:duration-300 lg:brefore:ease-in-out`}
+                    } relative overflow-hidden text-background hover:bg-foreground flex justify-center items-center rounded-full transition ease-in-out mr-sp-[4] w-sp-[16] h-sp-[16] text-sp-[6] md:mr-tablet-[6] md:w-tablet-[25] md:h-tablet-[25] md:text-tablet-[10] lg:mr-pc-[6] lg:w-pc-[25] lg:h-pc-[25] lg:text-pc-[10] lg:before:content-['→'] lg:before:absolute lg:before:-translate-x-6 lg:before:transition lg:before:duration-300 lg:brefore:ease-in-out`}
                   >
                     <span className="transition duration-300 ease-in-out">
                       {item.id}
                     </span>
                   </span>
-                  <em className="text-sp-[8] md:text-tablet-[12] lg:text-pc-[12] font-notosansjp">
+                  <em className="leadeing-none text-sp-[10] md:text-tablet-[12] lg:text-pc-[12] font-notosansjp">
                     {item.nameJP}
                   </em>
                 </div>
-                <strong className="font-normal pl-sp-[3] text-sp-[12] md:pl-tablet-[3] md:text-tablet-[20] lg:pl-pc-[3] lg:text-pc-[20]">
+                <strong className="font-normal leading-none pl-sp-[3] text-sp-[16] md:pl-tablet-[3] md:text-tablet-[20] lg:pl-pc-[3] lg:text-pc-[20]">
                   {item.name}
                 </strong>
               </Link>
