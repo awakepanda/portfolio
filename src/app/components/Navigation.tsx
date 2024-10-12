@@ -15,7 +15,7 @@ export default function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 bg-muted w-auto h-sp-vh-[415] transition-all ease-in-out duration-500 pt-sp-[76] md:h-tablet-vh-[664] px-sp-[18] md:pt-tablet-[100] md:px-tablet-[60] lg:bg-transparent lg:pt-pc-[0] lg:px-pc-[0] lg:w-full lg:h-auto lg:relative ${
+        className={`fixed top-0 bg-muted w-auto h-[48.7svh] transition-all ease-in-out duration-500 pt-sp-[76] md:h-tablet-vh-[664] px-sp-[18] md:pt-tablet-[100] md:px-tablet-[60] lg:bg-transparent lg:pt-pc-[0] lg:px-pc-[0] lg:w-full lg:h-auto lg:relative ${
           isOpen
             ? "right-0 lg:right-auto"
             : "-r-sp-[400] md:-r-tablet-[400] lg:right-auto"
