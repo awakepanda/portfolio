@@ -12,7 +12,7 @@ import { useAnimationStore } from "@/store/animationStore";
 import SelfIntroductionTogglePlayButton from "./SelfIntroductionTogglePlayButton";
 
 const ANIMATION_SPEED = 10;
-const SCROLL_DELAY = 2000;
+const SCROLL_DELAY = 3000;
 
 interface SelfIntroductionAnimatedTextProps {
   children: ReactNode;
