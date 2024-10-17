@@ -64,6 +64,12 @@
   stroke: none !important;
 }
 
+svg {
+  display: block;
+  border: none;
+  outline: none;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
