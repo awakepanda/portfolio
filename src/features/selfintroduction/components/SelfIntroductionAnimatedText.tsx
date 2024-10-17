@@ -11,8 +11,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAnimationStore } from "@/store/animationStore";
 import SelfIntroductionTogglePlayButton from "./SelfIntroductionTogglePlayButton";
 
-const ANIMATION_SPEED = 10;
-const SCROLL_DELAY = 3000;
+const ANIMATION_SPEED = 24;
+const SCROLL_DELAY = 1000;
 
 interface SelfIntroductionAnimatedTextProps {
   children: ReactNode;
